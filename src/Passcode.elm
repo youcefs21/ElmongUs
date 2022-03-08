@@ -11,51 +11,45 @@ import Consts exposing (..)
 myShapes model = 
     List.map2 (\x y ->
         button (x, y) model
-            |> move (17, 0)
-    )
-    [0, 0, 0, 1, 1, 1, 2, 2, 2]
-    [0, 1, 2, 0, 1, 2, 0, 1, 2]
+            |> move (20, 0)
+        )
+        [0, 0, 0, 1, 1, 1, 2, 2, 2]
+        [0, 1, 2, 0, 1, 2, 0, 1, 2]
     ++
     List.map2 (\x y ->
         square 11
-                |> filled (if ((model.state == Showing) && (sequence model.passNum == (x, y))) then lightBlue else black)
-                |> move (11 * (toFloat x - 1) - 17, 11 * (toFloat y - 1))
+                |> filled (if ((model.state == Showing) && (sequence model.passNum == (x, y)) && (model.showTime < 15)) then lightBlue else black)
+                |> move (11 * (toFloat x - 1) - 20, 11 * (toFloat y - 1))
     )
     [0, 0, 0, 1, 1, 1, 2, 2, 2]
     [0, 1, 2, 0, 1, 2, 0, 1, 2]
     ++
-    [
-        text (case model.state of Showing -> "Showing" 
-                                  Waiting -> "Waiting"
-                                  Incorrect -> "Incorrect"
-                                  Finished -> "Finished")
-            |> size 4
-            |> centered
-            |> filled black
-            |> move (0, 35){-},
-        text (String.fromInt model.showTime)
-            |> size 4
-            |> centered
-            |> filled black
-            |> move (0, 30),
-        text (String.fromInt model.passNum)
-            |> size 4
-            |> centered
-            |> filled black
-            |> move (0, 25),
-        text (String.fromInt model.repNum)
-            |> size 4
-            |> centered
-            |> filled black
-            |> move (0, 20),
-        square 5
-            |> filled model.testCol
-            |> move (0, -35)
-    -}]
+    List.map (\x -> 
+                circle 2
+                    |> filled (if x <= model.repNum then green else darkGrey)
+                    |> move (7 * (toFloat x - 3) - 20, 20)
+        )
+        (List.range 1 5)
+    ++
+    List.map (\x -> 
+                circle 2
+                    |> filled (case model.state of
+                                Incorrect -> red
+                                Waiting -> if x <= model.passNum then green else darkGrey
+                                otherwise -> darkGrey
+                                )
+                    |> move (7 * (toFloat x - 3) + 20, 20)
+        )
+        (List.range 1 5)
     
 button (x, y) model = group [
         square 10
-        |> filled grey
+        |> filled (case model.state of
+                Showing -> darkGrey
+                Waiting -> grey
+                Finished -> if model.showTime < 2 * blinkTime then lightBlue else darkGrey
+                Incorrect -> red
+            )
         |> move (11 * (toFloat x - 1), 11 * (toFloat y - 1))
         |> notifyTap (ClickButton (x, y))
     ]
@@ -66,16 +60,18 @@ sequence i = case i of
             2 -> (2, 0)
             3 -> (0, 1)
             4 -> (1, 1)
-            default -> (0, 0)
+            default -> (-1, -1)
+
+blinkTime = 20
 
 type State = Waiting | Showing | Incorrect | Finished
-type alias Model = {time : Float, passNum : Int, repNum : Int, showTime : Int, testCol : Color, state : State}
+type alias Model = {time : Float, passNum : Int, repNum : Int, showTime : Int, state : State}
 
 update : Consts.Msg -> Model -> Model
 update msg model = case msg of 
                     Tick t _ -> 
-                        if model.state == Showing 
-                            then {
+                        case model.state of
+                            Showing -> {
                                         time = t,
                                         state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
                                                     then Waiting
@@ -87,17 +83,33 @@ update msg model = case msg of
                                                             else model.passNum + 1)
                                                     else model.passNum, 
                                         showTime = if model.showTime <= 0 
-                                                    then 10 
-                                                    else model.showTime - 1,
-                                        testCol = model.testCol
+                                                    then blinkTime
+                                                    else model.showTime - 1
                                     }
-                                else { -- model.state = Waiting
+                            Waiting -> {
+                                    time = t,
+                                    state = model.state, -- When waiting, state changes are handled by ClickButton event
+                                    repNum = model.repNum, -- repNum is not affected in tick method
+                                    passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
+                                    showTime = blinkTime -- showTime is only for showing player the answer
+                                }
+                            Finished -> {
+                                    time = t,
+                                    state = model.state, -- When waiting, state changes are handled by ClickButton event
+                                    repNum = model.repNum, -- repNum is not affected in tick method
+                                    passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
+                                    showTime = model.showTime + 1 -- showTime is only for showing player the answer
+                                }
+                            Incorrect -> {
                                         time = t,
-                                        state = model.state, -- When waiting, state changes are handled by ClickButton event
-                                        repNum = model.repNum, -- repNum is not affected in tick method
-                                        passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
-                                        showTime = 10, -- showTime is only for showing player the answer
-                                        testCol = model.testCol
+                                        state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
+                                                    then Showing
+                                                    else model.state,
+                                        repNum = model.repNum, -- repNum is only increased after getting the entire sequence up to repNum right
+                                        passNum = 0, 
+                                        showTime = if model.showTime <= 0 
+                                                    then blinkTime
+                                                    else model.showTime - 1
                                     }
                     ClickButton num -> if model.state /= Waiting then model else {
                             time = model.time, 
@@ -107,7 +119,7 @@ update msg model = case msg of
                                                         then Finished
                                                         else Showing
                                                 else Waiting
-                                        else Showing,
+                                        else Incorrect,
                             repNum = if (num == sequence model.passNum)
                                         then (if (model.passNum >= model.repNum - 1)
                                                 then model.repNum + 1 
@@ -116,15 +128,12 @@ update msg model = case msg of
                             passNum = if (num == (sequence model.passNum) && model.passNum < model.repNum - 1)
                                         then model.passNum + 1 
                                         else 0, 
-                            showTime = model.showTime,
-                            testCol = if num == (sequence model.passNum) 
-                                        then white 
-                                        else red
+                            showTime = if model.state == Finished then 0 else model.showTime
                         }
 
 
 init : Model
-init = {time = 0, passNum = 0, repNum = 1, showTime = 10, testCol = white, state = Showing}
+init = {time = 0, passNum = 0, repNum = 1, showTime = blinkTime, state = Showing}
 
 main = gameApp Tick {model = init, view = view, update = update, title = "ElmongUs Passcode" }
 
