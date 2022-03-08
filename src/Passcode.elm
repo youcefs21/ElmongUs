@@ -9,32 +9,36 @@ import String exposing (fromFloat)
 import Consts exposing (..)
 
 myShapes model = 
+    -- This map2 function produces the buttons
     List.map2 (\x y ->
-        button (x, y) model
+        button (x, y) model -- See function definition for a button below
             |> move (20, 0)
         )
-        [0, 0, 0, 1, 1, 1, 2, 2, 2]
-        [0, 1, 2, 0, 1, 2, 0, 1, 2]
+        [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
+        [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
     ++
+    -- This map2 function produces the screen that shows the corrrect sequence of presses
     List.map2 (\x y ->
-        square 11
+        square 11        -- ( If showing correct button sequence, this is the current correct button, and the timing is right )
                 |> filled (if ((model.state == Showing) && (sequence model.passNum == (x, y)) && (model.showTime < 15)) then lightBlue else black)
                 |> move (11 * (toFloat x - 1) - 20, 11 * (toFloat y - 1))
     )
-    [0, 0, 0, 1, 1, 1, 2, 2, 2]
-    [0, 1, 2, 0, 1, 2, 0, 1, 2]
+    [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
+    [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
     ++
+    -- This map function produces the circles above the screen on the left
     List.map (\x -> 
-                circle 2
+                circle 2 -- Turn the first few green based on how far the user is, make the rest green
                     |> filled (if x <= model.repNum then green else darkGrey)
                     |> move (7 * (toFloat x - 3) - 20, 20)
         )
         (List.range 1 5)
     ++
+    -- This map function produces the circles above the buttons on the right
     List.map (\x -> 
                 circle 2
                     |> filled (case model.state of
-                                Incorrect -> red
+                                Incorrect -> red -- Turn red if incorrect, turn some green if entering right ones, else turn darkGrey
                                 Waiting -> if x <= model.passNum then green else darkGrey
                                 otherwise -> darkGrey
                                 )
@@ -44,22 +48,25 @@ myShapes model =
     
 button (x, y) model = group [
         square 10
+        -- Change colour based on model.state and some other factors
         |> filled (case model.state of
                 Showing -> darkGrey
                 Waiting -> grey
                 Finished -> if model.showTime < 2 * blinkTime then lightBlue else darkGrey
                 Incorrect -> red
             )
+        -- 11 is the distance from the center of each button
         |> move (11 * (toFloat x - 1), 11 * (toFloat y - 1))
         |> notifyTap (ClickButton (x, y))
     ]
-    
+
+-- Sequence of correct presses.  Works like indexing a list.
 sequence i = case i of 
             0 -> (0, 0)
-            1 -> (1, 0)
-            2 -> (2, 0)
-            3 -> (0, 1)
-            4 -> (1, 1)
+            1 -> (1, 1)
+            2 -> (2, 1)
+            3 -> (0, 2)
+            4 -> (2, 0)
             default -> (-1, -1)
 
 blinkTime = 20
