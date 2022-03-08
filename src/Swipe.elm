@@ -264,14 +264,15 @@ draw model =
                 |> move (50, 10)
                 |> if model.mv then notifyEnter Finish else identity,
                 -- Borders
-            rect 200 1
-                |> ghost,
-            rect 200 1
+            rect 200 20
                 |> ghost
-                |> move (0, 30),
-            rect 1 200
+                |> move (0, -5),
+            rect 200 20
                 |> ghost
-                |> move (-65, 0)
+                |> move (0, 25),
+            rect 20 200
+                |> ghost
+                |> move (-75, 0)
         ],
 
         -- Wallet
