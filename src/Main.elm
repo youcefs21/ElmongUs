@@ -8,7 +8,6 @@ import Swipe
 
 
 myShapes model = [
-        Swipe.draw
     ]
 
 type Msg = Tick Float GetKeyState

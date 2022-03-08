@@ -111,10 +111,24 @@ picture =
         Pull (53.409,-18.81) (53.712,-40.07),
         Pull (33.136,-40.07) (12.560,-39.59)]
 
+arrow = 
+    curve (-69.52,31.339) [
+        Pull (-69.64,23.894) (-69.76,16.450),
+        Pull (-68.48,12.708) (-66.16,9.9662),
+        Pull (-63.71,8.1253) (-60.15,7.0844),
+        Pull (-28.69,7.2045) (2.7617,7.3245),
+        Pull (-8.045,12.487) (-18.85,17.651),
+        Pull (-17.77,14.889) (-16.69,12.127),
+        Pull (-37.10,12.127) (-57.51,12.127),
+        Pull (-61.81,13.669) (-64.48,17.891),
+        Pull (-64.60,23.294) (-64.72,28.697),
+        Pull (-66.88,31.699) (-69.04,34.701),
+        Pull (-69.28,32.420) (-69.52,31.339)]
+
 card = group [
     roundedRect 50 30 3
         |> filled (rgb 221.5 221.5 221.5),
-    text "Joe Biden"
+    text "Boe Jiden"
         |> customFont "consolas"
         |> filled (rgb 48 48 48)
         |> scale 0.4
@@ -145,6 +159,13 @@ card = group [
         |> move (-14, -2)
     ]
 
+light colour = group [
+        circle 3
+            |> outlined (solid 1) black,
+        circle 3
+            |> filled colour
+    ]
+
 make shape = group [
         shape
             |> outlined (solid 1) black,
@@ -152,19 +173,18 @@ make shape = group [
             |> filled (rgb 136.7 68.8 53.4)
     ]
 
-draw = group [
+draw model = 
+    group [
+        -- Background
         rect 95 88 
             |> filled (rgb 65 65 65),
+        -- Shadow
         rect 95 45
             |> filled (rgb 53 53 53)
             |> move (0, 21),
-        rect 95 30
-            |> filled (rgb 146 146 146)
-            |> move (0, 29)
-            |> subtract (
-                triangle 10
-                    |> ghost
-                    |> move (-50, 13)),
+
+        -- Card swipe
+            -- Bottom
         rect 95 10
             |> filled (rgb 146 146 146)
             |> move (0, 7)
@@ -172,20 +192,103 @@ draw = group [
                 triangle 10
                     |> ghost
                     |> move (-50, 13)),
+            -- Card
+        if model.showBot then group [] else
+        card
+            |> scale 0.7
+            |> move model.pos,
+            -- Top
+        rect 95 30
+            |> filled (rgb 146 146 146)
+            |> move (0, 29)
+            |> subtract (
+                triangle 10
+                    |> ghost
+                    |> move (-50, 13)),
+            -- Arrow
+        group [
+            arrow
+                |> outlined (solid 1.5) black,
+            arrow 
+                |> filled (rgb 40 40 40)
+        ]
+            |> scale 0.7
+            |> move (3, 11),
+            -- Lights
+        let
+            completed = model.state == Accepted
+        in group [
+            light (if completed then (rgb 98.8 0 0) else (rgb 228.8 0 0))
+                |> move (30, 20),
+            light (if completed then (rgb 0 198.8 170.8) else (rgb 0 98.8 70.8))
+                |> move (40, 20)
+        ],
+            -- Screen
         rect 70 7
             |> filled (rgb 21 73.8 57.9)
             |> move (-5, 37),
+            -- Text
+        text (getText model.state words)
+            |> customFont "consolas"
+            |> filled white
+            |> scale 0.4
+            |> move (-38, 35.5),
+            -- Card hitbox
+        if model.showBot then group [] else group [
+            card
+                |> move model.pos
+                |> makeTransparent 0
+                |> 
+                    (if model.mv then 
+                        identity
+                    else 
+                        notifyMouseDownAt (ToggleMove True))
+                |> 
+                    (if model.mv then 
+                        notifyMouseUpAt (ToggleMove False) 
+                    else 
+                        identity)
+                |> 
+                    (if model.mv then 
+                        notifyLeaveAt (ToggleMove False) 
+                    else 
+                        identity)
+                |> 
+                    (if model.mv then
+                        notifyMouseMoveAt (Move)
+                    else
+                        identity),
+                -- End of swipe
+            rect 10 40
+                |> ghost
+                |> move (50, 10)
+                |> if model.mv then notifyEnter Finish else identity,
+                -- Borders
+            rect 200 1
+                |> ghost,
+            rect 200 1
+                |> ghost
+                |> move (0, 30),
+            rect 1 200
+                |> ghost
+                |> move (-65, 0)
+        ],
 
         -- Wallet
         group [
+            -- Back part of wallet
             outer
                 |> outlined (solid 1.5) black,
             outer
                 |> filled (rgb 93 30 17.5),
+
+            -- Right part of wallet
             make right
                 |> scaleX 1.03
                 |> move (-2, 0),
             make right1,
+
+            -- Picture in wallet
             let
                 pic = picture |> filled lightBlue
             in group [
@@ -217,6 +320,8 @@ draw = group [
                     |> filled lightGrey
                     |> makeTransparent 0.7
             ],
+
+            -- Top half of left part of wallet
             group [
                 make left,
                 make left1
@@ -224,8 +329,15 @@ draw = group [
                     |> move (1, 0)
             ]
                 |> move (-1, 0),
+            
+            -- Card
+            if model.showBot then 
             card
-                |> move (-37, -20),
+                |> move (-37, -20)
+                |> notifyTap MoveTop
+            else group [],
+
+            -- Bottom half of left part of wallet
             group [
                 make left2, 
                 make left3 
@@ -235,3 +347,105 @@ draw = group [
             |> scale 0.70
             |> move (4, -15.7)
     ]
+
+type State = Insert
+           | Swiping
+           | Accepted
+           | Bad
+           | Fast
+           | Slow
+
+words = [(Insert,   "PLEASE INSERT CARD"), 
+        (Swiping,  "PLEASE SWIPE CARD"), 
+        (Accepted, "ACCEPTED. THANK YOU."), 
+        (Bad,      "BAD READ. TRY AGAIN."), 
+        (Fast,     "TOO FAST. TRY AGAIN."), 
+        (Slow,     "TOO SLOW. TRY AGAIN.")]
+
+getText state tss =
+    case tss of
+        [] -> "ERR"
+        ((s,t)::ts) -> if state == s then t else getText state ts
+
+myShapes model = [
+        rect 192 168
+            |> filled (rgb 100 100 100),
+        draw model
+    ]
+
+type Msg = Tick Float GetKeyState
+         | MoveTop
+         | Move (Float, Float)
+         | ToggleMove Bool (Float, Float)
+         | Finish
+
+type alias Model = { 
+    time     : Float,
+    dragTime : Float,
+    showBot  : Bool,
+    mv       : Bool,
+    state    : State,
+    pos      : (Float, Float),
+    ipos     : (Float, Float) }
+
+update msg model = 
+    case msg of
+        Tick t _ -> 
+            { model | time = t }
+        MoveTop -> 
+            { model | showBot = False, state = Swiping }
+        Move pos2 ->
+            { model | pos = add model.pos <| sub pos2 model.ipos, ipos = pos2 }
+        ToggleMove b i ->
+            if b then 
+                { model | 
+                    dragTime = model.time,
+                    state    = Swiping,
+                    mv       = b,
+                    ipos     = i }
+            else
+                { model | 
+                    dragTime = model.dragTime,
+                    state    = Bad,
+                    mv       = b, 
+                    pos      = (-45, 15),
+                    ipos     = (-45, 15) }
+        Finish ->
+            let
+                delta = model.time - model.dragTime
+                slow  = delta > 2
+                fast  = delta < 1
+            in
+                if slow then
+                    { model | 
+                        state = Slow,
+                        pos   = (-45, 15),
+                        ipos  = (-45, 15) }
+                else if fast then
+                    { model | 
+                        state = Fast,
+                        pos   = (-45, 15),
+                        ipos  = (-45, 15) }
+                else
+                    { model |
+                        state   = Accepted,
+                        showBot = True,
+                        pos     = (-45, 15),
+                        ipos    = (-45, 15) }
+
+sub (x,y) (u,v) = (x-u,y-v)
+add (x,y) (u,v) = (x+u,y+v)
+
+
+init = { 
+    time     = 0, 
+    dragTime = 0,
+    showBot  = True,
+    mv       = False,
+    state    = Insert,
+    pos      = (-45, 15),
+    ipos     = (-45, 15) }
+
+main = gameApp Tick { model = init, view = view, update = update, title = "Game Slot" }
+
+view model = collage 192 128 (myShapes model)
