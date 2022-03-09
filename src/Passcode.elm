@@ -8,11 +8,35 @@ import Set exposing (Set)
 import String exposing (fromFloat)
 import Consts exposing (..)
 
-myShapes model = 
+myShapes model = [rectangle 49 53
+ |> filled (rgb 165 165 165) |> move (-20, 3)
+ |> addOutline (solid 0.5) black, 
+ rectangle 49 53
+ |> filled (rgb 165 165 165) |> move (31, 3)
+ |> addOutline (solid 0.5) black,
+ -- Left screen
+ polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (2, 3),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (-42, 3),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (-20, -21),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (-20, 27),
+-- Right screen
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (53, 3),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (9, 3),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (31, -21),
+  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+  |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (31, 27)] ++
     -- This map2 function produces the buttons
     List.map2 (\x y ->
         button (x, y) model -- See function definition for a button below
-            |> move (20, 0)
+            |> move (31, 0)
+            
         )
         [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
         [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
@@ -29,7 +53,8 @@ myShapes model =
     -- This map function produces the circles above the screen on the left
     List.map (\x -> 
                 circle 2 -- Turn the first few green based on how far the user is, make the rest green
-                    |> filled (if x <= model.repNum then green else darkGrey)
+                    |> filled (if x <= model.repNum then (rgb 0 190 1) else darkGrey)
+                    |> addOutline (solid 0.3) black
                     |> move (7 * (toFloat x - 3) - 20, 20)
         )
         (List.range 1 5)
@@ -39,10 +64,11 @@ myShapes model =
                 circle 2
                     |> filled (case model.state of
                                 Incorrect -> red -- Turn red if incorrect, turn some green if entering right ones, else turn darkGrey
-                                Waiting -> if x <= model.passNum then green else darkGrey
-                                otherwise -> darkGrey
+                                Waiting -> if x <= model.passNum then (rgb 0 190 1) else darkGrey
+                                _ -> darkGrey
                                 )
-                    |> move (7 * (toFloat x - 3) + 20, 20)
+                    |> addOutline (solid 0.3) black
+                    |> move (7 * (toFloat x - 3) + 31, 20)
         )
         (List.range 1 5)
     
@@ -55,6 +81,7 @@ button (x, y) model = group [
                 Finished -> if model.showTime < 2 * blinkTime then lightBlue else darkGrey
                 Incorrect -> red
             )
+        |> addOutline (solid 0.3) black
         -- 11 is the distance from the center of each button
         |> move (11 * (toFloat x - 1), 11 * (toFloat y - 1))
         |> notifyTap (ClickButton (x, y))
@@ -67,7 +94,7 @@ sequence i = case i of
             2 -> (2, 1)
             3 -> (0, 2)
             4 -> (2, 0)
-            default -> (-1, -1)
+            _ -> (-1, -1)
 
 blinkTime = 20
 
