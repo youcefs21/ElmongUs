@@ -5,7 +5,8 @@ import GraphicSVG.EllieApp exposing (..)
 
 
 type Msg =  Tick Float GetKeyState | 
-            ClickButton (Int, Int)
+            ClickButton (Int, Int) | 
+            ClickWire Color
 
 
 type alias Theme = {
