@@ -10,7 +10,7 @@ myShapes model =
     rect 200 200 |> filled (rgb 60 74 74)
     , toLineOutliness preBorderLines |> group
     , imposter 0
-    |> scale 0.1
+    |> scale 0.3
     |> move model.pos
     |> move (0,2.5)
   ]
@@ -25,8 +25,7 @@ type alias Lines =
     }
 
 
-speed = 0.2
-extnd = 0.2
+suspeed = 1
 
 preBorderLines = [
   ((-10,0) , (10,0)),
@@ -35,8 +34,12 @@ preBorderLines = [
   ((15,5), (15, 500)),
   ((-15,5), (-15, 500)),
 
+  -- random big lines
   ((-69,20), (40, 420)),
   ((-30,20), (-30, 420)),
+  ((-9,-30), (-40, -500)),
+
+  -- box
   ((30,30), (40, 30)),
   ((40,30), (40, 40)),
   ((40,40), (30, 40)),
@@ -84,11 +87,11 @@ type Msg = Tick Float GetKeyState
 update msg model = 
     case msg of
         Tick t (_, _ , (deltaX,deltaY)) -> 
-            { model | time = t , pos = (movePlayer model.pos (deltaX,deltaY))}
+            { model | time = t , pos = (movePlayer model.pos (deltaX*suspeed,deltaY*suspeed))}
 
 
 
-movePlayer (x,y) (deltaX,deltaY) = validateMove (x,y) (x+deltaX*speed,y+deltaY*speed) borderLines True True
+movePlayer (x,y) (deltaX,deltaY) = validateMove (x,y) (x+deltaX,y+deltaY) borderLines True True
 
 sign n = 
   if n > 0 then 1 else -1
@@ -112,24 +115,17 @@ validateMove (oldX,oldY) (newX,newY) lines validX validY =
                 y2 = second point2
                 oldB = sign ((y1 - oldY) + slope*(oldX-x1))
                 newB = sign ((y1 - newY) + slope*(newX-x1))
-                slowX = ((2*oldX)+newX)/3
             in
               if vertical then
-                if sign (x1 - oldX) == sign (x1 - newX) || newY > (max y1 y2)+extnd || newY < (min y1 y2)-extnd then 
+                if sign (x1 - oldX) == sign (x1 - newX) || newY > (max y1 y2) || newY < (min y1 y2) then 
                   validateMove (oldX,oldY) (newX,newY) otherLines validX validY
-                else if slope == 0 then -- it is a flat line, take vertical (y) input, but block horizontal (x)
-                  validateMove (oldX,oldY) (newX,newY) otherLines False validY
                 else
-                  (oldX, oldY)
+                  init.pos
               else 
-                if oldB == newB || newX > (max x1 x2) + extnd || newX < (min x1 x2)-extnd then 
+                if oldB == newB || newX > (max x1 x2) || newX < (min x1 x2) then 
                   validateMove (oldX,oldY) (newX,newY) otherLines validX validY -- not touching line, check others
-                else if slope == 0 then -- it is a flat line, take horizontal input, but block vertical
-                  validateMove (oldX,oldY) (newX,newY) otherLines validX False
-                else if newY == oldY then 
-                  validateMove (oldX,oldY) (slowX,oldY+ slope*(slowX-oldX)) otherLines validX validY
                 else
-                  (oldX, oldY)
+                  init.pos
 
 
 
