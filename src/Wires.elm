@@ -10,17 +10,61 @@ import Consts exposing (..)
 import Element.Font exposing (color)
 
 myShapes : Model -> (List (Shape Consts.Msg))
-myShapes model = 
+myShapes model = [rectangle 90 10
+                  |> filled (rgb 191 194 199) |> move (0, 31.5)|> addOutline (solid 0.3) black,
+                  rectangle 90 10
+                  |> filled (rgb 191 194 199) |> move (0, -37.5)|> addOutline (solid 0.3) black,
+                  rectangle 10 15 
+                  |> filled (rgb 191 194 199) |> move (-40, 19)|> addOutline (solid 0.3) black,
+                  rectangle 10 30 
+                  |> filled (rgb 191 194 199) |> move (-40, -3)|> addOutline (solid 0.3) black,
+                  rectangle 10 15
+                  |> filled (rgb 191 194 199) |> move (-40, -25)|> addOutline (solid 0.3) black,
+                  rectangle 10 15 
+                  |> filled (rgb 191 194 199) |> move (40, 19)|> addOutline (solid 0.3) black,
+                  rectangle 10 30 
+                  |> filled (rgb 191 194 199) |> move (40, -3)|> addOutline (solid 0.3) black,
+                  rectangle 10 15
+                  |> filled (rgb 191 194 199) |> move (40, -25)|> addOutline (solid 0.3) black,
+                  rectangle 69.75 59
+                  |> filled (rgb 95 99 105) |> makeTransparent 0.8|> move (0, -3) |> addOutline (solid 0.3) black,
+                  rectangle 2 30
+                  |> filled (rgb 220 38 127) |> makeTransparent 0.8 |> move (-8, 11.5) |> addOutline (solid 0.3) black,
+                  rectangle 2 32
+                  |> filled (rgb 255 176 0) |> makeTransparent 0.8 |> move (-10, 10.5) |> addOutline (solid 0.3) black,
+                  rectangle 2 34
+                  |> filled (rgb 100 143 255) |> makeTransparent 0.8 |> move (-12, 9.5) |> addOutline (solid 0.3) black,
+                  rectangle 2 36
+                  |> filled (rgb 254 97 0) |> makeTransparent 0.8 |> move (-14, 8.5) |> addOutline (solid 0.3) black,
+                  -- horizontal
+                  rectangle 20 2
+                  |> filled (rgb 220 38 127) |> makeTransparent 0.8 |> move (1, -4.5) |> addOutline (solid 0.3) black,
+                  rectangle 20 2
+                  |> filled (rgb 255 176 0) |> makeTransparent 0.8 |> move (-1, -6.5) |> addOutline (solid 0.3) black,
+                  rectangle 20 2
+                  |> filled (rgb 100 143 255) |> makeTransparent 0.8 |> move (-3, -8.5) |> addOutline (solid 0.3) black,
+                  rectangle 20 2
+                  |> filled (rgb 254 97 0) |> makeTransparent 0.8 |> move (-5, -10.5) |> addOutline (solid 0.3) black,
+                  -- vertical 2
+                  rectangle 2 29
+                  |> filled (rgb 220 38 127) |> makeTransparent 0.8 |> move (12, -18) |> addOutline (solid 0.3) black,
+                  rectangle 2 27
+                  |> filled (rgb 255 176 0) |> makeTransparent 0.8 |> move (10, -19) |> addOutline (solid 0.3) black,
+                  rectangle 2 25
+                  |> filled (rgb 100 143 255) |> makeTransparent 0.8 |> move (8, -20) |> addOutline (solid 0.3) black,
+                  rectangle 2 23
+                  |> filled (rgb 254 97 0) |> makeTransparent 0.8 |> move (6, -21) |> addOutline (solid 0.3) black] ++
     case model.state of
         Waiting -> 
             -- Starting point for the wires
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col -- Col is passed by the map
-                    |> move (-50, 6 * (toFloat y - 2)) -- y is like i in a for loop, so this just translates it to the right place
+                    |> move (-40, 6 * (toFloat y - 2)) -- y is like i in a for loop, so this just translates it to the right place
                     |> notifyMouseDown (if List.member col model.finishedList -- If mouse pressed, tell app that mouse was pressed.
-                                    then (ClickWire (-50, 6 * (toFloat y - 2)) black)
-                                    else (ClickWire (-50, 6 * (toFloat y - 2)) col)) -- If this wire is already in place, tell the app that by sending it the color black
+                                    then (ClickWire (-40, 6 * (toFloat y - 2)) black)
+                                    else (ClickWire (-40, 6 * (toFloat y - 2)) col)) -- If this wire is already in place, tell the app that by sending it the color black
+                    |> addOutline (solid 0.25) black
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -29,16 +73,17 @@ myShapes model =
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
-                    |> move (50, 6 * (toFloat y - 2))
+                    |> move (40, 6 * (toFloat y - 2))
+                    |> addOutline (solid 0.25) black
                 )
                 (List.map scrambledColors (List.range 0 3)) -- Scramble the y-coordinates by the preset function
                 [myPink, myYellow, myBlue, myOrange]
             ++
             -- Wires
             List.map2 (\y col -> 
-                line (-50, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
-                                    then 50 -- If connected, put on right side
-                                    else -50 -- If not connected, put on left side
+                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
+                                    then 40 -- If connected, put on right side
+                                    else -40 -- If not connected, put on left side
                         , if List.member col model.finishedList  -- same idea for y-coordinates
                                     then 6 * (toFloat (scrambledColors y) - 2)
                                     else 6 * (toFloat y - 2))
@@ -51,7 +96,8 @@ myShapes model =
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
-                    |> move (-50, 6 * (toFloat y - 2))
+                    |> move (-40, 6 * (toFloat y - 2))
+                    |> addOutline (solid 0.25) black
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -60,18 +106,19 @@ myShapes model =
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
-                    |> move (50, 6 * (toFloat y - 2))
+                    |> move (40, 6 * (toFloat y - 2))
+                    |> addOutline (solid 0.25) black
                 )
                 (List.map scrambledColors (List.range 0 3))
                 [myPink, myYellow, myBlue, myOrange]
             ++
             -- Wires
             List.map2 (\y col -> 
-                line (-50, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
-                                    then 50 -- If connected, put on right side
+                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
+                                    then 40 -- If connected, put on right side
                                     else if (model.grabbed == col)
                                         then mouseX -- If this is the one you're holding, move to mouse position
-                                        else -50 -- If not already connected and not holding, keep at start
+                                        else -40 -- If not already connected and not holding, keep at start
                         , if List.member col model.finishedList -- Same idea for the y-coordinate
                                     then 6 * (toFloat (scrambledColors y) - 2) -- This is the y-coordinate of the endpoint
                                     else if (model.grabbed == col)
@@ -94,7 +141,8 @@ myShapes model =
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
-                    |> move (-50, 6 * (toFloat y - 2))
+                    |> move (-40, 6 * (toFloat y - 2))
+                    |> addOutline (solid 0.3) black
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -103,14 +151,15 @@ myShapes model =
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
-                    |> move (50, 6 * (toFloat y - 2))
+                    |> move (40, 6 * (toFloat y - 2))
+                    |> addOutline (solid 0.3) black
                 )
                 (List.map scrambledColors (List.range 0 3))
                 [myPink, myYellow, myBlue, myOrange]
             ++
             -- Wires
             List.map2 (\y col -> 
-                line (-50, 6 * (toFloat y - 2)) (50, 6 * (toFloat (scrambledColors y) - 2))
+                line (-40, 6 * (toFloat y - 2)) (40, 6 * (toFloat (scrambledColors y) - 2))
                     |> outlined (solid 3) col
                 )
                 (List.range 0 3)
@@ -156,10 +205,10 @@ distance (x1, y1) (x2, y2) =
     sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 snap : (Float, Float) -> Color
-snap (x, y) = if (distance (x, y) (50, 6 * (0 - 2)) < 3) then intToCol (unscrambledColors 0)
-                else if (distance (x, y) (50, 6 * (1 - 2)) < 3) then intToCol (unscrambledColors 1)
-                    else if (distance (x, y) (50, 6 * (2 - 2)) < 3) then intToCol (unscrambledColors 2)
-                        else if (distance (x, y) (50, 6 * (3 - 2)) < 3) then intToCol (unscrambledColors 3)
+snap (x, y) = if (distance (x, y) (40, 6 * (0 - 2)) < 3) then intToCol (unscrambledColors 0)
+                else if (distance (x, y) (40, 6 * (1 - 2)) < 3) then intToCol (unscrambledColors 1)
+                    else if (distance (x, y) (40, 6 * (2 - 2)) < 3) then intToCol (unscrambledColors 2)
+                        else if (distance (x, y) (40, 6 * (3 - 2)) < 3) then intToCol (unscrambledColors 3)
                             else black
 
 type State = Waiting | Grabbed (Float, Float) | Finished
