@@ -25,7 +25,6 @@ type alias Lines =
     }
 
 
-suspeed = 1
 
 preBorderLines = [
   ((-10,0) , (10,0)),
@@ -48,6 +47,10 @@ preBorderLines = [
 
   ]
 
+suspeed = 1
+
+thiccness = 4
+
 borderLines = toBorderLines preBorderLines
 
 
@@ -62,7 +65,7 @@ toLineOutliness pairs =
           (line pair1 pair2 |> outlined (solid 0.5) (rgb 0 182 255)) :: toLineOutliness otherLines
 
 
-
+toBorderLines : List ( (Float,Float), (Float,Float) ) -> List Lines
 toBorderLines pairs = 
     case pairs of
         [] -> 
@@ -71,10 +74,10 @@ toBorderLines pairs =
         (((x1,y1) , (x2,y2)) :: otherLines) ->
           if x1 == x2 then
             {vertical = True, slope=0, point1 = (x1,y1), point2 = (x2,y2)} :: toBorderLines otherLines
-          else if abs((y1-y2)/(x1-x2)) > 5 then
-            {vertical = True, slope=(x1-x2)/(y1-y2), point1 = (x1,y1), point2 = (x2,y2)} :: toBorderLines otherLines
+          else if abs((y1 - y2)/(x1 - x2)) > 1 then
+            {vertical = True, slope=(x1 - x2)/(y1 - y2), point1 = (x1,y1), point2 = (x2,y2)} :: toBorderLines otherLines
           else
-            {vertical = False, slope=(y1-y2)/(x1-x2), point1 = (x1,y1), point2 = (x2,y2)} :: toBorderLines otherLines
+            {vertical = False, slope=(y1 - y2)/(x1 - x2), point1 = (x1,y1), point2 = (x2,y2)} :: toBorderLines otherLines
 
 
 
@@ -93,20 +96,16 @@ update msg model =
 
 
 
-movePlayer (x,y) (deltaX,deltaY) = validateMove (x,y) (x+deltaX,y+deltaY) borderLines True True
+movePlayer (x,y) (deltaX,deltaY) = validateMove (x,y) (x+deltaX,y+deltaY) borderLines
 
 sign n = 
   if n > 0 then 1 else -1
 
-validateMove (oldX,oldY) (newX,newY) lines validX validY = 
+validateMove : (Float, Float) -> (Float, Float) -> List Lines -> (Float, Float)
+validateMove (oldX,oldY) (newX,newY) lines = 
     case lines of
         [] -> 
-            if validX && validY then
-              (newX,newY)
-            else if validX then
-              (newX,oldY)
-            else
-              (oldX,oldY)
+          (newX,newY)
 
         ({vertical, slope, point1, point2} :: otherLines) ->
             -- if deltaB changes signs, use (oldX,oldY) otherwise call validateMove on rest of lines 
@@ -115,19 +114,43 @@ validateMove (oldX,oldY) (newX,newY) lines validX validY =
                 y1 = second point1
                 x2 = first point2
                 y2 = second point2
-                oldB = sign ((y1 - oldY) + slope*(oldX-x1))
-                newB = sign ((y1 - newY) + slope*(newX-x1))
+                oldBdiffX = ((y1 - oldY) + slope*(oldX - x1))
+                newBdiffX = ((y1 - newY) + slope*(newX - x1))
+                oldBdiffY = ((x1 - oldX) + slope*(oldY - y1))
+                newBdiffY = ((x1 - newX) + slope*(newY - y1))
+                distanceFromPoint1 = (sqrt ((newY - y1) ^ 2 + (newX - x1) ^ 2))
+                distanceFromPoint2 = (sqrt ((newY - y2) ^ 2 + (newX - x2) ^ 2))
             in
               if vertical then
-                if sign (x1 - oldX) == sign (x1 - newX) || newY > (max y1 y2) || newY < (min y1 y2) then 
-                  validateMove (oldX,oldY) (newX,newY) otherLines validX validY
+                if (
+                    (sign oldBdiffY == -1 && newBdiffY < -thiccness) ||
+                    (sign oldBdiffY == 1 && newBdiffY > thiccness)   ||              
+                     newY > (max y1 y2)                      ||
+                    newY < (min y1 y2)
+                   )
+                   && distanceFromPoint1 > thiccness
+                   && distanceFromPoint2 > thiccness
+                then 
+                  validateMove (oldX,oldY) (newX,newY) otherLines
+                else if slope == 0 && distanceFromPoint1 > thiccness && distanceFromPoint2 > thiccness then
+                  validateMove (oldX,oldY) (oldX,newY) otherLines
                 else
-                  init.pos
+                  (oldX, oldY)
               else 
-                if oldB == newB || newX > (max x1 x2) || newX < (min x1 x2) then 
-                  validateMove (oldX,oldY) (newX,newY) otherLines validX validY -- not touching line, check others
+                if (
+                    (sign oldBdiffX == -1 && newBdiffX < -thiccness) || 
+                    (sign oldBdiffX == 1 && newBdiffX > thiccness)   ||
+                     newX > (max x1 x2)                      ||
+                     newX < (min x1 x2) 
+                   )
+                   && distanceFromPoint1 > thiccness
+                   && distanceFromPoint2 > thiccness
+                then 
+                  validateMove (oldX,oldY) (newX,newY) otherLines
+                else if slope == 0 && distanceFromPoint1 > thiccness && distanceFromPoint2 > thiccness then
+                  validateMove (oldX,oldY) (newX,oldY) otherLines
                 else
-                  init.pos
+                  (oldX, oldY)
 
 
 

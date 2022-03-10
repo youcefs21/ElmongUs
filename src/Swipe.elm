@@ -434,8 +434,8 @@ update msg model =
                         pos     = (-45, 15),
                         ipos    = (-45, 15) }
 
-sub (x,y) (u,v) = (x-u,y-v)
-add (x,y) (u,v) = (x+u,y+v)
+sub (x,y) (u,v) = (x - u, y - v)
+add (x,y) (u,v) = (x + u, y + v)
 
 
 init = { 
