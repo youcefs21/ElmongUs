@@ -16,45 +16,36 @@ myShapes model =
             -- Starting point for the wires
             List.map2 (\y col -> 
                 rect 4 4
-                    |> filled col
-                    |> move (-50, 6 * (toFloat y - 2))
-                    |> notifyMouseDown (if List.member col model.finishedList 
+                    |> filled col -- Col is passed by the map
+                    |> move (-50, 6 * (toFloat y - 2)) -- y is like i in a for loop, so this just translates it to the right place
+                    |> notifyMouseDown (if List.member col model.finishedList -- If mouse pressed, tell app that mouse was pressed.
                                     then (ClickWire (-50, 6 * (toFloat y - 2)) black)
-                                    else (ClickWire (-50, 6 * (toFloat y - 2)) col))
+                                    else (ClickWire (-50, 6 * (toFloat y - 2)) col)) -- If this wire is already in place, tell the app that by sending it the color black
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
             ++
-            -- Endpoint for the wires
+            -- Endpoint for the wires, works similar to the starting point, but without the notifyTap event
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col
                     |> move (50, 6 * (toFloat y - 2))
                 )
-                (List.map scrambledColors (List.range 0 3))
+                (List.map scrambledColors (List.range 0 3)) -- Scramble the y-coordinates by the preset function
                 [myPink, myYellow, myBlue, myOrange]
-                --[myYellow, myBlue, myOrange, myPink]
             ++
             -- Wires
             List.map2 (\y col -> 
                 line (-50, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
-                                    then 50
-                                    else -50
-                        , if List.member col model.finishedList 
+                                    then 50 -- If connected, put on right side
+                                    else -50 -- If not connected, put on left side
+                        , if List.member col model.finishedList  -- same idea for y-coordinates
                                     then 6 * (toFloat (scrambledColors y) - 2)
                                     else 6 * (toFloat y - 2))
                     |> outlined (solid 3) col
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
-            ++
-            [
-                text (String.fromInt (List.length model.finishedList))
-                |> size 4
-                |> centered
-                |> filled model.grabbed
-                |> move (0, 35)
-            ]
         Grabbed (mouseX, mouseY) ->
             -- Starting point for the wires
             List.map2 (\y col -> 
@@ -77,12 +68,12 @@ myShapes model =
             -- Wires
             List.map2 (\y col -> 
                 line (-50, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
-                                    then 50
+                                    then 50 -- If connected, put on right side
                                     else if (model.grabbed == col)
-                                        then mouseX
-                                        else -50
-                        , if List.member col model.finishedList 
-                                    then 6 * (toFloat (scrambledColors y) - 2)
+                                        then mouseX -- If this is the one you're holding, move to mouse position
+                                        else -50 -- If not already connected and not holding, keep at start
+                        , if List.member col model.finishedList -- Same idea for the y-coordinate
+                                    then 6 * (toFloat (scrambledColors y) - 2) -- This is the y-coordinate of the endpoint
                                     else if (model.grabbed == col)
                                         then mouseY
                                         else 6 * (toFloat y - 2))
@@ -91,9 +82,9 @@ myShapes model =
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
             ++
-            -- Tracks mouse movement and checks for mouse up when not touching anything
+            -- Tracks mouse movement and checks for mouse up
             [
-                rect 190 126 |> ghost
+                rect 190 126 |> ghost -- You can't see it, it's just there to track moues
                     |> notifyMouseUpAt ConnectWires
                     |> notifyLeave Stop
                     |> notifyMouseMoveAt MouseMoveTo
