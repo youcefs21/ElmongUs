@@ -87,7 +87,19 @@ myShapes model = [rectangle 90 10
                         , if List.member col model.finishedList  -- same idea for y-coordinates
                                     then 6 * (toFloat (scrambledColors y) - 2)
                                     else 6 * (toFloat y - 2))
-                    |> outlined (solid 3) col
+                    |> outlined (solid 2.5) black
+                )
+                (List.range 0 3)
+                [myPink, myYellow, myBlue, myOrange]
+            ++
+            List.map2 (\y col -> 
+                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
+                                    then 40 -- If connected, put on right side
+                                    else -40 -- If not connected, put on left side
+                        , if List.member col model.finishedList  -- same idea for y-coordinates
+                                    then 6 * (toFloat (scrambledColors y) - 2)
+                                    else 6 * (toFloat y - 2))
+                    |> outlined (solid 2) col
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -124,7 +136,23 @@ myShapes model = [rectangle 90 10
                                     else if (model.grabbed == col)
                                         then mouseY
                                         else 6 * (toFloat y - 2))
-                    |> outlined (solid 3) col
+                    |> outlined (solid 2.5) black
+                )
+                (List.range 0 3)
+                [myPink, myYellow, myBlue, myOrange]
+            ++
+            List.map2 (\y col -> 
+                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
+                                    then 40 -- If connected, put on right side
+                                    else if (model.grabbed == col)
+                                        then mouseX -- If this is the one you're holding, move to mouse position
+                                        else -40 -- If not already connected and not holding, keep at start
+                        , if List.member col model.finishedList -- Same idea for the y-coordinate
+                                    then 6 * (toFloat (scrambledColors y) - 2) -- This is the y-coordinate of the endpoint
+                                    else if (model.grabbed == col)
+                                        then mouseY
+                                        else 6 * (toFloat y - 2))
+                    |> outlined (solid 2) col
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -160,7 +188,14 @@ myShapes model = [rectangle 90 10
             -- Wires
             List.map2 (\y col -> 
                 line (-40, 6 * (toFloat y - 2)) (40, 6 * (toFloat (scrambledColors y) - 2))
-                    |> outlined (solid 3) col
+                    |> outlined (solid 2.5) black
+                )
+                (List.range 0 3)
+                [myPink, myYellow, myBlue, myOrange]
+            ++
+            List.map2 (\y col -> 
+                line (-40, 6 * (toFloat y - 2)) (40, 6 * (toFloat (scrambledColors y) - 2))
+                    |> outlined (solid 2) col
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
