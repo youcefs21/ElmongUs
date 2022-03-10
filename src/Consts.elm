@@ -9,7 +9,7 @@ type Msg =  Tick Float GetKeyState |
             ClickWire (Float, Float) Color |
             Stop | 
             MouseMoveTo (Float, Float) |
-            ConnectWires Color
+            ConnectWires (Float, Float)
 
 
 
