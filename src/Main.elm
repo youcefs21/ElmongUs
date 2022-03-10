@@ -4,6 +4,7 @@ import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 
 
+myShapes : Model -> List (Shape Msg)
 myShapes model = 
   case model.state of
     Caf -> [
@@ -26,15 +27,18 @@ type alias Model = {
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Tick t _ ->
+        Tick _ _ ->
             model
 
+
+init : Model
 init = {
     time = 0,
     state = Caf
   }
 
 
+main : GameApp Model Msg
 main = 
   gameApp Tick { 
     model  = init, 
@@ -44,4 +48,5 @@ main =
   }
 
 
+view : Model -> Collage Msg
 view model = collage 192 128 ( myShapes model )
