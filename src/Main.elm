@@ -2,13 +2,14 @@ module Main exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
+import Cafeteria exposing (cafeteria)
 
 
 myShapes : Model -> List (Shape Msg)
 myShapes model = 
   case model.state of
     Caf -> [
-
+        cafeteria
       ]
 
 
