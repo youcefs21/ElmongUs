@@ -7,11 +7,9 @@ import GraphicSVG.EllieApp exposing (..)
 
 preBorderLines = [
 
-  -- random big lines
-  ((-69,20), (40, 420)),
-  ((-30,20), (-30, 420)),
-  ((-9,-30), (-40, -500))
-
+  -- top and bottom
+  ((-45,53), (45, 53)),
+  ((-50,-60), (50, -60))
 
   ]
 

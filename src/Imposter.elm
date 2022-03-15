@@ -42,7 +42,7 @@ toLineOutliness pairs =
           []
 
         ((pair1 , pair2) :: otherLines) ->
-          (line pair1 pair2 |> outlined (solid 0.5) (rgb 0 182 255)) :: toLineOutliness otherLines
+          (line pair1 pair2 |> outlined (solid 0.5) red) :: toLineOutliness otherLines
 
 
 toBorderLines : List ( (Float,Float), (Float,Float) ) -> List Lines

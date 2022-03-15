@@ -12,6 +12,7 @@ myShapes model =
   case model.state of
     Caf -> [
         cafeteria
+        , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter 0
           |> scale 0.3
           |> move model.impModel.pos
