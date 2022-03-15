@@ -4,8 +4,10 @@ import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Cafeteria exposing (cafeteria)
 import MedBay exposing (medbay)
+import UpperEng exposing (upperEng)
 import Imposter exposing (..)
 import Tuple exposing (first)
+import Tuple exposing (second)
 
 
 myShapes : Model -> List (Shape Msg)
@@ -31,11 +33,19 @@ myShapes model =
             |> scaleX direction
             |> move model.impModel.pos
         ]
-      _ -> []
+      UpperEng -> [
+        upperEng |> group
+        -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
+        , imposter 0
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
+      Security -> []
 
 
 
-type State = Caf | MedBay | UpperEng
+type State = Caf | MedBay | UpperEng | Security
 
 
 type Msg = Tick Float GetKeyState
@@ -61,6 +71,8 @@ update msg model =
                 MedBay ->
                   notifyMedBayExit model newImpModel
                 UpperEng ->
+                  notifyUpperEngExit model newImpModel
+                _ ->
                   model
 
 notifyCafExit : Model -> Imposter.Model -> Model
@@ -78,7 +90,22 @@ notifyCafExit model newImpModel =
 notifyMedBayExit : Model -> Imposter.Model -> Model
 notifyMedBayExit model newImpModel = 
    if (first newImpModel.pos) < -96 then
-      {model| state = UpperEng, impModel = newImpModel}
+      {model| state = UpperEng,
+            impModel = {newImpModel | pos = (90,0),
+            preBorderLines = UpperEng.preBorderLines
+        }
+      }
+   else
+      {model| impModel = newImpModel}
+
+notifyUpperEngExit : Model -> Imposter.Model -> Model
+notifyUpperEngExit model newImpModel = 
+   if (second newImpModel.pos) < -64 then
+      {model| state = Security,
+            impModel = {newImpModel | pos = (90,0),
+            preBorderLines = UpperEng.preBorderLines
+        }
+      }
    else
       {model| impModel = newImpModel}
 
