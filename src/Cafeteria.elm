@@ -2,6 +2,23 @@ module Cafeteria exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.EllieApp exposing (..)
 
+
+
+
+preBorderLines = [
+
+  -- random big lines
+  ((-69,20), (40, 420)),
+  ((-30,20), (-30, 420)),
+  ((-9,-30), (-40, -500))
+
+
+  ]
+
+
+
+
+
 -- Cafeteria
 cafeteria = group [cafe_exterior,
    cafe_tables,

@@ -3,12 +3,13 @@ module Imposter exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Tuple exposing (first, second)
+import Cafeteria
 
 
 myShapes model =
   [
     rect 200 200 |> filled (rgb 60 74 74)
-    , toLineOutliness preBorderLines |> group
+    , toLineOutliness model.preBorderLines |> group
     , imposter 0
     |> scale 0.3
     |> move model.pos
@@ -26,32 +27,11 @@ type alias Lines =
 
 
 
-preBorderLines = [
-  ((-10,0) , (10,0)),
-  ((-10,0), (-15, 5)),
-  ((10,0), (15, 5)),
-  ((15,5), (15, 500)),
-  ((-15,5), (-15, 500)),
-
-  -- random big lines
-  ((-69,20), (40, 420)),
-  ((-30,20), (-30, 420)),
-  ((-9,-30), (-40, -500)),
-
-  -- box
-  ((30,30), (40, 30)),
-  ((40,30), (40, 40)),
-  ((40,40), (30, 40)),
-  ((30,40), (30, 30))
-
-
-  ]
 
 suspeed = 1
 
 thiccness = 4
 
-borderLines = toBorderLines preBorderLines
 
 
 
@@ -84,19 +64,31 @@ toBorderLines pairs =
 
 init = {
     time = 0,
-    pos = (20,0)
+    pos = (20,0),
+    preBorderLines = Cafeteria.preBorderLines
     }
+
+type alias Model = { 
+    time  : Float , 
+    pos   : (Float, Float),
+    preBorderLines : List ((Float, Float), (Float, Float))
+  }
+
 
 type Msg = Tick Float GetKeyState
 
 update msg model = 
     case msg of
         Tick t (_, _ , (deltaX,deltaY)) -> 
-            { model | time = t , pos = (movePlayer model.pos (deltaX*suspeed,deltaY*suspeed))}
+            { model | time = t ,
+            pos = (
+                movePlayer model.pos (deltaX*suspeed,deltaY*suspeed) (toBorderLines model.preBorderLines)
+              )
+            }
 
 
 
-movePlayer (x,y) (deltaX,deltaY) = validateMove (x,y) (x+deltaX,y+deltaY) borderLines
+movePlayer (x,y) (deltaX,deltaY) borderLines = validateMove (x,y) (x+deltaX,y+deltaY) borderLines
 
 sign n = 
   if n > 0 then 1 else -1
@@ -153,7 +145,7 @@ validateMove (oldX,oldY) (newX,newY) lines =
                   (oldX, oldY)
 
 
-
+main : GameApp Model Msg
 main = gameApp Tick {
     model = init,
     view = view,

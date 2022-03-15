@@ -3,6 +3,8 @@ module Main exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Cafeteria exposing (cafeteria)
+import Imposter exposing (..)
+import Tuple exposing (first)
 
 
 myShapes : Model -> List (Shape Msg)
@@ -10,6 +12,9 @@ myShapes model =
   case model.state of
     Caf -> [
         cafeteria
+        , imposter 0
+          |> scale 0.3
+          |> move model.impModel.pos
       ]
     _ -> []
 
@@ -21,38 +26,42 @@ type State = Caf | MedBay | UpperEng
 type Msg = Tick Float GetKeyState
 
 type alias Model = { 
-    time  : Float , 
-    state : State ,
-    x     : Float ,
-    y     : Float
+    time     : Float , 
+    state    : State ,
+    impModel : Imposter.Model
   }
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Tick _ _ ->
-            case model.state of
-              Caf ->
-                {model | state = notifyCafExit model.x model.y}
-              MedBay ->
-                {model | state = notifyMedBayExit model.x model.y}
-              UpperEng ->
-                model
+        Tick t k ->
+            let
+              newImpModel = Imposter.update (Imposter.Tick t k) model.impModel
+            in
+              
+              case model.state of
+                Caf ->
+                  notifyCafExit model newImpModel
+                MedBay ->
+                  notifyMedBayExit model newImpModel
+                UpperEng ->
+                  model
 
-
-notifyCafExit x _ = 
-   if x < -50 then
-      MedBay
+notifyCafExit : Model -> Imposter.Model -> Model
+notifyCafExit model newImpModel = 
+   if (first newImpModel.pos) < -96 then
+      {model| state = MedBay, impModel = newImpModel}
    else
-      Caf
+      {model| impModel = newImpModel}
 
 
-notifyMedBayExit x _ = 
-   if x < -50 then
-      UpperEng
+notifyMedBayExit : Model -> Imposter.Model -> Model
+notifyMedBayExit model newImpModel = 
+   if (first newImpModel.pos) < -96 then
+      {model| state = UpperEng, impModel = newImpModel}
    else
-      MedBay
+      {model| impModel = newImpModel}
 
 
 
@@ -60,8 +69,7 @@ init : Model
 init = {
     time = 0,
     state = Caf,
-    x = 0,
-    y = 0
+    impModel = Imposter.init
   }
 
 
@@ -69,7 +77,7 @@ main : GameApp Model Msg
 main = 
   gameApp Tick { 
     model  = init, 
-    title  = "The Best Rocket Game of 1XD3 by Lab 3 Group 2",
+    title  = "Elmongus",
     update = update,
     view   = view       
   }
