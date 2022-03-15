@@ -3,6 +3,7 @@ module Main exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Cafeteria exposing (cafeteria)
+import MedBay exposing (medbay)
 import Imposter exposing (..)
 import Tuple exposing (first)
 
@@ -12,6 +13,13 @@ myShapes model =
   case model.state of
     Caf -> [
         cafeteria
+        , Imposter.toLineOutliness model.impModel.preBorderLines |> group
+        , imposter 0
+          |> scale 0.3
+          |> move model.impModel.pos
+      ]
+    MedBay -> [
+        medbay
         , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter 0
           |> scale 0.3
@@ -52,7 +60,11 @@ update msg model =
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
    if (first newImpModel.pos) < -96 then
-      {model| state = MedBay, impModel = newImpModel}
+      {model| state = MedBay,
+              impModel = {newImpModel | pos = (90,45),
+                preBorderLines = MedBay.preBorderLines
+                }
+        }
    else
       {model| impModel = newImpModel}
 
