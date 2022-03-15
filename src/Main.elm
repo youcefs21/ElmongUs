@@ -11,17 +11,20 @@ myShapes model =
     Caf -> [
         cafeteria
       ]
+    _ -> []
 
 
 
-type State = Caf
+type State = Caf | MedBay | UpperEng
 
 
 type Msg = Tick Float GetKeyState
 
 type alias Model = { 
     time  : Float , 
-    state : State 
+    state : State ,
+    x     : Float ,
+    y     : Float
   }
 
 
@@ -29,13 +32,36 @@ update : Msg -> Model -> Model
 update msg model =
     case msg of
         Tick _ _ ->
-            model
+            case model.state of
+              Caf ->
+                {model | state = notifyCafExit model.x model.y}
+              MedBay ->
+                {model | state = notifyMedBayExit model.x model.y}
+              UpperEng ->
+                model
+
+
+notifyCafExit x _ = 
+   if x < -50 then
+      MedBay
+   else
+      Caf
+
+
+notifyMedBayExit x _ = 
+   if x < -50 then
+      UpperEng
+   else
+      MedBay
+
 
 
 init : Model
 init = {
     time = 0,
-    state = Caf
+    state = Caf,
+    x = 0,
+    y = 0
   }
 
 
