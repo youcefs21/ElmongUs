@@ -10,22 +10,28 @@ import Tuple exposing (first)
 
 myShapes : Model -> List (Shape Msg)
 myShapes model = 
-  case model.state of
-    Caf -> [
-        cafeteria
-        , Imposter.toLineOutliness model.impModel.preBorderLines |> group
-        , imposter 0
-          |> scale 0.3
-          |> move model.impModel.pos
-      ]
-    MedBay -> [
-        medbay
-        , Imposter.toLineOutliness model.impModel.preBorderLines |> group
-        , imposter 0
-          |> scale 0.3
-          |> move model.impModel.pos
-      ]
-    _ -> []
+  let
+      direction = if model.impModel.left then 1 else -1
+  in
+    
+    case model.state of
+      Caf -> [
+          cafeteria
+          -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
+          , imposter 0
+            |> scale 0.3
+            |> scaleX direction
+            |> move model.impModel.pos
+        ]
+      MedBay -> [
+          medbay
+          -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
+          , imposter 0
+            |> scale 0.3
+            |> scaleX direction
+            |> move model.impModel.pos
+        ]
+      _ -> []
 
 
 

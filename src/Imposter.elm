@@ -65,13 +65,15 @@ toBorderLines pairs =
 init = {
     time = 0,
     pos = (40,0),
-    preBorderLines = Cafeteria.preBorderLines
+    preBorderLines = Cafeteria.preBorderLines,
+    left = True
     }
 
 type alias Model = { 
     time  : Float , 
     pos   : (Float, Float),
-    preBorderLines : List ((Float, Float), (Float, Float))
+    preBorderLines : List ((Float, Float), (Float, Float)),
+    left : Bool
   }
 
 
@@ -83,7 +85,12 @@ update msg model =
             { model | time = t ,
             pos = (
                 movePlayer model.pos (deltaX*suspeed,deltaY*suspeed) (toBorderLines model.preBorderLines)
-              )
+              ) ,
+            left = if deltaX == 0 then
+              model.left 
+            else if deltaX > 0 then
+              True 
+            else False
             }
 
 
