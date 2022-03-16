@@ -2,7 +2,7 @@ module Security exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.EllieApp exposing (..)
 
-myShapes model =
+myShapes _ =
   [
     bg
   , floors

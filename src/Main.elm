@@ -6,6 +6,8 @@ import Cafeteria exposing (cafeteria)
 import MedBay exposing (medbay)
 import UpperEng exposing (upperEng)
 import Security exposing (security)
+import Reactor exposing (reactorRoom)
+import LowerEng exposing (lowerEng)
 import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
@@ -49,8 +51,20 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos
         ]
-      Reactor -> []
-      LowerEng -> []
+      Reactor -> [
+        reactorRoom |> group
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
+      LowerEng -> [
+        lowerEng |> group
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
 
 
 
@@ -81,8 +95,8 @@ update msg model =
                   notifyMedBayExit model newImpModel
                 UpperEng ->
                   notifyUpperEngExit model newImpModel
-                -- Security ->
-                --   notifySecurityExit model newImpModel
+                Security ->
+                  notifySecurityExit model newImpModel
                 _ ->
                   {model| impModel = newImpModel}
 
@@ -120,22 +134,22 @@ notifyUpperEngExit model newImpModel =
    else
       {model| impModel = newImpModel}
 
--- notifySecurityExit : Model -> Imposter.Model -> Model
--- notifySecurityExit model newImpModel = 
---    if (second newImpModel.pos) < -64 then
---       {model| state = LowerEng,
---             impModel = {newImpModel | pos = (-20,40),
---             preBorderLines = LowerEng.preBorderLines
---         }
---       }
---    else if (first newImpModel.pos) < -96 then
---       {model| state = Reactor,
---               impModel = {newImpModel | pos = (90,45),
---                 preBorderLines = Reactor.preBorderLines
---           }
---         }
---    else
---       {model| impModel = newImpModel}
+notifySecurityExit : Model -> Imposter.Model -> Model
+notifySecurityExit model newImpModel = 
+   if (second newImpModel.pos) < -64 then
+      {model| state = LowerEng,
+            impModel = {newImpModel | pos = (-20,40),
+            preBorderLines = LowerEng.preBorderLines
+        }
+      }
+   else if (first newImpModel.pos) < -96 then
+      {model| state = Reactor,
+              impModel = {newImpModel | pos = (90,45),
+                preBorderLines = Reactor.preBorderLines
+          }
+        }
+   else
+      {model| impModel = newImpModel}
 
 
 
