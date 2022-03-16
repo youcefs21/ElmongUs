@@ -8808,7 +8808,7 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp = F2(
 				}
 			});
 	});
-var $author$project$Main$Storage = {$: 'Storage'};
+var $author$project$Main$Caf = {$: 'Caf'};
 var $author$project$Cafeteria$preBorderLines = _List_fromArray(
 	[
 		_Utils_Tuple2(
@@ -8918,12 +8918,11 @@ var $author$project$Imposter$init = {
 	preBorderLines: $author$project$Cafeteria$preBorderLines,
 	time: 0
 };
-var $author$project$Main$init = {impModel: $author$project$Imposter$init, state: $author$project$Main$Storage, time: 0};
+var $author$project$Main$init = {impModel: $author$project$Imposter$init, state: $author$project$Main$Caf, time: 0};
 var $author$project$Imposter$Tick = F2(
 	function (a, b) {
 		return {$: 'Tick', a: a, b: b};
 	});
-var $author$project$Main$Caf = {$: 'Caf'};
 var $author$project$Admin$preBorderLines = _List_Nil;
 var $author$project$Main$notifyAdminExit = F2(
 	function (model, newImpModel) {
@@ -9011,6 +9010,7 @@ var $author$project$Main$notifyCafExit = F2(
 					{preBorderLines: $author$project$Cafeteria$preBorderLines})
 			});
 	});
+var $author$project$Main$Storage = {$: 'Storage'};
 var $author$project$Electrical$preBorderLines = _List_Nil;
 var $author$project$Storage$preBorderLines = _List_Nil;
 var $author$project$Main$notifyElectricalExit = F2(

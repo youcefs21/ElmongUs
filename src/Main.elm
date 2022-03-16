@@ -252,7 +252,7 @@ notifyAdminExit model newImpModel =
 init : Model
 init = {
     time = 0,
-    state = Storage,
+    state = Caf,
     impModel = Imposter.init
   }
 
