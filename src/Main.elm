@@ -6,6 +6,8 @@ import Cafeteria exposing (cafeteria)
 import MedBay exposing (medbay)
 import UpperEng exposing (upperEng)
 import Security exposing (security)
+import Storage exposing (storage)
+import Electrical exposing (electrical)
 import Reactor exposing (reactorRoom)
 import LowerEng exposing (lowerEng)
 import Imposter exposing (..)
@@ -65,10 +67,24 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos
         ]
+      Electrical -> [
+          electrical |> group
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
+      Storeage -> [
+        storage
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
 
 
 
-type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng
+type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storeage
 
 
 type Msg = Tick Float GetKeyState
@@ -99,6 +115,8 @@ update msg model =
                   notifySecurityExit model newImpModel
                 Reactor ->
                   notifyReactorExit model newImpModel
+                LowerEng ->
+                  notifyLowerEngExit model newImpModel
                 _ ->
                   {model| impModel = newImpModel}
 
@@ -171,12 +189,22 @@ notifyReactorExit model newImpModel =
     else
       {model| impModel = {newImpModel| preBorderLines = Reactor.preBorderLines}}
 
+notifyLowerEngExit : Model -> Imposter.Model -> Model
+notifyLowerEngExit model newImpModel = 
+    if (first newImpModel.pos) > 96 then
+      {model| state = Electrical,
+            impModel = {newImpModel | pos = (0,0),
+            preBorderLines = Security.preBorderLines
+        }
+      }
+    else
+      {model| impModel = {newImpModel| preBorderLines = LowerEng.preBorderLines}}
 
 
 init : Model
 init = {
     time = 0,
-    state = Reactor,
+    state = Security,
     impModel = Imposter.init
   }
 

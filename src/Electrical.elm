@@ -2,17 +2,18 @@ module Electrical exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.EllieApp exposing (..)
-import Imposter exposing (frame1Imposter)
 
 myShapes _ =
   [
+    electrical |> group
+  ]
+
+electrical = [
     background
   , boxes
   , vent -58 40
   , wall_buttons
   , wires
-  , frame1Imposter
-  |> scale 0.5
   ]
 
 background = group
