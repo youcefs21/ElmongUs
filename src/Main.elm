@@ -20,7 +20,7 @@ myShapes model =
       Caf -> [
           cafeteria
           -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
-          , imposter 0
+          , imposter model.impModel
             |> scale 0.3
             |> scaleX direction
             |> move model.impModel.pos
@@ -28,7 +28,7 @@ myShapes model =
       MedBay -> [
           medbay
           -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
-          , imposter 0
+          , imposter model.impModel
             |> scale 0.3
             |> scaleX direction
             |> move model.impModel.pos
@@ -36,7 +36,7 @@ myShapes model =
       UpperEng -> [
         upperEng |> group
         -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
-        , imposter 0
+        , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
           |> move model.impModel.pos
