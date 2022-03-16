@@ -97,6 +97,8 @@ update msg model =
                   notifyUpperEngExit model newImpModel
                 Security ->
                   notifySecurityExit model newImpModel
+                Reactor ->
+                  notifyReactorExit model newImpModel
                 _ ->
                   {model| impModel = newImpModel}
 
@@ -109,7 +111,7 @@ notifyCafExit model newImpModel =
                 }
         }
    else
-      {model| impModel = newImpModel}
+      {model| impModel = {newImpModel| preBorderLines = Cafeteria.preBorderLines}}
 
 
 notifyMedBayExit : Model -> Imposter.Model -> Model
@@ -121,7 +123,8 @@ notifyMedBayExit model newImpModel =
         }
       }
    else
-      {model| impModel = newImpModel}
+      {model| impModel = {newImpModel| preBorderLines = MedBay.preBorderLines}}
+
 
 notifyUpperEngExit : Model -> Imposter.Model -> Model
 notifyUpperEngExit model newImpModel = 
@@ -132,31 +135,48 @@ notifyUpperEngExit model newImpModel =
         }
       }
    else
-      {model| impModel = newImpModel}
+      {model| impModel = {newImpModel| preBorderLines = UpperEng.preBorderLines}}
 
 notifySecurityExit : Model -> Imposter.Model -> Model
 notifySecurityExit model newImpModel = 
    if (second newImpModel.pos) < -64 then
       {model| state = LowerEng,
-            impModel = {newImpModel | pos = (-20,40),
+            impModel = {newImpModel | pos = (-20,60),
             preBorderLines = LowerEng.preBorderLines
         }
       }
    else if (first newImpModel.pos) < -96 then
       {model| state = Reactor,
-              impModel = {newImpModel | pos = (90,45),
+              impModel = {newImpModel | pos = (60,-30),
                 preBorderLines = Reactor.preBorderLines
           }
         }
    else
-      {model| impModel = newImpModel}
+      {model| impModel = {newImpModel| preBorderLines = Security.preBorderLines}}
+
+notifyReactorExit : Model -> Imposter.Model -> Model
+notifyReactorExit model newImpModel = 
+    if (first newImpModel.pos) > 96 then
+      {model| state = Security,
+            impModel = {newImpModel | pos = (-50,(second newImpModel.pos)),
+            preBorderLines = Security.preBorderLines
+        }
+      }
+   else if (second newImpModel.pos) < -64 then
+      {model| state = LowerEng,
+            impModel = {newImpModel | pos = (-35,50),
+            preBorderLines = LowerEng.preBorderLines
+        }
+      }
+    else
+      {model| impModel = {newImpModel| preBorderLines = Reactor.preBorderLines}}
 
 
 
 init : Model
 init = {
     time = 0,
-    state = Caf,
+    state = Reactor,
     impModel = Imposter.init
   }
 
