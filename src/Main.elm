@@ -5,6 +5,7 @@ import GraphicSVG.App exposing (..)
 import Cafeteria exposing (cafeteria)
 import MedBay exposing (medbay)
 import UpperEng exposing (upperEng)
+import Security exposing (security)
 import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
@@ -41,11 +42,19 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos
         ]
-      Security -> []
+      Security -> [
+        security |> group
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
+      Reactor -> []
+      LowerEng -> []
 
 
 
-type State = Caf | MedBay | UpperEng | Security
+type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng
 
 
 type Msg = Tick Float GetKeyState
@@ -72,8 +81,10 @@ update msg model =
                   notifyMedBayExit model newImpModel
                 UpperEng ->
                   notifyUpperEngExit model newImpModel
+                -- Security ->
+                --   notifySecurityExit model newImpModel
                 _ ->
-                  model
+                  {model| impModel = newImpModel}
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -102,12 +113,29 @@ notifyUpperEngExit : Model -> Imposter.Model -> Model
 notifyUpperEngExit model newImpModel = 
    if (second newImpModel.pos) < -64 then
       {model| state = Security,
-            impModel = {newImpModel | pos = (90,0),
-            preBorderLines = UpperEng.preBorderLines
+            impModel = {newImpModel | pos = (-50,40),
+            preBorderLines = Security.preBorderLines
         }
       }
    else
       {model| impModel = newImpModel}
+
+-- notifySecurityExit : Model -> Imposter.Model -> Model
+-- notifySecurityExit model newImpModel = 
+--    if (second newImpModel.pos) < -64 then
+--       {model| state = LowerEng,
+--             impModel = {newImpModel | pos = (-20,40),
+--             preBorderLines = LowerEng.preBorderLines
+--         }
+--       }
+--    else if (first newImpModel.pos) < -96 then
+--       {model| state = Reactor,
+--               impModel = {newImpModel | pos = (90,45),
+--                 preBorderLines = Reactor.preBorderLines
+--           }
+--         }
+--    else
+--       {model| impModel = newImpModel}
 
 
 
