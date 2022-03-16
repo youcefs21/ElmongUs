@@ -8,6 +8,10 @@ myShapes _ =
     electrical |> group
   ]
 
+preBorderLines = [
+
+    ]
+
 electrical = [
     background
   , boxes

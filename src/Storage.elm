@@ -3,6 +3,12 @@ module Storage exposing (..)
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 
+
+
+preBorderLines = [
+
+    ]
+
 -- Storages
 storage = group [storage_walls, storage_interior]
 

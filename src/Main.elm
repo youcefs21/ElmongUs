@@ -74,7 +74,7 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos
         ]
-      Storeage -> [
+      Storage -> [
         storage
         , imposter model.impModel
           |> scale 0.3
@@ -84,7 +84,7 @@ myShapes model =
 
 
 
-type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storeage
+type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage
 
 
 type Msg = Tick Float GetKeyState
@@ -117,6 +117,8 @@ update msg model =
                   notifyReactorExit model newImpModel
                 LowerEng ->
                   notifyLowerEngExit model newImpModel
+                Electrical ->
+                  notifyElectricalExit model newImpModel
                 _ ->
                   {model| impModel = newImpModel}
 
@@ -193,18 +195,29 @@ notifyLowerEngExit : Model -> Imposter.Model -> Model
 notifyLowerEngExit model newImpModel = 
     if (first newImpModel.pos) > 96 then
       {model| state = Electrical,
-            impModel = {newImpModel | pos = (0,0),
-            preBorderLines = Security.preBorderLines
+            impModel = {newImpModel | pos = (-50,-50),
+            preBorderLines = Electrical.preBorderLines
         }
       }
     else
       {model| impModel = {newImpModel| preBorderLines = LowerEng.preBorderLines}}
 
 
+notifyElectricalExit : Model -> Imposter.Model -> Model
+notifyElectricalExit model newImpModel = 
+   if (second newImpModel.pos) < -64 then
+      {model| state = Storage,
+            impModel = {newImpModel | pos = (-70,-25),
+            preBorderLines = Storage.preBorderLines
+        }
+      }
+   else
+      {model| impModel = {newImpModel| preBorderLines = Electrical.preBorderLines}}
+
 init : Model
 init = {
     time = 0,
-    state = Security,
+    state = Electrical,
     impModel = Imposter.init
   }
 
