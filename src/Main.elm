@@ -8,6 +8,7 @@ import UpperEng exposing (upperEng)
 import Security exposing (security)
 import Storage exposing (storage)
 import Electrical exposing (electrical)
+import Admin exposing (admin)
 import Reactor exposing (reactorRoom)
 import LowerEng exposing (lowerEng)
 import Imposter exposing (..)
@@ -81,10 +82,17 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos
         ]
+      Admin -> [
+        admin
+        , imposter model.impModel
+          |> scale 0.3
+          |> scaleX direction
+          |> move model.impModel.pos
+        ]
 
 
 
-type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage
+type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage | Admin
 
 
 type Msg = Tick Float GetKeyState
@@ -119,8 +127,10 @@ update msg model =
                   notifyLowerEngExit model newImpModel
                 Electrical ->
                   notifyElectricalExit model newImpModel
-                _ ->
-                  {model| impModel = newImpModel}
+                Storage ->
+                  notifyStorageExit model newImpModel
+                Admin ->
+                  notifyAdminExit model newImpModel
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -214,10 +224,35 @@ notifyElectricalExit model newImpModel =
    else
       {model| impModel = {newImpModel| preBorderLines = Electrical.preBorderLines}}
 
+
+notifyStorageExit : Model -> Imposter.Model -> Model
+notifyStorageExit model newImpModel = 
+   if (second newImpModel.pos) > 64 then
+      {model| state = Admin,
+            impModel = {newImpModel | pos = (-70,-25),
+            preBorderLines = Admin.preBorderLines
+        }
+      }
+   else
+      {model| impModel = {newImpModel| preBorderLines = Storage.preBorderLines}}
+
+
+notifyAdminExit : Model -> Imposter.Model -> Model
+notifyAdminExit model newImpModel = 
+   if (second newImpModel.pos) > 64 then
+      {model| state = Caf,
+            impModel = {newImpModel | pos = (0,-25),
+            preBorderLines = Cafeteria.preBorderLines
+        }
+      }
+   else
+      {model| impModel = {newImpModel| preBorderLines = Admin.preBorderLines}}
+
+
 init : Model
 init = {
     time = 0,
-    state = Electrical,
+    state = Storage,
     impModel = Imposter.init
   }
 
