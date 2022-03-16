@@ -19,6 +19,8 @@ myShapes model =
 
 imposter model = frame2Img (floor model.frame)
 
+frame1Imposter = frame2Img 1
+
 type alias Lines =
     {
       vertical : Bool

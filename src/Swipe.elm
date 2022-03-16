@@ -2,7 +2,7 @@ module Swipe exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.EllieApp exposing (..)
-import Imposter exposing (imposter)
+import Imposter exposing (frame1Imposter)
 import List exposing (indexedMap)
   
 outer = 
@@ -149,7 +149,7 @@ card = group [
             |> outlined (solid 1) black,
         s
             |> filled (rgb 98.8 98.8 98.8),
-        imposter 0
+        frame1Imposter
             |> scale 0.6
             |> rotate (degrees -2)
             |> mirrorX
@@ -300,20 +300,20 @@ draw model =
                     |> filled white
                     |> move (32, -48)
                     |> clip pic,
-                imposter (degrees 30)
+                frame1Imposter
                     |> scale 0.9
-                    |> rotate (degrees 5)
+                    |> rotate (degrees 35)
                     |> move (18, -35)
                     |> clip pic,
-                imposter (degrees 120)
-                    |> rotate (degrees -3)
+                frame1Imposter 
+                    |> rotate (degrees 117)
                     |> scale 0.9
                     |> mirrorX
                     |> move (45, -25)
                     |> clip pic,
-                imposter (degrees 180)
+                frame1Imposter 
                     |> scale 0.6
-                    |> rotate (degrees 7)
+                    |> rotate (degrees 187)
                     |> mirrorX
                     |> move (40, -40)
                     |> clip pic,
