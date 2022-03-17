@@ -15,6 +15,8 @@ import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
 import Html exposing (button)
+import Leaf
+import GraphicSVG.EllieApp
 
 
 myShapes : Model -> List (Shape Msg)
@@ -68,7 +70,11 @@ myShapes model =
         in
             (buttonToMiniGame (showCond && (not model.leaf))
                 |> move (-50, -20))
-                |> (if showCond then notifyTap (ToggleLeaf True) else identity)
+                |> (if showCond then notifyTap (ToggleLeaf True) else identity),
+        if model.leaf then
+            Leaf.myShapes model.leafModel
+                |> group
+        else group []
         ]
       LowerEng -> [
         lowerEng |> group
@@ -122,7 +128,8 @@ type alias Model = {
     state    : State ,
     impModel : Imposter.Model,
     leaf     : Bool,
-    leafTime : Float
+    leafTime : Float,
+    leafModel : Leaf.Model
   }
 
 init : Model
@@ -131,7 +138,8 @@ init = {
     state = Reactor,
     impModel = Imposter.init,
     leaf = False,
-    leafTime = 0
+    leafTime = 0,
+    leafModel = Leaf.init
   }
 
 
@@ -141,6 +149,7 @@ update msg model =
         Tick t k ->
             let
               newImpModel = Imposter.update (Imposter.Tick t k) model.impModel
+              newLeafModel = Leaf.update (Leaf.Tick t k) model.leafModel
             in
               
               case model.state of
@@ -153,7 +162,7 @@ update msg model =
                 Security ->
                   notifySecurityExit model newImpModel
                 Reactor ->
-                  notifyReactorExit model newImpModel
+                  notifyReactorExit model newImpModel newLeafModel
                 LowerEng ->
                   notifyLowerEngExit model newImpModel
                 Electrical ->
@@ -163,7 +172,7 @@ update msg model =
                 Admin ->
                   notifyAdminExit model newImpModel
         ToggleLeaf b ->
-            { model | leaf = b, leafTime = model.time }
+            { model | leaf = b, leafTime = model.time, leafModel = Leaf.init }
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -217,8 +226,7 @@ notifySecurityExit model newImpModel =
    else
       {model| impModel = {newImpModel| preBorderLines = Security.preBorderLines}}
 
-notifyReactorExit : Model -> Imposter.Model -> Model
-notifyReactorExit model newImpModel = 
+notifyReactorExit model newImpModel newLeafModel = 
     if (first newImpModel.pos) > 96 then
       {model| state = Security,
             impModel = {newImpModel | pos = (-50,(second newImpModel.pos)),
@@ -232,7 +240,8 @@ notifyReactorExit model newImpModel =
         }
       }
     else
-      {model| impModel = {newImpModel| preBorderLines = Reactor.preBorderLines}}
+      {model | impModel = {newImpModel | preBorderLines = Reactor.preBorderLines},
+              leafModel = newLeafModel }
 
 notifyLowerEngExit : Model -> Imposter.Model -> Model
 notifyLowerEngExit model newImpModel = 
