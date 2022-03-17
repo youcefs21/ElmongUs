@@ -7,23 +7,27 @@ import Consts exposing (..)
 counter = 0
 
 myShapes model = [
-  screen,
+  group [
+  screen model,
   case model.state of
     Waiting ->
-        model.points
+        group [model.points
         |> List.map 
             ( \ pos -> leaf
                         |> move (5*sin model.time, 5*cos model.time)
                         |> move pos
                         |> notifyMouseDownAt  (MouseDownAt pos)
             )
-        |> group
+        |> group,
+        if (model.time - model.startTime > 30) then 
+          square 1000 |> ghost |> notifyEnter (ToggleLeaf True)
+        else
+          group []
+        ]
     Finished ->
         square 1000
           |> ghost
           |> notifyEnter (ToggleLeaf False)
-    Failed ->
-        text "You have failed!" |> filled black |> move (-10,0)
     Grabbed delta mouseAt ->
         group [
             ( model.points
@@ -38,7 +42,7 @@ myShapes model = [
             rect 190 126 |> filled (rgba 255 255 0 0.01)
                 |> notifyMouseUp (Stop (add delta mouseAt))
                 |> notifyLeave (Stop (add delta mouseAt))
-                |> notifyMouseMoveAt MouseMoveTo]
+                |> notifyMouseMoveAt MouseMoveTo]]
   ]     
   
 type State 
@@ -46,15 +50,14 @@ type State
    -- (offset from down position to draw position) (current mouse position)
   | Grabbed (Float,Float) (Float,Float)
   | Finished
-  | Failed
       
-type alias Model = { time : Float, points : List (Float,Float), state : State, startTime : Int, delay : Int }
+type alias Model = { time : Float, points : List (Float,Float), state : State, delay : Int, startTime : Float }
 
 update msg model 
   = case msg of
       Tick t _ -> { model | time = t }
       MouseDownAt orig mouseAt ->
-        { model | points = List.filter ( \ pos -> pos /= orig ) model.points
+          { model | points = List.filter ( \ pos -> pos /= orig ) model.points
                 , state = Grabbed (sub orig mouseAt) mouseAt
                 }
       MouseMoveTo new ->
@@ -77,7 +80,7 @@ sub (x,y) (u,v) = (x - u,y - v)
 add (x,y) (u,v) = (x+u,y+v)
 
 init : Model
-init = { time = 0, points = pointsFromRandomDotOrg, state = Waiting, startTime = 0, delay = 0 }
+init = { time = 0, points = pointsFromRandomDotOrg, state = Waiting, delay = 0, startTime = 0 }
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Game Slot" }
 
@@ -110,19 +113,24 @@ leaf = group [rectangle 2 8
    |> filled (rgb 100 166 68) |> move (0, 11)
    ] |> addOutline (solid 0.8) black
    
-screen = group [rectangle 40 128
-   |> filled (rgb 164 164 164) |> move (-50, 0)
-   |> addOutline (solid 0.5) black,
-   rectangle 15 60
-   |> filled (rgb 34 34 34) |> move (-50, 0)
-   |> addOutline (solid 0.5) black, 
-   triangle 5
-   |> filled (rgb 126 126 126) |> move (-64, 0)
-   |> addOutline (solid 0.5) black,
-   triangle 5
-   |> filled (rgb 126 126 126) |> rotate (degrees 60)|> move (-36, 0)
-   |> addOutline (solid 0.5) black,
-   rectangle 120 128
-   |> filled (rgb 182 200 233) |> move (30, 0)
-   |> addOutline (solid 0.5) black
-   ]
+screen model = group [
+    rectangle 40 128
+      |> filled (rgb 164 164 164) |> move (-50, 0)
+      |> addOutline (solid 0.5) black,
+    rectangle 15 60
+      |> filled (rgb 34 34 34) |> move (-50, 0)
+      |> addOutline (solid 0.5) black, 
+    triangle 5
+      |> filled (rgb 126 126 126) |> move (-64, 0)
+      |> addOutline (solid 0.5) black,
+    triangle 5
+      |> filled (rgb 126 126 126) |> rotate (degrees 60)|> move (-36, 0)
+      |> addOutline (solid 0.5) black,
+    rectangle 120 128
+      |> filled (rgb 182 200 233) |> move (30, 0)
+      |> addOutline (solid 0.5) black,
+    text (String.fromInt (floor (model.time - model.startTime)))
+      |> centered
+      |> filled black
+      |> move (-50, 32)
+  ]

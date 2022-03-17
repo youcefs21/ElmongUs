@@ -69,7 +69,7 @@ toBorderLines pairs =
 
 init = {
     time = 0,
-    pos = (40,0),
+    pos = (40,-20),
     preBorderLines = Cafeteria.preBorderLines,
     left = True,
     frame = 1

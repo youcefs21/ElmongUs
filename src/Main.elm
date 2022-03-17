@@ -86,7 +86,7 @@ myShapes model =
                 |> (if showCond then notifyTap (ToggleLeaf True) else identity),
         if model.leaf then
             Leaf.myShapes model.leafModel
-                |> group
+              |> group
         else group []
         ]
       LowerEng -> [
@@ -162,35 +162,27 @@ type alias Model = {
     state    : State ,
     impModel : Imposter.Model,
     leaf     : Bool,
-    leafTime : Float,
     leafModel : Leaf.Model,
     wire     : Bool,
-    wireTime : Float,
     wireModel : Wires.Model,
     swipe    : Bool,
-    swipeTime : Float,
     swipeModel : Swipe.Model,
     pass : Bool,
-    passTime : Float,
     passModel : Passcode.Model
   }
 
 init : Model
 init = {
     time = 0,
-    state = Admin,
+    state = Caf,
     impModel = Imposter.init,
     leaf = False,
-    leafTime = 0,
     leafModel = Leaf.init,
     wire = False,
-    wireTime = 0,
     wireModel = Wires.init,
     swipe = False,
-    swipeTime = 0,
     swipeModel = Swipe.init,
     pass = False,
-    passTime = 0,
     passModel = Passcode.init
   }
 
@@ -199,41 +191,42 @@ update msg model =
     case msg of
         Tick t k ->
             let
+              newModel = { model | time = t }
               inMiniGame = model.leaf || model.wire || model.swipe || model.pass
               newImpModel = if inMiniGame then model.impModel else Imposter.update (Tick t k) model.impModel
-              newLeafModel = Leaf.update (Tick t k) model.leafModel
-              newWireModel = Wires.update (Tick t k) model.wireModel
-              newSwipeModel = Swipe.update (Tick t k) model.swipeModel
-              newPassModel = Passcode.update (Tick t k) model.passModel
+              newLeafModel = if model.leaf then Leaf.update (Tick t k) model.leafModel else model.leafModel
+              newWireModel = if model.wire then Wires.update (Tick t k) model.wireModel else model.wireModel
+              newSwipeModel = if model.swipe then Swipe.update (Tick t k) model.swipeModel else model.swipeModel
+              newPassModel = if model.pass then Passcode.update (Tick t k) model.passModel else model.passModel
             in
               
               case model.state of
                 Caf ->
-                  notifyCafExit model newImpModel
+                  notifyCafExit newModel newImpModel
                 MedBay ->
-                  notifyMedBayExit model newImpModel
+                  notifyMedBayExit newModel newImpModel
                 UpperEng ->
-                  notifyUpperEngExit model newImpModel
+                  notifyUpperEngExit newModel newImpModel
                 Security ->
-                  notifySecurityExit model newImpModel newPassModel
+                  notifySecurityExit newModel newImpModel newPassModel
                 Reactor ->
-                  notifyReactorExit model newImpModel newLeafModel
+                  notifyReactorExit newModel newImpModel newLeafModel
                 LowerEng ->
-                  notifyLowerEngExit model newImpModel
+                  notifyLowerEngExit newModel newImpModel
                 Electrical ->
-                  notifyElectricalExit model newImpModel newWireModel
+                  notifyElectricalExit newModel newImpModel newWireModel
                 Storage ->
-                  notifyStorageExit model newImpModel
+                  notifyStorageExit newModel newImpModel
                 Admin ->
-                  notifyAdminExit model newImpModel newSwipeModel
+                  notifyAdminExit newModel newImpModel newSwipeModel
         ToggleLeaf b ->
-            { model | leaf = b, leafTime = model.time, leafModel = Leaf.init }
+            { model | leaf = b, leafModel = { time = model.time, points = pointsFromRandomDotOrg, state = Leaf.Waiting, delay = 0, startTime = model.time } }
         ToggleWire b ->
-            { model | wire = b, wireTime = model.time, wireModel = Wires.init }
+            { model | wire = b, wireModel = Wires.init }
         ToggleSwipe b ->
-            { model | swipe = b, swipeTime = model.time, swipeModel = Swipe.init }
+            { model | swipe = b, swipeModel = Swipe.init }
         TogglePass b ->
-            { model | pass = b, passTime = model.time, passModel = Passcode.init }
+            { model | pass = b, passModel = Passcode.init }
         MouseDownAt a b ->
             { model | leafModel = Leaf.update (MouseDownAt a b) model.leafModel }
         MouseMoveTo a ->
