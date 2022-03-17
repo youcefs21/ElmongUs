@@ -37,13 +37,12 @@ myShapes model = [
                 |> notifyMouseUp (Stop (add delta mouseAt))
                 |> notifyLeave (Stop (add delta mouseAt))
                 |> notifyMouseMoveAt MouseMoveTo]
-    ]     
+  ]     
   
 type State 
   = Waiting
-  | Grabbed 
-      (Float,Float) -- offset from down position to draw position
-      (Float,Float) -- current mouse position
+   -- (offset from down position to draw position) (current mouse position)
+  | Grabbed (Float,Float) (Float,Float)
   | Finished
   | Failed
       
@@ -72,7 +71,7 @@ update msg model
             model
       _ -> model
         
-sub (x,y) (u,v) = (x-u,y-v)
+sub (x,y) (u,v) = (x - u,y - v)
 add (x,y) (u,v) = (x+u,y+v)
 
 init : Model
