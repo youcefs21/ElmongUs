@@ -199,6 +199,7 @@ myShapes model = [rectangle 90 10
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
+            ++ [square 1000 |> ghost |> notifyEnter (ToggleWire False)]
 
 myPink : Color
 myPink = (rgb 220 38 127)

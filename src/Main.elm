@@ -178,7 +178,7 @@ type alias Model = {
 init : Model
 init = {
     time = 0,
-    state = Security,
+    state = Admin,
     impModel = Imposter.init,
     leaf = False,
     leafTime = 0,

@@ -19,7 +19,9 @@ myShapes model = [
             )
         |> group
     Finished ->
-        text "Task Completed!" |> filled black |> move (-10,0)
+        square 1000
+          |> ghost
+          |> notifyEnter (ToggleLeaf False)
     Failed ->
         text "You have failed!" |> filled black |> move (-10,0)
     Grabbed delta mouseAt ->

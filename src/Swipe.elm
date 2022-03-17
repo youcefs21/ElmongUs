@@ -347,7 +347,8 @@ draw model =
                 |> move (-1, 0)
         ]
             |> scale 0.70
-            |> move (4, -15.7)
+            |> move (4, -15.7),
+        if model.state == Accepted then (square 1000 |> ghost |> notifyEnter (ToggleSwipe False)) else group []
     ]
 
 type State = Insert

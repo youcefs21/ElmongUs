@@ -71,6 +71,7 @@ myShapes model = [rectangle 49 53
                     |> move (7 * (toFloat x - 3) + 31, 20)
         )
         (List.range 1 5)
+    ++ [if model.state == Finished then (square 1000 |> ghost |> notifyEnter (TogglePass False)) else group []]
     
 button (x, y) model = group [
         square 10
