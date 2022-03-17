@@ -14,6 +14,7 @@ import LowerEng exposing (lowerEng)
 import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
+import Html exposing (button)
 
 
 myShapes : Model -> List (Shape Msg)
@@ -59,7 +60,15 @@ myShapes model =
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
-          |> move model.impModel.pos
+          |> move model.impModel.pos,
+        let
+            x = Tuple.first model.impModel.pos
+            y = Tuple.second model.impModel.pos
+            showCond = ((x + 50)^2 + (y + 20)^2)^(0.5) < 30
+        in
+            (buttonToMiniGame (showCond && (not model.leaf))
+                |> move (-50, -20))
+                |> (if showCond then notifyTap (ToggleLeaf True) else identity)
         ]
       LowerEng -> [
         lowerEng |> group
@@ -90,17 +99,39 @@ myShapes model =
           |> move model.impModel.pos
         ]
 
-
+buttonToMiniGame show =
+    group [
+        circle 10
+            |> filled yellow
+            |> makeTransparent (if show then 0.8 else 0.5),
+        text "wow, a minigame"
+            |> centered
+            |> sansserif
+            |> size 2
+            |> filled black
+    ]
 
 type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage | Admin
 
 
 type Msg = Tick Float GetKeyState
+         | ToggleLeaf Bool
 
 type alias Model = { 
     time     : Float , 
     state    : State ,
-    impModel : Imposter.Model
+    impModel : Imposter.Model,
+    leaf     : Bool,
+    leafTime : Float
+  }
+
+init : Model
+init = {
+    time = 0,
+    state = Reactor,
+    impModel = Imposter.init,
+    leaf = False,
+    leafTime = 0
   }
 
 
@@ -131,6 +162,8 @@ update msg model =
                   notifyStorageExit model newImpModel
                 Admin ->
                   notifyAdminExit model newImpModel
+        ToggleLeaf b ->
+            { model | leaf = b, leafTime = model.time }
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -247,14 +280,6 @@ notifyAdminExit model newImpModel =
       }
    else
       {model| impModel = {newImpModel| preBorderLines = Admin.preBorderLines}}
-
-
-init : Model
-init = {
-    time = 0,
-    state = Caf,
-    impModel = Imposter.init
-  }
 
 
 main : GameApp Model Msg
