@@ -4,6 +4,7 @@ import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Tuple exposing (first, second)
 import Cafeteria
+import Consts exposing (..)
 
 
 myShapes model =
@@ -82,9 +83,6 @@ type alias Model = {
     frame : Float
   }
 
-
-type Msg = Tick Float GetKeyState
-
 update msg model = 
     case msg of
         Tick t (_, _ , (deltaX,deltaY)) -> 
@@ -100,6 +98,8 @@ update msg model =
             , frame = if deltaX == 0 && deltaY == 0 then 1 else if model.frame + frameRate >= 11 then 1 else model.frame + frameRate
 
             }
+        _ ->
+          model
 
 
 
@@ -160,7 +160,7 @@ validateMove (oldX,oldY) (newX,newY) lines =
                   (oldX, oldY)
 
 
-main : GameApp Model Msg
+main : GameApp Model Consts.Msg
 main = gameApp Tick {
     model = init,
     view = view,

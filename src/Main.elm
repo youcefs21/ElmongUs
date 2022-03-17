@@ -15,9 +15,10 @@ import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
 import Leaf exposing (..)
+import Consts exposing (..)
 
 
-myShapes : Model -> List (Shape Msg)
+myShapes : Model -> List (Shape Consts.Msg)
 myShapes model = 
   let
       direction = if model.impModel.left then 1 else -1
@@ -68,11 +69,11 @@ myShapes model =
         in
             (buttonToMiniGame (showCond && (not model.leaf))
                 |> move (-50, -20))
-                |> (if showCond then notifyTap (ToggleLeaf True) else identity)--,
-        -- if model.leaf then
-        --     Leaf.myShapes model.leafModel
-        --         |> group
-        -- else group []
+                |> (if showCond then notifyTap (ToggleLeaf True) else identity),
+        if model.leaf then
+            Leaf.myShapes model.leafModel
+                |> group
+        else group []
         ]
       LowerEng -> [
         lowerEng |> group
@@ -117,10 +118,6 @@ buttonToMiniGame show =
 
 type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage | Admin
 
-
-type Msg = Tick Float GetKeyState
-         | ToggleLeaf Bool
-
 type alias Model = { 
     time     : Float , 
     state    : State ,
@@ -140,13 +137,13 @@ init = {
     leafModel = Leaf.init
   }
 
-update : Msg -> Model -> Model
+update : Consts.Msg -> Model -> Model
 update msg model =
     case msg of
         Tick t k ->
             let
-              newImpModel = Imposter.update (Imposter.Tick t k) model.impModel
-              newLeafModel = Leaf.update (Leaf.Tick t k) model.leafModel
+              newImpModel = Imposter.update (Tick t k) model.impModel
+              newLeafModel = Leaf.update (Tick t k) model.leafModel
             in
               
               case model.state of
@@ -170,6 +167,13 @@ update msg model =
                   notifyAdminExit model newImpModel
         ToggleLeaf b ->
             { model | leaf = b, leafTime = model.time, leafModel = Leaf.init }
+        MouseDownAt a b ->
+            { model | leafModel = Leaf.update (MouseDownAt a b) model.leafModel }
+        MouseMoveTo a ->
+            { model | leafModel = Leaf.update (MouseMoveTo a) model.leafModel }
+        Stop a ->
+            { model | leafModel = Leaf.update (Stop a) model.leafModel }
+        
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -288,7 +292,7 @@ notifyAdminExit model newImpModel =
       {model| impModel = {newImpModel| preBorderLines = Admin.preBorderLines}}
 
 
-main : GameApp Model Msg
+main : GameApp Model Consts.Msg
 main = 
   gameApp Tick { 
     model  = init, 
@@ -298,5 +302,5 @@ main =
   }
 
 
-view : Model -> Collage Msg
+view : Model -> Collage Consts.Msg
 view model = collage 192 128 ( myShapes model )

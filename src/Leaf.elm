@@ -2,6 +2,7 @@ module Leaf exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
+import Consts exposing (..)
 
 counter = 0
 
@@ -37,12 +38,6 @@ myShapes model = [
                 |> notifyLeave (Stop (add delta mouseAt))
                 |> notifyMouseMoveAt MouseMoveTo]
     ]     
-      
-type Msg 
-  = Tick Float GetKeyState
-  | MouseDownAt (Float,Float) (Float,Float)
-  | MouseMoveTo (Float,Float)
-  | Stop (Float, Float)
   
 type State 
   = Waiting
@@ -75,6 +70,7 @@ update msg model
                     else (add delta mouseAt) :: model.points}
           _ -> 
             model
+      _ -> model
         
 sub (x,y) (u,v) = (x-u,y-v)
 add (x,y) (u,v) = (x+u,y+v)
