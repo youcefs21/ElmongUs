@@ -1,41 +1,42 @@
 module Leaf exposing (..)
 
 import GraphicSVG exposing (..)
-import GraphicSVG.EllieApp exposing (..)
+import GraphicSVG.App exposing (..)
 
 counter = 0
 
-myShapes model =
-  [screen] ++
+myShapes model = [
+  screen,
   case model.state of
     Waiting ->
-      model.points
+        model.points
         |> List.map 
             ( \ pos -> leaf
                         |> move (5*sin model.time, 5*cos model.time)
                         |> move pos
                         |> notifyMouseDownAt  (MouseDownAt pos)
             )
+        |> group
     Finished ->
-        [text "Task Completed!" |> filled black |> move (-10,0)]
+        text "Task Completed!" |> filled black |> move (-10,0)
     Failed ->
-        [text "You have failed!" |> filled black |> move (-10,0)]
+        text "You have failed!" |> filled black |> move (-10,0)
     Grabbed delta mouseAt ->
-      ( model.points
-        |> List.map 
-            ( \ pos -> leaf
-                        |> move (5*sin model.time, 5*cos model.time)
-                        |> move pos
-            )
-      ) 
-      ++
-      [ leaf |> addOutline (solid 1) orange
-          |> move (add delta mouseAt)
-      , rect 190 126 |> filled (rgba 255 255 0 0.01)
-          |> notifyMouseUp (Stop (add delta mouseAt))
-          |> notifyLeave (Stop (add delta mouseAt))
-          |> notifyMouseMoveAt MouseMoveTo
-      ]      
+        group [
+            ( model.points
+                |> List.map 
+                    ( \ pos -> 
+                        leaf
+                            |> move (5*sin model.time, 5*cos model.time)
+                            |> move pos))
+                |> group,
+            leaf |> addOutline (solid 1) orange
+                |> move (add delta mouseAt), 
+            rect 190 126 |> filled (rgba 255 255 0 0.01)
+                |> notifyMouseUp (Stop (add delta mouseAt))
+                |> notifyLeave (Stop (add delta mouseAt))
+                |> notifyMouseMoveAt MouseMoveTo]
+    ]     
       
 type Msg 
   = Tick Float GetKeyState

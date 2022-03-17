@@ -14,9 +14,7 @@ import LowerEng exposing (lowerEng)
 import Imposter exposing (..)
 import Tuple exposing (first)
 import Tuple exposing (second)
-import Html exposing (button)
-import Leaf
-import GraphicSVG.EllieApp
+import Leaf exposing (..)
 
 
 myShapes : Model -> List (Shape Msg)
@@ -70,11 +68,11 @@ myShapes model =
         in
             (buttonToMiniGame (showCond && (not model.leaf))
                 |> move (-50, -20))
-                |> (if showCond then notifyTap (ToggleLeaf True) else identity),
-        if model.leaf then
-            Leaf.myShapes model.leafModel
-                |> group
-        else group []
+                |> (if showCond then notifyTap (ToggleLeaf True) else identity)--,
+        -- if model.leaf then
+        --     Leaf.myShapes model.leafModel
+        --         |> group
+        -- else group []
         ]
       LowerEng -> [
         lowerEng |> group
@@ -141,7 +139,6 @@ init = {
     leafTime = 0,
     leafModel = Leaf.init
   }
-
 
 update : Msg -> Model -> Model
 update msg model =
