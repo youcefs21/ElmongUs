@@ -11,11 +11,13 @@ import Electrical exposing (electrical)
 import Admin exposing (admin)
 import Reactor exposing (reactorRoom)
 import LowerEng exposing (lowerEng)
+import Tuple exposing (first, second)
 import Imposter exposing (..)
-import Tuple exposing (first)
-import Tuple exposing (second)
 import Leaf exposing (..)
 import Consts exposing (..)
+import Wires exposing (..)
+import Swipe exposing (..)
+import Passcode exposing (..)
 
 
 myShapes : Model -> List (Shape Consts.Msg)
@@ -54,7 +56,19 @@ myShapes model =
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
-          |> move model.impModel.pos
+          |> move model.impModel.pos,
+        let
+            x = first model.impModel.pos
+            y = second model.impModel.pos
+            showCond = ((x - 37)^2 + (y - 40)^2)^(0.5) < 30
+        in
+            (buttonToMiniGame (showCond && (not model.leaf))
+                |> move (37, 40))
+                |> (if showCond then notifyTap (TogglePass True) else identity),
+        if model.pass then
+            Passcode.myShapes model.passModel
+                |> group
+        else group []
         ]
       Reactor -> [
         reactorRoom |> group
@@ -63,8 +77,8 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos,
         let
-            x = Tuple.first model.impModel.pos
-            y = Tuple.second model.impModel.pos
+            x = first model.impModel.pos
+            y = second model.impModel.pos
             showCond = ((x + 50)^2 + (y + 20)^2)^(0.5) < 30
         in
             (buttonToMiniGame (showCond && (not model.leaf))
@@ -87,7 +101,19 @@ myShapes model =
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
-          |> move model.impModel.pos
+          |> move model.impModel.pos,
+            let
+                x = first model.impModel.pos
+                y = second model.impModel.pos
+                showCond = ((x + 38)^2 + (y - 54)^2)^(0.5) < 30
+            in
+                (buttonToMiniGame (showCond && (not model.leaf))
+                    |> move (-38, 54))
+                    |> (if showCond then notifyTap (ToggleWire True) else identity),
+            if model.wire then
+                Wires.myShapes model.wireModel
+                    |> group
+            else group []
         ]
       Storage -> [
         storage
@@ -101,7 +127,19 @@ myShapes model =
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
-          |> move model.impModel.pos
+          |> move model.impModel.pos,
+        let
+            x = first model.impModel.pos
+            y = second model.impModel.pos
+            showCond = ((x - 50)^2 + (y + 5)^2)^(0.5) < 30
+        in
+            (buttonToMiniGame (showCond && (not model.leaf))
+                |> move (50, -5))
+                |> (if showCond then notifyTap (ToggleSwipe True) else identity),
+        if model.swipe then
+            Swipe.myShapes model.swipeModel
+                |> group
+        else group []
         ]
 
 buttonToMiniGame show =
@@ -115,6 +153,7 @@ buttonToMiniGame show =
             |> size 2
             |> filled black
     ]
+        |> scale 0.7
 
 type State = Caf | MedBay | UpperEng | Security | Reactor | LowerEng | Electrical | Storage | Admin
 
@@ -124,17 +163,35 @@ type alias Model = {
     impModel : Imposter.Model,
     leaf     : Bool,
     leafTime : Float,
-    leafModel : Leaf.Model
+    leafModel : Leaf.Model,
+    wire     : Bool,
+    wireTime : Float,
+    wireModel : Wires.Model,
+    swipe    : Bool,
+    swipeTime : Float,
+    swipeModel : Swipe.Model,
+    pass : Bool,
+    passTime : Float,
+    passModel : Passcode.Model
   }
 
 init : Model
 init = {
     time = 0,
-    state = Reactor,
+    state = Security,
     impModel = Imposter.init,
     leaf = False,
     leafTime = 0,
-    leafModel = Leaf.init
+    leafModel = Leaf.init,
+    wire = False,
+    wireTime = 0,
+    wireModel = Wires.init,
+    swipe = False,
+    swipeTime = 0,
+    swipeModel = Swipe.init,
+    pass = False,
+    passTime = 0,
+    passModel = Passcode.init
   }
 
 update : Consts.Msg -> Model -> Model
@@ -142,8 +199,12 @@ update msg model =
     case msg of
         Tick t k ->
             let
-              newImpModel = Imposter.update (Tick t k) model.impModel
+              inMiniGame = model.leaf || model.wire || model.swipe || model.pass
+              newImpModel = if inMiniGame then model.impModel else Imposter.update (Tick t k) model.impModel
               newLeafModel = Leaf.update (Tick t k) model.leafModel
+              newWireModel = Wires.update (Tick t k) model.wireModel
+              newSwipeModel = Swipe.update (Tick t k) model.swipeModel
+              newPassModel = Passcode.update (Tick t k) model.passModel
             in
               
               case model.state of
@@ -154,26 +215,48 @@ update msg model =
                 UpperEng ->
                   notifyUpperEngExit model newImpModel
                 Security ->
-                  notifySecurityExit model newImpModel
+                  notifySecurityExit model newImpModel newPassModel
                 Reactor ->
                   notifyReactorExit model newImpModel newLeafModel
                 LowerEng ->
                   notifyLowerEngExit model newImpModel
                 Electrical ->
-                  notifyElectricalExit model newImpModel
+                  notifyElectricalExit model newImpModel newWireModel
                 Storage ->
                   notifyStorageExit model newImpModel
                 Admin ->
-                  notifyAdminExit model newImpModel
+                  notifyAdminExit model newImpModel newSwipeModel
         ToggleLeaf b ->
             { model | leaf = b, leafTime = model.time, leafModel = Leaf.init }
+        ToggleWire b ->
+            { model | wire = b, wireTime = model.time, wireModel = Wires.init }
+        ToggleSwipe b ->
+            { model | swipe = b, swipeTime = model.time, swipeModel = Swipe.init }
+        TogglePass b ->
+            { model | pass = b, passTime = model.time, passModel = Passcode.init }
         MouseDownAt a b ->
             { model | leafModel = Leaf.update (MouseDownAt a b) model.leafModel }
         MouseMoveTo a ->
-            { model | leafModel = Leaf.update (MouseMoveTo a) model.leafModel }
+            { model | leafModel = if model.leaf then Leaf.update (MouseMoveTo a) model.leafModel else model.leafModel,
+                      wireModel = if model.wire then Wires.update (MouseMoveTo a) model.wireModel else model.wireModel }
         Stop a ->
             { model | leafModel = Leaf.update (Stop a) model.leafModel }
-        
+        ClickWire a b ->
+            { model | wireModel = Wires.update (ClickWire a b) model.wireModel }
+        StopWire ->
+            { model | wireModel = Wires.update (StopWire) model.wireModel }
+        ConnectWires a ->
+            { model | wireModel = Wires.update (ConnectWires a) model.wireModel }
+        MoveTop ->
+            { model | swipeModel = Swipe.update (MoveTop) model.swipeModel }
+        Move a ->
+            { model | swipeModel = Swipe.update (Move a) model.swipeModel }
+        ToggleMove a b ->
+            { model | swipeModel = Swipe.update (ToggleMove a b) model.swipeModel }
+        Finish ->
+            { model | swipeModel = Swipe.update (Finish) model.swipeModel }
+        ClickButton a ->
+            { model | passModel = Passcode.update (ClickButton a) model.passModel }
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
@@ -210,8 +293,7 @@ notifyUpperEngExit model newImpModel =
    else
       {model| impModel = {newImpModel| preBorderLines = UpperEng.preBorderLines}}
 
-notifySecurityExit : Model -> Imposter.Model -> Model
-notifySecurityExit model newImpModel = 
+notifySecurityExit model newImpModel newPassModel = 
    if (second newImpModel.pos) < -64 then
       {model| state = LowerEng,
             impModel = {newImpModel | pos = (-20,60),
@@ -225,7 +307,8 @@ notifySecurityExit model newImpModel =
           }
         }
    else
-      {model| impModel = {newImpModel| preBorderLines = Security.preBorderLines}}
+      {model| impModel = {newImpModel| preBorderLines = Security.preBorderLines},
+              passModel = newPassModel }
 
 notifyReactorExit model newImpModel newLeafModel = 
     if (first newImpModel.pos) > 96 then
@@ -241,7 +324,7 @@ notifyReactorExit model newImpModel newLeafModel =
         }
       }
     else
-      {model | impModel = {newImpModel | preBorderLines = Reactor.preBorderLines},
+      {model | impModel = { newImpModel | preBorderLines = Reactor.preBorderLines },
               leafModel = newLeafModel }
 
 notifyLowerEngExit : Model -> Imposter.Model -> Model
@@ -256,8 +339,7 @@ notifyLowerEngExit model newImpModel =
       {model| impModel = {newImpModel| preBorderLines = LowerEng.preBorderLines}}
 
 
-notifyElectricalExit : Model -> Imposter.Model -> Model
-notifyElectricalExit model newImpModel = 
+notifyElectricalExit model newImpModel newWireModel = 
    if (second newImpModel.pos) < -64 then
       {model| state = Storage,
             impModel = {newImpModel | pos = (-70,-25),
@@ -265,7 +347,8 @@ notifyElectricalExit model newImpModel =
         }
       }
    else
-      {model| impModel = {newImpModel| preBorderLines = Electrical.preBorderLines}}
+      {model| impModel = {newImpModel| preBorderLines = Electrical.preBorderLines},
+              wireModel = newWireModel }
 
 
 notifyStorageExit : Model -> Imposter.Model -> Model
@@ -280,8 +363,7 @@ notifyStorageExit model newImpModel =
       {model| impModel = {newImpModel| preBorderLines = Storage.preBorderLines}}
 
 
-notifyAdminExit : Model -> Imposter.Model -> Model
-notifyAdminExit model newImpModel = 
+notifyAdminExit model newImpModel newSwipeModel = 
    if (second newImpModel.pos) > 64 then
       {model| state = Caf,
             impModel = {newImpModel | pos = (0,-25),
@@ -289,7 +371,8 @@ notifyAdminExit model newImpModel =
         }
       }
    else
-      {model| impModel = {newImpModel| preBorderLines = Admin.preBorderLines}}
+      {model| impModel = {newImpModel| preBorderLines = Admin.preBorderLines},
+              swipeModel = newSwipeModel }
 
 
 main : GameApp Model Consts.Msg

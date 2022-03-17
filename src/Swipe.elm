@@ -1,9 +1,10 @@
 module Swipe exposing (..)
 
 import GraphicSVG exposing (..)
-import GraphicSVG.EllieApp exposing (..)
+import GraphicSVG.App exposing (..)
 import Imposter exposing (frame1Imposter)
 import List exposing (indexedMap)
+import Consts exposing (..)
   
 outer = 
     curve (-66.87,-39.59) [
@@ -369,16 +370,10 @@ getText state tss =
         ((s,t)::ts) -> if state == s then t else getText state ts
 
 myShapes model = [
-        rect 192 168
-            |> filled (rgb 100 100 100),
+        --rect 192 168
+        --    |> filled (rgb 100 100 100),
         draw model
-    ]
-
-type Msg = Tick Float GetKeyState
-         | MoveTop
-         | Move (Float, Float)
-         | ToggleMove Bool (Float, Float)
-         | Finish
+    ]      
 
 type alias Model = { 
     time     : Float,
@@ -433,6 +428,7 @@ update msg model =
                         showBot = True,
                         pos     = (-45, 15),
                         ipos    = (-45, 15) }
+        _ -> model
 
 sub (x,y) (u,v) = (x - u, y - v)
 add (x,y) (u,v) = (x + u, y + v)
