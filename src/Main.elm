@@ -41,7 +41,7 @@ myShapes model =
         ]
       UpperEng -> [
         upperEng |> group
-         , Imposter.toLineOutliness model.impModel.preBorderLines |> group
+        -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
@@ -49,6 +49,7 @@ myShapes model =
         ]
       Security -> [
         security |> group
+        , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
@@ -252,11 +253,11 @@ notifyAdminExit model newImpModel =
 init : Model
 init = {
     time = 0,
-    state = UpperEng,--Caf,
+    state = Security,--Caf,
     impModel = {
       time = 0,
       pos = (40,0),
-      preBorderLines = UpperEng.preBorderLines,
+      preBorderLines = Security.preBorderLines,
       left = True,
       frame = 1
     }--Imposter.init
