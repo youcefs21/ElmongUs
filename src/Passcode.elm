@@ -2,41 +2,42 @@ module Passcode exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
-import String
-import Element.Font exposing (monospace)
-import Set exposing (Set)
-import String exposing (fromFloat)
 import Consts exposing (..)
 
-myShapes model = [rectangle 49 53
- |> filled (rgb 165 165 165) |> move (-20, 3)
- |> addOutline (solid 0.5) black, 
- rectangle 49 53
- |> filled (rgb 165 165 165) |> move (31, 3)
- |> addOutline (solid 0.5) black,
- -- Left screen
- polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (2, 3),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (-42, 3),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (-20, -21),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (-20, 27),
--- Right screen
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (53, 3),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (9, 3),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (31, -21),
-  polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
-  |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (31, 27)] ++
+myShapes model = [
+    rectangle 49 53
+        |> filled (rgb 165 165 165) 
+        |> move (-20, 3)
+        |> addOutline (solid 0.5) black   
+    , 
+    rectangle 49 53
+        |> filled (rgb 165 165 165) |> move (31, 3)
+        |> addOutline (solid 0.5) black
+    ,
+    -- Left screen
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (2, 3),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (-42, 3),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (-20, -21),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (-20, 27),
+    -- Right screen
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 90) |> move (53, 3),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 270) |> move (9, 3),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 99 101 98) |> rotate (degrees 360) |> move (31, -21),
+    polygon [(-20,2),(20,2),(24,-2),(-24,-2)]
+        |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (31, 27)
+    ]
+    ++
     -- This map2 function produces the buttons
     List.map2 (\x y ->
         button (x, y) model -- See function definition for a button below
             |> move (31, 0)
-            
         )
         [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
         [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
@@ -62,19 +63,23 @@ myShapes model = [rectangle 49 53
     -- This map function produces the circles above the buttons on the right
     List.map (\x -> 
                 circle 2
-                    |> filled (case model.state of
-                                Incorrect -> red -- Turn red if incorrect, turn some green if entering right ones, else turn darkGrey
-                                Waiting -> if x <= model.passNum then (rgb 0 190 1) else darkGrey
-                                _ -> darkGrey
-                                )
+                    -- Turn red if incorrect, turn some green if entering right ones, else turn darkGrey
+                    |> filled (
+                        case model.state of
+                            Incorrect -> red 
+                            Waiting -> if x <= model.passNum then (rgb 0 190 1) else darkGrey
+                            _ -> darkGrey
+                        )
                     |> addOutline (solid 0.3) black
                     |> move (7 * (toFloat x - 3) + 31, 20)
-        )
-        (List.range 1 5)
-    ++ [if model.state == Finished then 
+        ) (List.range 1 5)
+    ++
+    [
+        if model.state == Finished then 
         (if (model.time - model.endTime > 1) then (square 1000 |> ghost |> notifyEnter (TogglePass False)) 
             else (text "Task completed!" |> centered |> filled black) |> move (5, -40)) 
-        else group []]
+        else group []
+    ]
     
 button (x, y) model = group [
         square 10

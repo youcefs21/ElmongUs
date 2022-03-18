@@ -7,48 +7,50 @@ import Consts exposing (..)
 counter = 0
 
 myShapes model = [
-  group [
-  screen model,
-  case model.state of
-    Waiting ->
-        group [model.points
-        |> List.map 
-            ( \ pos -> leaf
-                        |> move (5*sin model.time, 5*cos model.time)
-                        |> move pos
-                        |> notifyMouseDownAt  (MouseDownAt pos)
-            )
-        |> group,
-        if (model.time - model.startTime > 30.9) then 
-          (square 1000 |> ghost |> notifyEnter (ToggleLeaf True))
-        else if (model.time - model.startTime > 30) then
-          (text "Too slow!" |> centered |> filled black |> move (0, 30))
-        else
-          group []
-        ]
-    Finished ->
-        if (model.time - model.endTime > 1) then
-          square 1000
-            |> ghost
-            |> notifyEnter (ToggleLeaf False)
-        else
-          text "Task completed!" |> centered |> filled black |> move (15, 0)
-    Grabbed delta mouseAt ->
-        group [
-            ( model.points
-                |> List.map 
-                    ( \ pos -> 
-                        leaf
-                            |> move (5*sin model.time, 5*cos model.time)
-                            |> move pos))
-                |> group,
-            leaf |> addOutline (solid 1) orange
-                |> move (add delta mouseAt), 
-            rect 190 126 |> filled (rgba 255 255 0 0.01)
-                |> notifyMouseUp (Stop (add delta mouseAt))
-                |> notifyLeave (Stop (add delta mouseAt))
-                |> notifyMouseMoveAt MouseMoveTo]]]
-  
+    group [
+    screen model,
+    case model.state of
+      Waiting ->
+          group [model.points
+          |> List.map 
+              ( \ pos -> leaf
+                          |> move (5*sin model.time, 5*cos model.time)
+                          |> move pos
+                          |> notifyMouseDownAt  (MouseDownAt pos)
+              )
+          |> group,
+          if (model.time - model.startTime > 30.9) then 
+            (square 1000 |> ghost |> notifyEnter (ToggleLeaf True))
+          else if (model.time - model.startTime > 30) then
+            (text "Too slow!" |> centered |> filled black |> move (0, 30))
+          else
+            group []
+          ]
+      Finished ->
+          if (model.time - model.endTime > 1) then
+            square 1000
+              |> ghost
+              |> notifyEnter (ToggleLeaf False)
+          else
+            text "Task completed!" |> centered |> filled black |> move (15, 0)
+      Grabbed delta mouseAt ->
+          group [
+              ( model.points
+                  |> List.map 
+                      ( \ pos -> 
+                          leaf
+                              |> move (5*sin model.time, 5*cos model.time)
+                              |> move pos))
+                  |> group,
+              leaf |> addOutline (solid 1) orange
+                  |> move (add delta mouseAt), 
+              rect 190 126 |> filled (rgba 255 255 0 0.01)
+                  |> notifyMouseUp (Stop (add delta mouseAt))
+                  |> notifyLeave (Stop (add delta mouseAt))
+                  |> notifyMouseMoveAt MouseMoveTo]
+    ]
+  ]
+
 type State 
   = Waiting
    -- (offset from down position to draw position) (current mouse position)
