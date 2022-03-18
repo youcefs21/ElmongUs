@@ -19,15 +19,20 @@ myShapes model = [
                         |> notifyMouseDownAt  (MouseDownAt pos)
             )
         |> group,
-        if (model.time - model.startTime > 30) then 
-          square 1000 |> ghost |> notifyEnter (ToggleLeaf True)
+        if (model.time - model.startTime > 30.9) then 
+          (square 1000 |> ghost |> notifyEnter (ToggleLeaf True))
+        else if (model.time - model.startTime > 30) then
+          (text "Too slow!" |> centered |> filled black |> move (0, 30))
         else
           group []
         ]
     Finished ->
-        square 1000
-          |> ghost
-          |> notifyEnter (ToggleLeaf False)
+        if (model.time - model.endTime > 1) then
+          square 1000
+            |> ghost
+            |> notifyEnter (ToggleLeaf False)
+        else
+          text "Task completed!" |> centered |> filled black |> move (15, 0)
     Grabbed delta mouseAt ->
         group [
             ( model.points
@@ -42,8 +47,7 @@ myShapes model = [
             rect 190 126 |> filled (rgba 255 255 0 0.01)
                 |> notifyMouseUp (Stop (add delta mouseAt))
                 |> notifyLeave (Stop (add delta mouseAt))
-                |> notifyMouseMoveAt MouseMoveTo]]
-  ]     
+                |> notifyMouseMoveAt MouseMoveTo]]]
   
 type State 
   = Waiting
@@ -51,7 +55,7 @@ type State
   | Grabbed (Float,Float) (Float,Float)
   | Finished
       
-type alias Model = { time : Float, points : List (Float,Float), state : State, delay : Int, startTime : Float }
+type alias Model = { time : Float, points : List (Float,Float), state : State, delay : Int, startTime : Float, endTime : Float }
 
 update msg model 
   = case msg of
@@ -71,7 +75,8 @@ update msg model
           Grabbed delta mouseAt ->
             { model | state = if List.length model.points == 0 then Finished else Waiting
                     , points = if (x > -60 && x < -45 && y < 30 && y > -30) then (model.points)
-                    else (add delta mouseAt) :: model.points}
+                    else (add delta mouseAt) :: model.points,
+                      endTime = if List.length model.points == 0 then model.time else model.endTime }
           _ -> 
             model
       _ -> model
@@ -80,7 +85,7 @@ sub (x,y) (u,v) = (x - u,y - v)
 add (x,y) (u,v) = (x+u,y+v)
 
 init : Model
-init = { time = 0, points = pointsFromRandomDotOrg, state = Waiting, delay = 0, startTime = 0 }
+init = { time = 0, points = pointsFromRandomDotOrg, state = Waiting, delay = 0, startTime = 0, endTime = 0 }
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Game Slot" }
 

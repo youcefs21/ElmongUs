@@ -6,7 +6,7 @@ import GraphicSVG.EllieApp exposing (..)
 
 
 
- preBorderLines = [
+preBorderLines = [
    -- hallway
    ((-55, 65), (-55, 35)),
    ((-85, 65), (-85, -65)),
@@ -24,11 +24,11 @@ import GraphicSVG.EllieApp exposing (..)
    ((52, -60), (-27, -60)),
    ((76, 35), (76, -40)),
    -- table
-      ((2, 2), (48, 2)),
-      ((48, 2), (48, -15)),
-      ((48, -15), (2, -15)),
-      ((2, -15), (2, 2))
-   ] 
+   ((2, 2), (48, 2)),
+   ((48, 2), (48, -15)),
+   ((48, -15), (2, -15)),
+   ((2, -15), (2, 2))
+   ]
 
 
 -- wire_box model used in various rooms

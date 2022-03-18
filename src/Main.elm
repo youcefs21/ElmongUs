@@ -220,7 +220,7 @@ update msg model =
                 Admin ->
                   notifyAdminExit newModel newImpModel newSwipeModel
         ToggleLeaf b ->
-            { model | leaf = b, leafModel = { time = model.time, points = pointsFromRandomDotOrg, state = Leaf.Waiting, delay = 0, startTime = model.time } }
+            { model | leaf = b, leafModel = { time = model.time, points = pointsFromRandomDotOrg, state = Leaf.Waiting, delay = 0, startTime = model.time, endTime = model.time } }
         ToggleWire b ->
             { model | wire = b, wireModel = Wires.init }
         ToggleSwipe b ->

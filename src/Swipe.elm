@@ -348,7 +348,12 @@ draw model =
         ]
             |> scale 0.70
             |> move (4, -15.7),
-        if model.state == Accepted then (square 1000 |> ghost |> notifyEnter (ToggleSwipe False)) else group []
+        if model.state == Accepted then 
+            if (model.time - model.endTime > 1) then
+                (square 1000 |> ghost |> notifyEnter (ToggleSwipe False))
+            else
+                group []
+        else group []
     ]
 
 type State = Insert
@@ -383,7 +388,8 @@ type alias Model = {
     mv       : Bool,
     state    : State,
     pos      : (Float, Float),
-    ipos     : (Float, Float) }
+    ipos     : (Float, Float),
+    endTime  : Float }
 
 update msg model = 
     case msg of
@@ -426,6 +432,7 @@ update msg model =
                 else
                     { model |
                         state   = Accepted,
+                        endTime = model.time,
                         showBot = True,
                         pos     = (-45, 15),
                         ipos    = (-45, 15) }
@@ -442,7 +449,8 @@ init = {
     mv       = False,
     state    = Insert,
     pos      = (-45, 15),
-    ipos     = (-45, 15) }
+    ipos     = (-45, 15),
+    endTime  = 0 }
 
 main = gameApp Tick { model = init, view = view, update = update, title = "Game Slot" }
 

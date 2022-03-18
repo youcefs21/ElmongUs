@@ -71,7 +71,10 @@ myShapes model = [rectangle 49 53
                     |> move (7 * (toFloat x - 3) + 31, 20)
         )
         (List.range 1 5)
-    ++ [if model.state == Finished then (square 1000 |> ghost |> notifyEnter (TogglePass False)) else group []]
+    ++ [if model.state == Finished then 
+        (if (model.time - model.endTime > 1) then (square 1000 |> ghost |> notifyEnter (TogglePass False)) 
+            else (text "Task completed!" |> centered |> filled black) |> move (5, -40)) 
+        else group []]
     
 button (x, y) model = group [
         square 10
@@ -100,13 +103,13 @@ sequence i = case i of
 blinkTime = 20
 
 type State = Waiting | Showing | Incorrect | Finished
-type alias Model = {time : Float, passNum : Int, repNum : Int, showTime : Int, state : State}
+type alias Model = {time : Float, passNum : Int, repNum : Int, showTime : Int, state : State, endTime : Float }
 
 update : Consts.Msg -> Model -> Model
 update msg model = case msg of 
                     Tick t _ -> 
                         case model.state of
-                            Showing -> {
+                            Showing -> { model |
                                         time = t,
                                         state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
                                                     then Waiting
@@ -121,21 +124,21 @@ update msg model = case msg of
                                                     then blinkTime
                                                     else model.showTime - 1
                                     }
-                            Waiting -> {
+                            Waiting -> { model | 
                                     time = t,
                                     state = model.state, -- When waiting, state changes are handled by ClickButton event
                                     repNum = model.repNum, -- repNum is not affected in tick method
                                     passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
                                     showTime = blinkTime -- showTime is only for showing player the answer
                                 }
-                            Finished -> {
+                            Finished -> { model |
                                     time = t,
                                     state = model.state, -- When waiting, state changes are handled by ClickButton event
                                     repNum = model.repNum, -- repNum is not affected in tick method
                                     passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
                                     showTime = model.showTime + 1 -- showTime is only for showing player the answer
                                 }
-                            Incorrect -> {
+                            Incorrect -> { model |
                                         time = t,
                                         state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
                                                     then Showing
@@ -163,13 +166,14 @@ update msg model = case msg of
                             passNum = if (num == (sequence model.passNum) && model.passNum < model.repNum - 1)
                                         then model.passNum + 1 
                                         else 0, 
-                            showTime = if model.state == Finished then 0 else model.showTime
+                            showTime = if model.state == Finished then 0 else model.showTime,
+                            endTime = if (num == (sequence model.passNum) && model.passNum >= model.repNum - 1 && model.repNum >= 5) then model.time else model.endTime
                         }
                     _ -> model
 
 
 init : Model
-init = {time = 0, passNum = 0, repNum = 1, showTime = blinkTime, state = Showing}
+init = {time = 0, passNum = 0, repNum = 1, showTime = blinkTime, state = Showing, endTime = 0}
 
 main = gameApp Tick {model = init, view = view, update = update, title = "ElmongUs Passcode" }
 
