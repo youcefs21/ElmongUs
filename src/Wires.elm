@@ -199,7 +199,10 @@ myShapes model = [rectangle 90 10
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
-            ++ [square 1000 |> ghost |> notifyEnter (ToggleWire False)]
+            ++ [if (model.time - model.endTime) > 1 then 
+                    square 1000 |> ghost |> notifyEnter (ToggleWire False)
+                else
+                    text "Task completed!" |> centered |> filled black]
 
 myPink : Color
 myPink = (rgb 220 38 127)
@@ -248,33 +251,34 @@ snap (x, y) = if (distance (x, y) (40, 6 * (0 - 2)) < 3) then intToCol (unscramb
                             else black
 
 type State = Waiting | Grabbed (Float, Float) | Finished
-type alias Model = {time : Float, state : State, grabbed : Color, finishedList : (List Color)}
+type alias Model = {time : Float, state : State, grabbed : Color, finishedList : (List Color), endTime : Float}
 
 update : Consts.Msg -> Model -> Model
 update msg model = case msg of 
-                    Tick t _ -> {time = t, state = model.state, grabbed = model.grabbed, finishedList = model.finishedList}
-                    ClickWire (x, y) col -> {
+                    Tick t _ -> {model | time = t, state = model.state, grabbed = model.grabbed, finishedList = model.finishedList}
+                    ClickWire (x, y) col -> { model |
                             time = model.time,
                             state = if col == black then model.state else Grabbed (x, y),
                             grabbed = col,
                             finishedList = model.finishedList
                         }
                     StopWire -> case model.state of
-                                Grabbed _ -> {time = model.time, state = Waiting, grabbed = black, finishedList = model.finishedList}
+                                Grabbed _ -> {model | time = model.time, state = Waiting, grabbed = black, finishedList = model.finishedList}
                                 _ -> model
                     MouseMoveTo coords -> case model.state of
                                             Grabbed _ -> {model | state = Grabbed coords}
                                             _ -> model
-                    ConnectWires (x, y) -> {
+                    ConnectWires (x, y) -> { model | 
                                             time = model.time,
                                             finishedList = if (snap (x, y) == model.grabbed) then (snap (x, y)) :: model.finishedList else model.finishedList,--if model.grabbed == col then col :: model.finishedList else model.finishedList,
                                             grabbed = black,
-                                            state = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed)  then Finished else Waiting
+                                            state = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed)  then Finished else Waiting,
+                                            endTime = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed) then model.time else model.endTime
                                         }
                     _ -> model
 
 init : Model --                              black will work as the null color
-init = {time = 0, state = Waiting, grabbed = black, finishedList = []}
+init = {time = 0, state = Waiting, grabbed = black, finishedList = [], endTime = 0}
 
 main = gameApp Tick {model = init, view = view, update = update, title = "ElmongUs Wires" }
 
