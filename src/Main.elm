@@ -174,7 +174,7 @@ type alias Model = {
 init : Model
 init = {
     time = 0,
-    state = Electrical,
+    state = Caf,
     impModel = Imposter.init,
     leaf = False,
     leafModel = Leaf.init,
