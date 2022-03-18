@@ -4415,7 +4415,7 @@ function _Time_getZoneName()
 		callback(_Scheduler_succeed(name));
 	});
 }
-var $author$project$Main$Tick = F2(
+var $author$project$Consts$Tick = F2(
 	function (a, b) {
 		return {$: 'Tick', a: a, b: b};
 	});
@@ -8914,18 +8914,126 @@ var $author$project$Cafeteria$preBorderLines = _List_fromArray(
 var $author$project$Imposter$init = {
 	frame: 1,
 	left: true,
-	pos: _Utils_Tuple2(40, 0),
+	pos: _Utils_Tuple2(40, -20),
 	preBorderLines: $author$project$Cafeteria$preBorderLines,
 	time: 0
 };
-var $author$project$Main$init = {impModel: $author$project$Imposter$init, state: $author$project$Main$Caf, time: 0};
-var $author$project$Imposter$Tick = F2(
+var $author$project$Leaf$Waiting = {$: 'Waiting'};
+var $author$project$Leaf$pointsFromRandomDotOrg = _List_fromArray(
+	[
+		_Utils_Tuple2(-5, 0),
+		_Utils_Tuple2(25, 30),
+		_Utils_Tuple2(15, -45),
+		_Utils_Tuple2(55, -35),
+		_Utils_Tuple2(60, 10)
+	]);
+var $author$project$Leaf$init = {delay: 0, endTime: 0, points: $author$project$Leaf$pointsFromRandomDotOrg, startTime: 0, state: $author$project$Leaf$Waiting, time: 0};
+var $author$project$Passcode$Showing = {$: 'Showing'};
+var $author$project$Passcode$blinkTime = 20;
+var $author$project$Passcode$init = {endTime: 0, passNum: 0, repNum: 1, showTime: $author$project$Passcode$blinkTime, state: $author$project$Passcode$Showing, time: 0};
+var $author$project$Swipe$Insert = {$: 'Insert'};
+var $author$project$Swipe$init = {
+	dragTime: 0,
+	endTime: 0,
+	ipos: _Utils_Tuple2(-45, 15),
+	mv: false,
+	pos: _Utils_Tuple2(-45, 15),
+	showBot: true,
+	state: $author$project$Swipe$Insert,
+	time: 0
+};
+var $author$project$Wires$Waiting = {$: 'Waiting'};
+var $author$project$Wires$init = {endTime: 0, finishedList: _List_Nil, grabbed: $MacCASOutreach$graphicsvg$GraphicSVG$black, state: $author$project$Wires$Waiting, time: 0};
+var $author$project$Main$init = {impModel: $author$project$Imposter$init, leaf: false, leafModel: $author$project$Leaf$init, pass: false, passModel: $author$project$Passcode$init, state: $author$project$Main$Caf, swipe: false, swipeModel: $author$project$Swipe$init, time: 0, wire: false, wireModel: $author$project$Wires$init};
+var $author$project$Consts$ClickButton = function (a) {
+	return {$: 'ClickButton', a: a};
+};
+var $author$project$Consts$ClickWire = F2(
 	function (a, b) {
-		return {$: 'Tick', a: a, b: b};
+		return {$: 'ClickWire', a: a, b: b};
 	});
-var $author$project$Admin$preBorderLines = _List_Nil;
-var $author$project$Main$notifyAdminExit = F2(
-	function (model, newImpModel) {
+var $author$project$Consts$ConnectWires = function (a) {
+	return {$: 'ConnectWires', a: a};
+};
+var $author$project$Consts$Finish = {$: 'Finish'};
+var $author$project$Consts$MouseDownAt = F2(
+	function (a, b) {
+		return {$: 'MouseDownAt', a: a, b: b};
+	});
+var $author$project$Consts$MouseMoveTo = function (a) {
+	return {$: 'MouseMoveTo', a: a};
+};
+var $author$project$Consts$Move = function (a) {
+	return {$: 'Move', a: a};
+};
+var $author$project$Consts$MoveTop = {$: 'MoveTop'};
+var $author$project$Consts$Stop = function (a) {
+	return {$: 'Stop', a: a};
+};
+var $author$project$Consts$StopWire = {$: 'StopWire'};
+var $author$project$Consts$ToggleMove = F2(
+	function (a, b) {
+		return {$: 'ToggleMove', a: a, b: b};
+	});
+var $author$project$Admin$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(-55, 65),
+		_Utils_Tuple2(-55, 35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, 65),
+		_Utils_Tuple2(-85, -65)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-55, 10),
+		_Utils_Tuple2(-55, -65)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, -60),
+		_Utils_Tuple2(-55, -60)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-55, 10),
+		_Utils_Tuple2(-27, 10)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-55, 35),
+		_Utils_Tuple2(-2, 35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-1, 25),
+		_Utils_Tuple2(-1, 35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-1, 25),
+		_Utils_Tuple2(50, 25)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 25),
+		_Utils_Tuple2(50, 35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(75, 35),
+		_Utils_Tuple2(50, 35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-27, 10),
+		_Utils_Tuple2(-27, -65)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(73, -40),
+		_Utils_Tuple2(52, -62)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(52, -60),
+		_Utils_Tuple2(-27, -60)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(76, 35),
+		_Utils_Tuple2(76, -40)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(2, 2),
+		_Utils_Tuple2(48, 2)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(48, 2),
+		_Utils_Tuple2(48, -15)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(48, -15),
+		_Utils_Tuple2(2, -15)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(2, -15),
+		_Utils_Tuple2(2, 2))
+	]);
+var $author$project$Main$notifyAdminExit = F3(
+	function (model, newImpModel, newSwipeModel) {
 		return (newImpModel.pos.b > 64) ? _Utils_update(
 			model,
 			{
@@ -8941,7 +9049,8 @@ var $author$project$Main$notifyAdminExit = F2(
 			{
 				impModel: _Utils_update(
 					newImpModel,
-					{preBorderLines: $author$project$Admin$preBorderLines})
+					{preBorderLines: $author$project$Admin$preBorderLines}),
+				swipeModel: newSwipeModel
 			});
 	});
 var $author$project$Main$MedBay = {$: 'MedBay'};
@@ -9011,10 +9120,128 @@ var $author$project$Main$notifyCafExit = F2(
 			});
 	});
 var $author$project$Main$Storage = {$: 'Storage'};
-var $author$project$Electrical$preBorderLines = _List_Nil;
-var $author$project$Storage$preBorderLines = _List_Nil;
-var $author$project$Main$notifyElectricalExit = F2(
-	function (model, newImpModel) {
+var $author$project$Electrical$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(-68, -64),
+		_Utils_Tuple2(-68, 3)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-68, 3),
+		_Utils_Tuple2(-18, 3)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-18, 3),
+		_Utils_Tuple2(-18, 23)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-18, 23),
+		_Utils_Tuple2(-68, 23)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-68, 23),
+		_Utils_Tuple2(-68, 57)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-68, 57),
+		_Utils_Tuple2(-25, 57)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-25, 57),
+		_Utils_Tuple2(-25, 53)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-25, 53),
+		_Utils_Tuple2(15, 53)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 53),
+		_Utils_Tuple2(15, 51)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 51),
+		_Utils_Tuple2(50, 51)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 51),
+		_Utils_Tuple2(50, 43)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 43),
+		_Utils_Tuple2(20, 23)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(20, 23),
+		_Utils_Tuple2(20, -27)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(20, -27),
+		_Utils_Tuple2(-5, -52)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-5, -52),
+		_Utils_Tuple2(-37, -52)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-37, -52),
+		_Utils_Tuple2(-37, -64))
+	]);
+var $author$project$Storage$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(17, 40),
+		_Utils_Tuple2(-36, 40)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(17, 40),
+		_Utils_Tuple2(17, 65)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(56, 40),
+		_Utils_Tuple2(85, 40)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(56, 40),
+		_Utils_Tuple2(56, 65)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(85, 40),
+		_Utils_Tuple2(85, -61)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-36, 40),
+		_Utils_Tuple2(-50, 29)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-50, 29),
+		_Utils_Tuple2(-50, -20)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-50, -20),
+		_Utils_Tuple2(-100, -20)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-95, -20),
+		_Utils_Tuple2(-95, -39)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-20, 8),
+		_Utils_Tuple2(0, 8)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-20, 7),
+		_Utils_Tuple2(-20, -18)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-20, -18),
+		_Utils_Tuple2(0, -18)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, -18),
+		_Utils_Tuple2(0, -35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, -35),
+		_Utils_Tuple2(30, -35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(30, -12),
+		_Utils_Tuple2(30, -35)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(30, -12),
+		_Utils_Tuple2(50, -12)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 18),
+		_Utils_Tuple2(50, -12)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 19),
+		_Utils_Tuple2(1, 19)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(1, 19),
+		_Utils_Tuple2(1, 7)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-8, -60),
+		_Utils_Tuple2(-50, -40)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-100, -39),
+		_Utils_Tuple2(-50, -39)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(85, -60),
+		_Utils_Tuple2(-8, -60))
+	]);
+var $author$project$Main$notifyElectricalExit = F3(
+	function (model, newImpModel, newWireModel) {
 		return (_Utils_cmp(newImpModel.pos.b, -64) < 0) ? _Utils_update(
 			model,
 			{
@@ -9030,11 +9257,68 @@ var $author$project$Main$notifyElectricalExit = F2(
 			{
 				impModel: _Utils_update(
 					newImpModel,
-					{preBorderLines: $author$project$Electrical$preBorderLines})
+					{preBorderLines: $author$project$Electrical$preBorderLines}),
+				wireModel: newWireModel
 			});
 	});
 var $author$project$Main$Electrical = {$: 'Electrical'};
-var $author$project$LowerEng$preBorderLines = _List_Nil;
+var $author$project$LowerEng$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(96, -28),
+		_Utils_Tuple2(15, -28)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, -28),
+		_Utils_Tuple2(15, -55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, -55),
+		_Utils_Tuple2(-65, -55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-65, -55),
+		_Utils_Tuple2(-85, -34)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-59, -26),
+		_Utils_Tuple2(-7, -26)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-59, -26),
+		_Utils_Tuple2(-59, -31)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-59, -31),
+		_Utils_Tuple2(-64, -34)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-64, -34),
+		_Utils_Tuple2(-85, -34)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-7, -26),
+		_Utils_Tuple2(-7, 29)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-7, 29),
+		_Utils_Tuple2(-85, 29)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, 29),
+		_Utils_Tuple2(-85, 55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, 55),
+		_Utils_Tuple2(-48, 55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-48, 55),
+		_Utils_Tuple2(-48, 64)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-48, 64),
+		_Utils_Tuple2(-8, 64)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-8, 64),
+		_Utils_Tuple2(-8, 55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-8, 55),
+		_Utils_Tuple2(15, 55)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 55),
+		_Utils_Tuple2(15, 8)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 8),
+		_Utils_Tuple2(96, 8))
+	]);
 var $author$project$Main$notifyLowerEngExit = F2(
 	function (model, newImpModel) {
 		return (newImpModel.pos.a > 96) ? _Utils_update(
@@ -9056,7 +9340,63 @@ var $author$project$Main$notifyLowerEngExit = F2(
 			});
 	});
 var $author$project$Main$UpperEng = {$: 'UpperEng'};
-var $author$project$UpperEng$preBorderLines = _List_Nil;
+var $author$project$UpperEng$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(96, 14),
+		_Utils_Tuple2(15, 14)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 14),
+		_Utils_Tuple2(15, 47)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, 47),
+		_Utils_Tuple2(-65, 47)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-65, 47),
+		_Utils_Tuple2(-75, 34)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-75, 34),
+		_Utils_Tuple2(-7, 34)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-7, 34),
+		_Utils_Tuple2(-7, -18)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-7, -18),
+		_Utils_Tuple2(-59, -18)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-59, -18),
+		_Utils_Tuple2(-59, -22.5)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-59, -22.5),
+		_Utils_Tuple2(-64, -26)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-64, -26),
+		_Utils_Tuple2(-85, -26)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, -26),
+		_Utils_Tuple2(-85, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-85, -50),
+		_Utils_Tuple2(-48, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-48, -50),
+		_Utils_Tuple2(-48, -70)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-8, -70),
+		_Utils_Tuple2(-8, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-8, -50),
+		_Utils_Tuple2(15, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, -50),
+		_Utils_Tuple2(15, -24)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(15, -24),
+		_Utils_Tuple2(96, -24)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(96, -24),
+		_Utils_Tuple2(96, 14))
+	]);
 var $author$project$Main$notifyMedBayExit = F2(
 	function (model, newImpModel) {
 		return (_Utils_cmp(newImpModel.pos.a, -96) < 0) ? _Utils_update(
@@ -9079,10 +9419,125 @@ var $author$project$Main$notifyMedBayExit = F2(
 	});
 var $author$project$Main$LowerEng = {$: 'LowerEng'};
 var $author$project$Main$Security = {$: 'Security'};
-var $author$project$Reactor$preBorderLines = _List_Nil;
-var $author$project$Security$preBorderLines = _List_Nil;
-var $author$project$Main$notifyReactorExit = F2(
-	function (model, newImpModel) {
+var $author$project$Reactor$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(68, 65),
+		_Utils_Tuple2(68, -8)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(68, -8),
+		_Utils_Tuple2(18, -8)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(18, -8),
+		_Utils_Tuple2(18, 22)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(18, 22),
+		_Utils_Tuple2(-20, 22)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-20, 22),
+		_Utils_Tuple2(-20, 57)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-20, 57),
+		_Utils_Tuple2(-42, 57)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-42, 57),
+		_Utils_Tuple2(-42, 45)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-42, 45),
+		_Utils_Tuple2(-70, 28)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-70, 28),
+		_Utils_Tuple2(-70, 22)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-70, 22),
+		_Utils_Tuple2(-50, 22)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-50, 22),
+		_Utils_Tuple2(-50, -12)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-50, -12),
+		_Utils_Tuple2(-47, -14)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-47, -14),
+		_Utils_Tuple2(-47, -30)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-47, -30),
+		_Utils_Tuple2(-41, -30)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-41, -30),
+		_Utils_Tuple2(-41, -37)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-41, -37),
+		_Utils_Tuple2(-72, -37)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-72, -37),
+		_Utils_Tuple2(-72, -62)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-72, -62),
+		_Utils_Tuple2(17, -62)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(17, -62),
+		_Utils_Tuple2(17, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(17, -50),
+		_Utils_Tuple2(68, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(68, -50),
+		_Utils_Tuple2(68, -70))
+	]);
+var $author$project$Security$preBorderLines = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		_Utils_Tuple2(-75, -70),
+		_Utils_Tuple2(-75, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-75, -50),
+		_Utils_Tuple2(-100, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-100, -11),
+		_Utils_Tuple2(-75, -11)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-75, -11),
+		_Utils_Tuple2(-75, 64)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-75, 64),
+		_Utils_Tuple2(-35, 64)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-35, 64),
+		_Utils_Tuple2(-35, -11)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-35, -11),
+		_Utils_Tuple2(0, -11)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, -11),
+		_Utils_Tuple2(0, 23)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, 23),
+		_Utils_Tuple2(25, 49)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(25, 49),
+		_Utils_Tuple2(50, 49)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(50, 49),
+		_Utils_Tuple2(70, 21)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(70, 21),
+		_Utils_Tuple2(70, -58)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(70, -58),
+		_Utils_Tuple2(0, -58)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, -58),
+		_Utils_Tuple2(0, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(0, -50),
+		_Utils_Tuple2(-35, -50)),
+		_Utils_Tuple2(
+		_Utils_Tuple2(-35, -50),
+		_Utils_Tuple2(-35, -70))
+	]);
+var $author$project$Main$notifyReactorExit = F3(
+	function (model, newImpModel, newLeafModel) {
 		return (newImpModel.pos.a > 96) ? _Utils_update(
 			model,
 			{
@@ -9108,12 +9563,13 @@ var $author$project$Main$notifyReactorExit = F2(
 			{
 				impModel: _Utils_update(
 					newImpModel,
-					{preBorderLines: $author$project$Reactor$preBorderLines})
+					{preBorderLines: $author$project$Reactor$preBorderLines}),
+				leafModel: newLeafModel
 			}));
 	});
 var $author$project$Main$Reactor = {$: 'Reactor'};
-var $author$project$Main$notifySecurityExit = F2(
-	function (model, newImpModel) {
+var $author$project$Main$notifySecurityExit = F3(
+	function (model, newImpModel, newPassModel) {
 		return (_Utils_cmp(newImpModel.pos.b, -64) < 0) ? _Utils_update(
 			model,
 			{
@@ -9139,7 +9595,8 @@ var $author$project$Main$notifySecurityExit = F2(
 			{
 				impModel: _Utils_update(
 					newImpModel,
-					{preBorderLines: $author$project$Security$preBorderLines})
+					{preBorderLines: $author$project$Security$preBorderLines}),
+				passModel: newPassModel
 			}));
 	});
 var $author$project$Main$Admin = {$: 'Admin'};
@@ -9340,58 +9797,628 @@ var $author$project$Imposter$toBorderLines = function (pairs) {
 };
 var $author$project$Imposter$update = F2(
 	function (msg, model) {
-		var t = msg.a;
-		var _v1 = msg.b;
-		var _v2 = _v1.c;
-		var deltaX = _v2.a;
-		var deltaY = _v2.b;
-		return _Utils_update(
-			model,
-			{
-				frame: ((!deltaX) && (!deltaY)) ? 1 : (((model.frame + $author$project$Imposter$frameRate) >= 11) ? 1 : (model.frame + $author$project$Imposter$frameRate)),
-				left: (!deltaX) ? model.left : ((deltaX > 0) ? true : false),
-				pos: A3(
-					$author$project$Imposter$movePlayer,
-					model.pos,
-					_Utils_Tuple2(deltaX * $author$project$Imposter$suspeed, deltaY * $author$project$Imposter$suspeed),
-					$author$project$Imposter$toBorderLines(model.preBorderLines)),
-				time: t
-			});
+		if (msg.$ === 'Tick') {
+			var t = msg.a;
+			var _v1 = msg.b;
+			var _v2 = _v1.c;
+			var deltaX = _v2.a;
+			var deltaY = _v2.b;
+			return _Utils_update(
+				model,
+				{
+					frame: ((!deltaX) && (!deltaY)) ? 1 : (((model.frame + $author$project$Imposter$frameRate) >= 11) ? 1 : (model.frame + $author$project$Imposter$frameRate)),
+					left: (!deltaX) ? model.left : ((deltaX > 0) ? true : false),
+					pos: A3(
+						$author$project$Imposter$movePlayer,
+						model.pos,
+						_Utils_Tuple2(deltaX * $author$project$Imposter$suspeed, deltaY * $author$project$Imposter$suspeed),
+						$author$project$Imposter$toBorderLines(model.preBorderLines)),
+					time: t
+				});
+		} else {
+			return model;
+		}
+	});
+var $author$project$Leaf$Finished = {$: 'Finished'};
+var $author$project$Leaf$Grabbed = F2(
+	function (a, b) {
+		return {$: 'Grabbed', a: a, b: b};
+	});
+var $author$project$Leaf$add = F2(
+	function (_v0, _v1) {
+		var x = _v0.a;
+		var y = _v0.b;
+		var u = _v1.a;
+		var v = _v1.b;
+		return _Utils_Tuple2(x + u, y + v);
+	});
+var $elm$core$List$filter = F2(
+	function (isGood, list) {
+		return A3(
+			$elm$core$List$foldr,
+			F2(
+				function (x, xs) {
+					return isGood(x) ? A2($elm$core$List$cons, x, xs) : xs;
+				}),
+			_List_Nil,
+			list);
+	});
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$Leaf$sub = F2(
+	function (_v0, _v1) {
+		var x = _v0.a;
+		var y = _v0.b;
+		var u = _v1.a;
+		var v = _v1.b;
+		return _Utils_Tuple2(x - u, y - v);
+	});
+var $author$project$Leaf$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				return _Utils_update(
+					model,
+					{time: t});
+			case 'MouseDownAt':
+				var orig = msg.a;
+				var mouseAt = msg.b;
+				return _Utils_update(
+					model,
+					{
+						points: A2(
+							$elm$core$List$filter,
+							function (pos) {
+								return !_Utils_eq(pos, orig);
+							},
+							model.points),
+						state: A2(
+							$author$project$Leaf$Grabbed,
+							A2($author$project$Leaf$sub, orig, mouseAt),
+							mouseAt)
+					});
+			case 'MouseMoveTo':
+				var _new = msg.a;
+				var _v1 = model.state;
+				if (_v1.$ === 'Grabbed') {
+					var delta = _v1.a;
+					return _Utils_update(
+						model,
+						{
+							state: A2($author$project$Leaf$Grabbed, delta, _new)
+						});
+				} else {
+					return model;
+				}
+			case 'Stop':
+				var _v2 = msg.a;
+				var x = _v2.a;
+				var y = _v2.b;
+				var _v3 = model.state;
+				if (_v3.$ === 'Grabbed') {
+					var delta = _v3.a;
+					var mouseAt = _v3.b;
+					return _Utils_update(
+						model,
+						{
+							endTime: (!$elm$core$List$length(model.points)) ? model.time : model.endTime,
+							points: ((_Utils_cmp(x, -60) > 0) && ((_Utils_cmp(x, -45) < 0) && ((y < 30) && (_Utils_cmp(y, -30) > 0)))) ? model.points : A2(
+								$elm$core$List$cons,
+								A2($author$project$Leaf$add, delta, mouseAt),
+								model.points),
+							state: (!$elm$core$List$length(model.points)) ? $author$project$Leaf$Finished : $author$project$Leaf$Waiting
+						});
+				} else {
+					return model;
+				}
+			default:
+				return model;
+		}
+	});
+var $author$project$Passcode$Finished = {$: 'Finished'};
+var $author$project$Passcode$Incorrect = {$: 'Incorrect'};
+var $author$project$Passcode$Waiting = {$: 'Waiting'};
+var $author$project$Passcode$sequence = function (i) {
+	switch (i) {
+		case 0:
+			return _Utils_Tuple2(0, 0);
+		case 1:
+			return _Utils_Tuple2(1, 1);
+		case 2:
+			return _Utils_Tuple2(2, 1);
+		case 3:
+			return _Utils_Tuple2(0, 2);
+		case 4:
+			return _Utils_Tuple2(2, 0);
+		default:
+			return _Utils_Tuple2(-1, -1);
+	}
+};
+var $author$project$Passcode$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				var _v1 = model.state;
+				switch (_v1.$) {
+					case 'Showing':
+						return _Utils_update(
+							model,
+							{
+								passNum: (model.showTime <= 0) ? ((_Utils_cmp(model.passNum, model.repNum - 1) > -1) ? 0 : (model.passNum + 1)) : model.passNum,
+								repNum: model.repNum,
+								showTime: (model.showTime <= 0) ? $author$project$Passcode$blinkTime : (model.showTime - 1),
+								state: ((model.showTime <= 0) && (_Utils_cmp(model.passNum, model.repNum - 1) > -1)) ? $author$project$Passcode$Waiting : model.state,
+								time: t
+							});
+					case 'Waiting':
+						return _Utils_update(
+							model,
+							{passNum: model.passNum, repNum: model.repNum, showTime: $author$project$Passcode$blinkTime, state: model.state, time: t});
+					case 'Finished':
+						return _Utils_update(
+							model,
+							{passNum: model.passNum, repNum: model.repNum, showTime: model.showTime + 1, state: model.state, time: t});
+					default:
+						return _Utils_update(
+							model,
+							{
+								passNum: 0,
+								repNum: model.repNum,
+								showTime: (model.showTime <= 0) ? $author$project$Passcode$blinkTime : (model.showTime - 1),
+								state: ((model.showTime <= 0) && (_Utils_cmp(model.passNum, model.repNum - 1) > -1)) ? $author$project$Passcode$Showing : model.state,
+								time: t
+							});
+				}
+			case 'ClickButton':
+				var num = msg.a;
+				return (!_Utils_eq(model.state, $author$project$Passcode$Waiting)) ? model : {
+					endTime: (_Utils_eq(
+						num,
+						$author$project$Passcode$sequence(model.passNum)) && ((_Utils_cmp(model.passNum, model.repNum - 1) > -1) && (model.repNum >= 5))) ? model.time : model.endTime,
+					passNum: (_Utils_eq(
+						num,
+						$author$project$Passcode$sequence(model.passNum)) && (_Utils_cmp(model.passNum, model.repNum - 1) < 0)) ? (model.passNum + 1) : 0,
+					repNum: _Utils_eq(
+						num,
+						$author$project$Passcode$sequence(model.passNum)) ? ((_Utils_cmp(model.passNum, model.repNum - 1) > -1) ? (model.repNum + 1) : model.repNum) : 1,
+					showTime: _Utils_eq(model.state, $author$project$Passcode$Finished) ? 0 : model.showTime,
+					state: _Utils_eq(
+						num,
+						$author$project$Passcode$sequence(model.passNum)) ? ((_Utils_cmp(model.passNum, model.repNum - 1) > -1) ? ((model.repNum >= 5) ? $author$project$Passcode$Finished : $author$project$Passcode$Showing) : $author$project$Passcode$Waiting) : $author$project$Passcode$Incorrect,
+					time: model.time
+				};
+			default:
+				return model;
+		}
+	});
+var $author$project$Swipe$Accepted = {$: 'Accepted'};
+var $author$project$Swipe$Bad = {$: 'Bad'};
+var $author$project$Swipe$Fast = {$: 'Fast'};
+var $author$project$Swipe$Slow = {$: 'Slow'};
+var $author$project$Swipe$Swiping = {$: 'Swiping'};
+var $author$project$Swipe$add = F2(
+	function (_v0, _v1) {
+		var x = _v0.a;
+		var y = _v0.b;
+		var u = _v1.a;
+		var v = _v1.b;
+		return _Utils_Tuple2(x + u, y + v);
+	});
+var $author$project$Swipe$sub = F2(
+	function (_v0, _v1) {
+		var x = _v0.a;
+		var y = _v0.b;
+		var u = _v1.a;
+		var v = _v1.b;
+		return _Utils_Tuple2(x - u, y - v);
+	});
+var $author$project$Swipe$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				return _Utils_update(
+					model,
+					{time: t});
+			case 'MoveTop':
+				return _Utils_update(
+					model,
+					{showBot: false, state: $author$project$Swipe$Swiping});
+			case 'Move':
+				var pos2 = msg.a;
+				return _Utils_update(
+					model,
+					{
+						ipos: pos2,
+						pos: A2(
+							$author$project$Swipe$add,
+							model.pos,
+							A2($author$project$Swipe$sub, pos2, model.ipos))
+					});
+			case 'ToggleMove':
+				var b = msg.a;
+				var i = msg.b;
+				return b ? _Utils_update(
+					model,
+					{dragTime: model.time, ipos: i, mv: b, state: $author$project$Swipe$Swiping}) : _Utils_update(
+					model,
+					{
+						dragTime: model.dragTime,
+						ipos: _Utils_Tuple2(-45, 15),
+						mv: b,
+						pos: _Utils_Tuple2(-45, 15),
+						state: $author$project$Swipe$Bad
+					});
+			case 'Finish':
+				var delta = model.time - model.dragTime;
+				var fast = delta < 1;
+				var slow = delta > 2;
+				return slow ? _Utils_update(
+					model,
+					{
+						ipos: _Utils_Tuple2(-45, 15),
+						pos: _Utils_Tuple2(-45, 15),
+						state: $author$project$Swipe$Slow
+					}) : (fast ? _Utils_update(
+					model,
+					{
+						ipos: _Utils_Tuple2(-45, 15),
+						pos: _Utils_Tuple2(-45, 15),
+						state: $author$project$Swipe$Fast
+					}) : _Utils_update(
+					model,
+					{
+						endTime: model.time,
+						ipos: _Utils_Tuple2(-45, 15),
+						pos: _Utils_Tuple2(-45, 15),
+						showBot: true,
+						state: $author$project$Swipe$Accepted
+					}));
+			default:
+				return model;
+		}
+	});
+var $author$project$Wires$Finished = {$: 'Finished'};
+var $author$project$Wires$Grabbed = function (a) {
+	return {$: 'Grabbed', a: a};
+};
+var $author$project$Wires$distance = F2(
+	function (_v0, _v1) {
+		var x1 = _v0.a;
+		var y1 = _v0.b;
+		var x2 = _v1.a;
+		var y2 = _v1.b;
+		return $elm$core$Basics$sqrt(
+			A2($elm$core$Basics$pow, x2 - x1, 2) + A2($elm$core$Basics$pow, y2 - y1, 2));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
+	function (r, g, b) {
+		return A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, r, g, b, 1);
+	});
+var $author$project$Wires$myBlue = A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 143, 255);
+var $author$project$Wires$myOrange = A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 254, 97, 0);
+var $author$project$Wires$myPink = A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 220, 38, 127);
+var $author$project$Wires$myYellow = A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 255, 176, 0);
+var $author$project$Wires$intToCol = function (num) {
+	switch (num) {
+		case 0:
+			return $author$project$Wires$myPink;
+		case 1:
+			return $author$project$Wires$myYellow;
+		case 2:
+			return $author$project$Wires$myBlue;
+		case 3:
+			return $author$project$Wires$myOrange;
+		default:
+			return $MacCASOutreach$graphicsvg$GraphicSVG$black;
+	}
+};
+var $author$project$Wires$unscrambledColors = function (num) {
+	switch (num) {
+		case 3:
+			return 0;
+		case 0:
+			return 1;
+		case 1:
+			return 2;
+		case 2:
+			return 3;
+		default:
+			return -1;
+	}
+};
+var $author$project$Wires$snap = function (_v0) {
+	var x = _v0.a;
+	var y = _v0.b;
+	return (A2(
+		$author$project$Wires$distance,
+		_Utils_Tuple2(x, y),
+		_Utils_Tuple2(40, 6 * (0 - 2))) < 3) ? $author$project$Wires$intToCol(
+		$author$project$Wires$unscrambledColors(0)) : ((A2(
+		$author$project$Wires$distance,
+		_Utils_Tuple2(x, y),
+		_Utils_Tuple2(40, 6 * (1 - 2))) < 3) ? $author$project$Wires$intToCol(
+		$author$project$Wires$unscrambledColors(1)) : ((A2(
+		$author$project$Wires$distance,
+		_Utils_Tuple2(x, y),
+		_Utils_Tuple2(40, 6 * (2 - 2))) < 3) ? $author$project$Wires$intToCol(
+		$author$project$Wires$unscrambledColors(2)) : ((A2(
+		$author$project$Wires$distance,
+		_Utils_Tuple2(x, y),
+		_Utils_Tuple2(40, 6 * (3 - 2))) < 3) ? $author$project$Wires$intToCol(
+		$author$project$Wires$unscrambledColors(3)) : $MacCASOutreach$graphicsvg$GraphicSVG$black)));
+};
+var $author$project$Wires$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				return _Utils_update(
+					model,
+					{finishedList: model.finishedList, grabbed: model.grabbed, state: model.state, time: t});
+			case 'ClickWire':
+				var _v1 = msg.a;
+				var x = _v1.a;
+				var y = _v1.b;
+				var col = msg.b;
+				return _Utils_update(
+					model,
+					{
+						finishedList: model.finishedList,
+						grabbed: col,
+						state: _Utils_eq(col, $MacCASOutreach$graphicsvg$GraphicSVG$black) ? model.state : $author$project$Wires$Grabbed(
+							_Utils_Tuple2(x, y)),
+						time: model.time
+					});
+			case 'StopWire':
+				var _v2 = model.state;
+				if (_v2.$ === 'Grabbed') {
+					return _Utils_update(
+						model,
+						{finishedList: model.finishedList, grabbed: $MacCASOutreach$graphicsvg$GraphicSVG$black, state: $author$project$Wires$Waiting, time: model.time});
+				} else {
+					return model;
+				}
+			case 'MouseMoveTo':
+				var coords = msg.a;
+				var _v3 = model.state;
+				if (_v3.$ === 'Grabbed') {
+					return _Utils_update(
+						model,
+						{
+							state: $author$project$Wires$Grabbed(coords)
+						});
+				} else {
+					return model;
+				}
+			case 'ConnectWires':
+				var _v4 = msg.a;
+				var x = _v4.a;
+				var y = _v4.b;
+				return _Utils_update(
+					model,
+					{
+						endTime: (($elm$core$List$length(model.finishedList) >= 3) && _Utils_eq(
+							$author$project$Wires$snap(
+								_Utils_Tuple2(x, y)),
+							model.grabbed)) ? model.time : model.endTime,
+						finishedList: _Utils_eq(
+							$author$project$Wires$snap(
+								_Utils_Tuple2(x, y)),
+							model.grabbed) ? A2(
+							$elm$core$List$cons,
+							$author$project$Wires$snap(
+								_Utils_Tuple2(x, y)),
+							model.finishedList) : model.finishedList,
+						grabbed: $MacCASOutreach$graphicsvg$GraphicSVG$black,
+						state: (($elm$core$List$length(model.finishedList) >= 3) && _Utils_eq(
+							$author$project$Wires$snap(
+								_Utils_Tuple2(x, y)),
+							model.grabbed)) ? $author$project$Wires$Finished : $author$project$Wires$Waiting,
+						time: model.time
+					});
+			default:
+				return model;
+		}
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		var t = msg.a;
-		var k = msg.b;
-		var newImpModel = A2(
-			$author$project$Imposter$update,
-			A2($author$project$Imposter$Tick, t, k),
-			model.impModel);
-		var _v1 = model.state;
-		switch (_v1.$) {
-			case 'Caf':
-				return A2($author$project$Main$notifyCafExit, model, newImpModel);
-			case 'MedBay':
-				return A2($author$project$Main$notifyMedBayExit, model, newImpModel);
-			case 'UpperEng':
-				return A2($author$project$Main$notifyUpperEngExit, model, newImpModel);
-			case 'Security':
-				return A2($author$project$Main$notifySecurityExit, model, newImpModel);
-			case 'Reactor':
-				return A2($author$project$Main$notifyReactorExit, model, newImpModel);
-			case 'LowerEng':
-				return A2($author$project$Main$notifyLowerEngExit, model, newImpModel);
-			case 'Electrical':
-				return A2($author$project$Main$notifyElectricalExit, model, newImpModel);
-			case 'Storage':
-				return A2($author$project$Main$notifyStorageExit, model, newImpModel);
+		switch (msg.$) {
+			case 'Tick':
+				var t = msg.a;
+				var k = msg.b;
+				var newWireModel = model.wire ? A2(
+					$author$project$Wires$update,
+					A2($author$project$Consts$Tick, t, k),
+					model.wireModel) : model.wireModel;
+				var newSwipeModel = model.swipe ? A2(
+					$author$project$Swipe$update,
+					A2($author$project$Consts$Tick, t, k),
+					model.swipeModel) : model.swipeModel;
+				var newPassModel = model.pass ? A2(
+					$author$project$Passcode$update,
+					A2($author$project$Consts$Tick, t, k),
+					model.passModel) : model.passModel;
+				var newModel = _Utils_update(
+					model,
+					{time: t});
+				var newLeafModel = model.leaf ? A2(
+					$author$project$Leaf$update,
+					A2($author$project$Consts$Tick, t, k),
+					model.leafModel) : model.leafModel;
+				var inMiniGame = model.leaf || (model.wire || (model.swipe || model.pass));
+				var newImpModel = inMiniGame ? model.impModel : A2(
+					$author$project$Imposter$update,
+					A2($author$project$Consts$Tick, t, k),
+					model.impModel);
+				var _v1 = model.state;
+				switch (_v1.$) {
+					case 'Caf':
+						return A2($author$project$Main$notifyCafExit, newModel, newImpModel);
+					case 'MedBay':
+						return A2($author$project$Main$notifyMedBayExit, newModel, newImpModel);
+					case 'UpperEng':
+						return A2($author$project$Main$notifyUpperEngExit, newModel, newImpModel);
+					case 'Security':
+						return A3($author$project$Main$notifySecurityExit, newModel, newImpModel, newPassModel);
+					case 'Reactor':
+						return A3($author$project$Main$notifyReactorExit, newModel, newImpModel, newLeafModel);
+					case 'LowerEng':
+						return A2($author$project$Main$notifyLowerEngExit, newModel, newImpModel);
+					case 'Electrical':
+						return A3($author$project$Main$notifyElectricalExit, newModel, newImpModel, newWireModel);
+					case 'Storage':
+						return A2($author$project$Main$notifyStorageExit, newModel, newImpModel);
+					default:
+						return A3($author$project$Main$notifyAdminExit, newModel, newImpModel, newSwipeModel);
+				}
+			case 'ToggleLeaf':
+				var b = msg.a;
+				return _Utils_update(
+					model,
+					{
+						leaf: b,
+						leafModel: {delay: 0, endTime: model.time, points: $author$project$Leaf$pointsFromRandomDotOrg, startTime: model.time, state: $author$project$Leaf$Waiting, time: model.time}
+					});
+			case 'ToggleWire':
+				var b = msg.a;
+				return _Utils_update(
+					model,
+					{wire: b, wireModel: $author$project$Wires$init});
+			case 'ToggleSwipe':
+				var b = msg.a;
+				return _Utils_update(
+					model,
+					{swipe: b, swipeModel: $author$project$Swipe$init});
+			case 'TogglePass':
+				var b = msg.a;
+				return _Utils_update(
+					model,
+					{pass: b, passModel: $author$project$Passcode$init});
+			case 'MouseDownAt':
+				var a = msg.a;
+				var b = msg.b;
+				return _Utils_update(
+					model,
+					{
+						leafModel: A2(
+							$author$project$Leaf$update,
+							A2($author$project$Consts$MouseDownAt, a, b),
+							model.leafModel)
+					});
+			case 'MouseMoveTo':
+				var a = msg.a;
+				return _Utils_update(
+					model,
+					{
+						leafModel: model.leaf ? A2(
+							$author$project$Leaf$update,
+							$author$project$Consts$MouseMoveTo(a),
+							model.leafModel) : model.leafModel,
+						wireModel: model.wire ? A2(
+							$author$project$Wires$update,
+							$author$project$Consts$MouseMoveTo(a),
+							model.wireModel) : model.wireModel
+					});
+			case 'Stop':
+				var a = msg.a;
+				return _Utils_update(
+					model,
+					{
+						leafModel: A2(
+							$author$project$Leaf$update,
+							$author$project$Consts$Stop(a),
+							model.leafModel)
+					});
+			case 'ClickWire':
+				var a = msg.a;
+				var b = msg.b;
+				return _Utils_update(
+					model,
+					{
+						wireModel: A2(
+							$author$project$Wires$update,
+							A2($author$project$Consts$ClickWire, a, b),
+							model.wireModel)
+					});
+			case 'StopWire':
+				return _Utils_update(
+					model,
+					{
+						wireModel: A2($author$project$Wires$update, $author$project$Consts$StopWire, model.wireModel)
+					});
+			case 'ConnectWires':
+				var a = msg.a;
+				return _Utils_update(
+					model,
+					{
+						wireModel: A2(
+							$author$project$Wires$update,
+							$author$project$Consts$ConnectWires(a),
+							model.wireModel)
+					});
+			case 'MoveTop':
+				return _Utils_update(
+					model,
+					{
+						swipeModel: A2($author$project$Swipe$update, $author$project$Consts$MoveTop, model.swipeModel)
+					});
+			case 'Move':
+				var a = msg.a;
+				return _Utils_update(
+					model,
+					{
+						swipeModel: A2(
+							$author$project$Swipe$update,
+							$author$project$Consts$Move(a),
+							model.swipeModel)
+					});
+			case 'ToggleMove':
+				var a = msg.a;
+				var b = msg.b;
+				return _Utils_update(
+					model,
+					{
+						swipeModel: A2(
+							$author$project$Swipe$update,
+							A2($author$project$Consts$ToggleMove, a, b),
+							model.swipeModel)
+					});
+			case 'Finish':
+				return _Utils_update(
+					model,
+					{
+						swipeModel: A2($author$project$Swipe$update, $author$project$Consts$Finish, model.swipeModel)
+					});
 			default:
-				return A2($author$project$Main$notifyAdminExit, model, newImpModel);
+				var a = msg.a;
+				return _Utils_update(
+					model,
+					{
+						passModel: A2(
+							$author$project$Passcode$update,
+							$author$project$Consts$ClickButton(a),
+							model.passModel)
+					});
 		}
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
 	function (w, h, shapes) {
 		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Collage, w, h, shapes);
 	});
+var $author$project$Consts$ToggleLeaf = function (a) {
+	return {$: 'ToggleLeaf', a: a};
+};
+var $author$project$Consts$TogglePass = function (a) {
+	return {$: 'TogglePass', a: a};
+};
+var $author$project$Consts$ToggleSwipe = function (a) {
+	return {$: 'ToggleSwipe', a: a};
+};
+var $author$project$Consts$ToggleWire = function (a) {
+	return {$: 'ToggleWire', a: a};
+};
 var $MacCASOutreach$graphicsvg$GraphicSVG$NoLine = {$: 'NoLine'};
 var $MacCASOutreach$graphicsvg$GraphicSVG$blank = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 0, 0, 0, 0);
 var $MacCASOutreach$graphicsvg$GraphicSVG$subtract = F2(
@@ -9696,10 +10723,6 @@ var $MacCASOutreach$graphicsvg$GraphicSVG$addOutline = F3(
 var $MacCASOutreach$graphicsvg$GraphicSVG$rectangle = F2(
 	function (w, h) {
 		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Rect, w, h);
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
-	function (r, g, b) {
-		return A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, r, g, b, 1);
 	});
 var $MacCASOutreach$graphicsvg$GraphicSVG$Unbroken = function (a) {
 	return {$: 'Unbroken', a: a};
@@ -10493,6 +11516,415 @@ var $author$project$Admin$admin = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 			_Utils_Tuple2(-42, 36),
 			$author$project$Admin$wire_box)
 		]));
+var $MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred = {$: 'AlignCentred'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {$: 'Face', a: a, b: b, c: c, d: d, e: e, f: f, g: g, h: h};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Text = F2(
+	function (a, b) {
+		return {$: 'Text', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
+	if (stencil.$ === 'Text') {
+		var _v1 = stencil.a;
+		var si = _v1.a;
+		var bo = _v1.b;
+		var i = _v1.c;
+		var u = _v1.d;
+		var s = _v1.e;
+		var sel = _v1.f;
+		var f = _v1.g;
+		var c = _v1.h;
+		var str = stencil.b;
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8($MacCASOutreach$graphicsvg$GraphicSVG$Face, si, bo, i, u, s, sel, f, $MacCASOutreach$graphicsvg$GraphicSVG$AlignCentred),
+			str);
+	} else {
+		var a = stencil;
+		return a;
+	}
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Circle = function (a) {
+	return {$: 'Circle', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$Circle(r);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Gradient = function (a) {
+	return {$: 'Gradient', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$multAlpha = F2(
+	function (color, n) {
+		var colRec = $avh4$elm_color$Color$toRgba(color);
+		return $avh4$elm_color$Color$fromRgba(
+			_Utils_update(
+				colRec,
+				{alpha: colRec.alpha * n}));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
+	function (alpha, shape) {
+		_v0$3:
+		while (true) {
+			switch (shape.$) {
+				case 'Inked':
+					if (shape.a.$ === 'Nothing') {
+						if ((shape.b.$ === 'Just') && (shape.b.a.b.$ === 'Solid')) {
+							var _v1 = shape.a;
+							var _v2 = shape.b.a;
+							var lineType = _v2.a;
+							var colour = _v2.b.a;
+							var st = shape.c;
+							return A3(
+								$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+								$elm$core$Maybe$Nothing,
+								$elm$core$Maybe$Just(
+									_Utils_Tuple2(
+										lineType,
+										$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)))),
+								st);
+						} else {
+							break _v0$3;
+						}
+					} else {
+						if (shape.a.a.$ === 'Solid') {
+							if (shape.b.$ === 'Just') {
+								if (shape.b.a.b.$ === 'Solid') {
+									var colour = shape.a.a.a;
+									var _v3 = shape.b.a;
+									var lineType = _v3.a;
+									var sColour = _v3.b.a;
+									var st = shape.c;
+									return A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+										$elm$core$Maybe$Just(
+											$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
+										$elm$core$Maybe$Just(
+											_Utils_Tuple2(
+												lineType,
+												$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, sColour, alpha)))),
+										st);
+								} else {
+									break _v0$3;
+								}
+							} else {
+								var colour = shape.a.a.a;
+								var _v4 = shape.b;
+								var st = shape.c;
+								return A3(
+									$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+									$elm$core$Maybe$Just(
+										$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
+									$elm$core$Maybe$Nothing,
+									st);
+							}
+						} else {
+							break _v0$3;
+						}
+					}
+				case 'ForeignObject':
+					var w = shape.a;
+					var h = shape.b;
+					var htm = shape.c;
+					return A3($MacCASOutreach$graphicsvg$GraphicSVG$ForeignObject, w, h, htm);
+				case 'Move':
+					var s = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Move,
+						s,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Rotate':
+					var r = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
+						r,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Scale':
+					var sx = shape.a;
+					var sy = shape.b;
+					var sh = shape.c;
+					return A3(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Scale,
+						sx,
+						sy,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Skew':
+					var skx = shape.a;
+					var sky = shape.b;
+					var sh = shape.c;
+					return A3(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Skew,
+						skx,
+						sky,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Transformed':
+					var tm = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Transformed,
+						tm,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Group':
+					var list = shape.a;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Group(
+						A2(
+							$elm$core$List$map,
+							$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
+							list));
+				case 'GroupOutline':
+					var cmbndshp = shape.a;
+					return $MacCASOutreach$graphicsvg$GraphicSVG$GroupOutline(
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, cmbndshp));
+				case 'Link':
+					var s = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Link,
+						s,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'AlphaMask':
+					var reg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$AlphaMask,
+						reg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Clip':
+					var reg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Clip,
+						reg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Everything':
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Everything;
+				case 'Notathing':
+					return $MacCASOutreach$graphicsvg$GraphicSVG$Notathing;
+				case 'Tap':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Tap,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TapAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TapAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'EnterShape':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$EnterShape,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'EnterAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$EnterAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'Exit':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$Exit,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'ExitAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$ExitAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseDown':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$MouseDown,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseDownAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseUp':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$MouseUp,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MouseUpAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'MoveOverAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchStart':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TouchStart,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchEnd':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TouchEnd,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchStartAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TouchStartAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchEndAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TouchEndAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				case 'TouchMoveAt':
+					var userMsg = shape.a;
+					var sh = shape.b;
+					return A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$TouchMoveAt,
+						userMsg,
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
+				default:
+					if (shape.c.$ === 'Solid') {
+						var s = shape.a;
+						var th = shape.b;
+						var colour = shape.c.a;
+						return A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$GraphPaper,
+							s,
+							th,
+							$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
+								A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)));
+					} else {
+						var s = shape.a;
+						var th = shape.b;
+						var gr = shape.c.a;
+						return A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$GraphPaper,
+							s,
+							th,
+							$MacCASOutreach$graphicsvg$GraphicSVG$Gradient(gr));
+					}
+			}
+		}
+		var a = shape.a;
+		var b = shape.b;
+		var c = shape.c;
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Inked, a, b, c);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$Sansserif = {$: 'Sansserif'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$sansserif = function (stencil) {
+	if (stencil.$ === 'Text') {
+		var _v1 = stencil.a;
+		var si = _v1.a;
+		var bo = _v1.b;
+		var i = _v1.c;
+		var u = _v1.d;
+		var s = _v1.e;
+		var sel = _v1.f;
+		var f = _v1.g;
+		var c = _v1.h;
+		var str = stencil.b;
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8($MacCASOutreach$graphicsvg$GraphicSVG$Face, si, bo, i, u, s, sel, $MacCASOutreach$graphicsvg$GraphicSVG$Sansserif, c),
+			str);
+	} else {
+		var a = stencil;
+		return a;
+	}
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$size = F2(
+	function (sze, stencil) {
+		if (stencil.$ === 'Text') {
+			var _v1 = stencil.a;
+			var si = _v1.a;
+			var bo = _v1.b;
+			var i = _v1.c;
+			var u = _v1.d;
+			var s = _v1.e;
+			var sel = _v1.f;
+			var f = _v1.g;
+			var c = _v1.h;
+			var str = stencil.b;
+			return A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$Text,
+				A8($MacCASOutreach$graphicsvg$GraphicSVG$Face, sze, bo, i, u, s, sel, f, c),
+				str);
+		} else {
+			var a = stencil;
+			return a;
+		}
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$AlignLeft = {$: 'AlignLeft'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Serif = {$: 'Serif'};
+var $MacCASOutreach$graphicsvg$GraphicSVG$text = function (str) {
+	return A2(
+		$MacCASOutreach$graphicsvg$GraphicSVG$Text,
+		A8($MacCASOutreach$graphicsvg$GraphicSVG$Face, 12, false, false, false, false, false, $MacCASOutreach$graphicsvg$GraphicSVG$Serif, $MacCASOutreach$graphicsvg$GraphicSVG$AlignLeft),
+		str);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$yellow = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 237, 212, 0, 1);
+var $author$project$Main$buttonToMiniGame = function (show) {
+	return A2(
+		$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+		0.7,
+		$MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_List_fromArray(
+				[
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+					show ? 0.8 : 0.5,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						$MacCASOutreach$graphicsvg$GraphicSVG$yellow,
+						$MacCASOutreach$graphicsvg$GraphicSVG$circle(10))),
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					$MacCASOutreach$graphicsvg$GraphicSVG$black,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$size,
+						2,
+						$MacCASOutreach$graphicsvg$GraphicSVG$sansserif(
+							$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+								$MacCASOutreach$graphicsvg$GraphicSVG$text('wow, a minigame')))))
+				])));
+};
 var $author$project$Cafeteria$cafe_exterior = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -11467,12 +12899,6 @@ var $author$project$Electrical$vent = F2(
 						A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 10, 0.5, 1)))
 				]));
 	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$Circle = function (a) {
-	return {$: 'Circle', a: a};
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
-	return $MacCASOutreach$graphicsvg$GraphicSVG$Circle(r);
-};
 var $author$project$Electrical$wall_buttons = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -11928,301 +13354,6 @@ var $author$project$Imposter$goggles1 = $MacCASOutreach$graphicsvg$GraphicSVG$gr
 			A2($MacCASOutreach$graphicsvg$GraphicSVG$clip, $author$project$Imposter$goggles, $author$project$Imposter$gogglesShadow),
 			$author$project$Imposter$gogglesOutline
 		]));
-var $MacCASOutreach$graphicsvg$GraphicSVG$Gradient = function (a) {
-	return {$: 'Gradient', a: a};
-};
-var $MacCASOutreach$graphicsvg$GraphicSVG$multAlpha = F2(
-	function (color, n) {
-		var colRec = $avh4$elm_color$Color$toRgba(color);
-		return $avh4$elm_color$Color$fromRgba(
-			_Utils_update(
-				colRec,
-				{alpha: colRec.alpha * n}));
-	});
-var $MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
-	function (alpha, shape) {
-		_v0$3:
-		while (true) {
-			switch (shape.$) {
-				case 'Inked':
-					if (shape.a.$ === 'Nothing') {
-						if ((shape.b.$ === 'Just') && (shape.b.a.b.$ === 'Solid')) {
-							var _v1 = shape.a;
-							var _v2 = shape.b.a;
-							var lineType = _v2.a;
-							var colour = _v2.b.a;
-							var st = shape.c;
-							return A3(
-								$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
-								$elm$core$Maybe$Nothing,
-								$elm$core$Maybe$Just(
-									_Utils_Tuple2(
-										lineType,
-										$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)))),
-								st);
-						} else {
-							break _v0$3;
-						}
-					} else {
-						if (shape.a.a.$ === 'Solid') {
-							if (shape.b.$ === 'Just') {
-								if (shape.b.a.b.$ === 'Solid') {
-									var colour = shape.a.a.a;
-									var _v3 = shape.b.a;
-									var lineType = _v3.a;
-									var sColour = _v3.b.a;
-									var st = shape.c;
-									return A3(
-										$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
-										$elm$core$Maybe$Just(
-											$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
-												A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
-										$elm$core$Maybe$Just(
-											_Utils_Tuple2(
-												lineType,
-												$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
-													A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, sColour, alpha)))),
-										st);
-								} else {
-									break _v0$3;
-								}
-							} else {
-								var colour = shape.a.a.a;
-								var _v4 = shape.b;
-								var st = shape.c;
-								return A3(
-									$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
-									$elm$core$Maybe$Just(
-										$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
-											A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha))),
-									$elm$core$Maybe$Nothing,
-									st);
-							}
-						} else {
-							break _v0$3;
-						}
-					}
-				case 'ForeignObject':
-					var w = shape.a;
-					var h = shape.b;
-					var htm = shape.c;
-					return A3($MacCASOutreach$graphicsvg$GraphicSVG$ForeignObject, w, h, htm);
-				case 'Move':
-					var s = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Move,
-						s,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Rotate':
-					var r = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
-						r,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Scale':
-					var sx = shape.a;
-					var sy = shape.b;
-					var sh = shape.c;
-					return A3(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Scale,
-						sx,
-						sy,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Skew':
-					var skx = shape.a;
-					var sky = shape.b;
-					var sh = shape.c;
-					return A3(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Skew,
-						skx,
-						sky,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Transformed':
-					var tm = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Transformed,
-						tm,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Group':
-					var list = shape.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Group(
-						A2(
-							$elm$core$List$map,
-							$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
-							list));
-				case 'GroupOutline':
-					var cmbndshp = shape.a;
-					return $MacCASOutreach$graphicsvg$GraphicSVG$GroupOutline(
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, cmbndshp));
-				case 'Link':
-					var s = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Link,
-						s,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'AlphaMask':
-					var reg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$AlphaMask,
-						reg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Clip':
-					var reg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Clip,
-						reg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Everything':
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Everything;
-				case 'Notathing':
-					return $MacCASOutreach$graphicsvg$GraphicSVG$Notathing;
-				case 'Tap':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Tap,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TapAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TapAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'EnterShape':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$EnterShape,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'EnterAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$EnterAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'Exit':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$Exit,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'ExitAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$ExitAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseDown':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$MouseDown,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseDownAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseUp':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$MouseUp,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MouseUpAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'MoveOverAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchStart':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TouchStart,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchEnd':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TouchEnd,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchStartAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TouchStartAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchEndAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TouchEndAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				case 'TouchMoveAt':
-					var userMsg = shape.a;
-					var sh = shape.b;
-					return A2(
-						$MacCASOutreach$graphicsvg$GraphicSVG$TouchMoveAt,
-						userMsg,
-						A2($MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, sh));
-				default:
-					if (shape.c.$ === 'Solid') {
-						var s = shape.a;
-						var th = shape.b;
-						var colour = shape.c.a;
-						return A3(
-							$MacCASOutreach$graphicsvg$GraphicSVG$GraphPaper,
-							s,
-							th,
-							$MacCASOutreach$graphicsvg$GraphicSVG$Solid(
-								A2($MacCASOutreach$graphicsvg$GraphicSVG$multAlpha, colour, alpha)));
-					} else {
-						var s = shape.a;
-						var th = shape.b;
-						var gr = shape.c.a;
-						return A3(
-							$MacCASOutreach$graphicsvg$GraphicSVG$GraphPaper,
-							s,
-							th,
-							$MacCASOutreach$graphicsvg$GraphicSVG$Gradient(gr));
-					}
-			}
-		}
-		var a = shape.a;
-		var b = shape.b;
-		var c = shape.c;
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Inked, a, b, c);
-	});
 var $author$project$Imposter$shadow = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -14164,6 +15295,2121 @@ var $author$project$MedBay$medbay = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 			$author$project$MedBay$medbay_room),
 			$author$project$MedBay$medbay_hallway
 		]));
+var $MacCASOutreach$graphicsvg$GraphicSVG$ghost = function (stencil) {
+	return A3(
+		$MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+		$elm$core$Maybe$Just($MacCASOutreach$graphicsvg$GraphicSVG$blank),
+		$elm$core$Maybe$Nothing,
+		stencil);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$ptOnCircle = F3(
+	function (r, n, cn) {
+		var angle = $elm$core$Basics$turns(cn / n);
+		return _Utils_Tuple2(
+			r * $elm$core$Basics$cos(angle),
+			r * $elm$core$Basics$sin(angle));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$ngon = F2(
+	function (n, r) {
+		return $MacCASOutreach$graphicsvg$GraphicSVG$Polygon(
+			A2(
+				$elm$core$List$map,
+				A2(
+					$elm$core$Basics$composeL,
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$ptOnCircle, r, n),
+					$elm$core$Basics$toFloat),
+				A2($elm$core$List$range, 0, n)));
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$triangle = function (r) {
+	return A2($MacCASOutreach$graphicsvg$GraphicSVG$ngon, 3, r);
+};
+var $author$project$Leaf$leaf = A3(
+	$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+	$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.8),
+	$MacCASOutreach$graphicsvg$GraphicSVG$black,
+	$MacCASOutreach$graphicsvg$GraphicSVG$group(
+		_List_fromArray(
+			[
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, -5),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 196, 134, 86),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 8))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 7),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(270),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 91, 191, 71),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$wedge, 8, 0.5)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 11.4),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(90),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 91, 191, 71),
+						$MacCASOutreach$graphicsvg$GraphicSVG$triangle(9.15)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 9.5),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 166, 68),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 1, 21))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 7),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 166, 68),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 15.25, 1))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 3),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 166, 68),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 13, 1))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 11),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 166, 68),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10.5, 1)))
+			])));
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$EnterShape, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Exit, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDownAt = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseMoveAt = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUp = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$MouseUp, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$orange = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 245, 121, 0, 1);
+var $author$project$Leaf$screen = function (model) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+		_List_fromArray(
+			[
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-50, 0),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 164, 164, 164),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 40, 128)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-50, 0),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 34, 34, 34),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 15, 60)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-64, 0),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 126, 126, 126),
+						$MacCASOutreach$graphicsvg$GraphicSVG$triangle(5)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-36, 0),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+						$elm$core$Basics$degrees(60),
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 126, 126, 126),
+							$MacCASOutreach$graphicsvg$GraphicSVG$triangle(5))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(30, 0),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 182, 200, 233),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 120, 128)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-50, 32),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					$MacCASOutreach$graphicsvg$GraphicSVG$black,
+					$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+						$MacCASOutreach$graphicsvg$GraphicSVG$text(
+							$elm$core$String$fromInt(
+								$elm$core$Basics$floor(model.time - model.startTime))))))
+			]));
+};
+var $author$project$Leaf$myShapes = function (model) {
+	return _List_fromArray(
+		[
+			$MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_List_fromArray(
+				[
+					$author$project$Leaf$screen(model),
+					function () {
+					var _v0 = model.state;
+					switch (_v0.$) {
+						case 'Waiting':
+							return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+								_List_fromArray(
+									[
+										$MacCASOutreach$graphicsvg$GraphicSVG$group(
+										A2(
+											$elm$core$List$map,
+											function (pos) {
+												return A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDownAt,
+													$author$project$Consts$MouseDownAt(pos),
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														pos,
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$move,
+															_Utils_Tuple2(
+																5 * $elm$core$Basics$sin(model.time),
+																5 * $elm$core$Basics$cos(model.time)),
+															$author$project$Leaf$leaf)));
+											},
+											model.points)),
+										((model.time - model.startTime) > 30.9) ? A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+										$author$project$Consts$ToggleLeaf(true),
+										$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+											$MacCASOutreach$graphicsvg$GraphicSVG$square(1000))) : (((model.time - model.startTime) > 30) ? A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										_Utils_Tuple2(0, 30),
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+												$MacCASOutreach$graphicsvg$GraphicSVG$text('Too slow!')))) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil))
+									]));
+						case 'Finished':
+							return ((model.time - model.endTime) > 1) ? A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Consts$ToggleLeaf(false),
+								$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+									$MacCASOutreach$graphicsvg$GraphicSVG$square(1000))) : A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(15, 0),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									$MacCASOutreach$graphicsvg$GraphicSVG$black,
+									$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('Task completed!'))));
+						default:
+							var delta = _v0.a;
+							var mouseAt = _v0.b;
+							return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+								_List_fromArray(
+									[
+										$MacCASOutreach$graphicsvg$GraphicSVG$group(
+										A2(
+											$elm$core$List$map,
+											function (pos) {
+												return A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$move,
+													pos,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$move,
+														_Utils_Tuple2(
+															5 * $elm$core$Basics$sin(model.time),
+															5 * $elm$core$Basics$cos(model.time)),
+														$author$project$Leaf$leaf));
+											},
+											model.points)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$move,
+										A2($author$project$Leaf$add, delta, mouseAt),
+										A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+											$MacCASOutreach$graphicsvg$GraphicSVG$orange,
+											$author$project$Leaf$leaf)),
+										A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseMoveAt,
+										$author$project$Consts$MouseMoveTo,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+											$author$project$Consts$Stop(
+												A2($author$project$Leaf$add, delta, mouseAt)),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUp,
+												$author$project$Consts$Stop(
+													A2($author$project$Leaf$add, delta, mouseAt)),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 255, 255, 0, 0.01),
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 190, 126)))))
+									]));
+					}
+				}()
+				]))
+		]);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 186, 189, 182, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$grey = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 211, 215, 207, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$lightBlue = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 114, 159, 207, 1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$Tap, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$red = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 204, 0, 0, 1);
+var $author$project$Passcode$button = F2(
+	function (_v0, model) {
+		var x = _v0.a;
+		var y = _v0.b;
+		return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_List_fromArray(
+				[
+					A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+					$author$project$Consts$ClickButton(
+						_Utils_Tuple2(x, y)),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(11 * (x - 1), 11 * (y - 1)),
+						A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+							$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+							$MacCASOutreach$graphicsvg$GraphicSVG$black,
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								function () {
+									var _v1 = model.state;
+									switch (_v1.$) {
+										case 'Showing':
+											return $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey;
+										case 'Waiting':
+											return $MacCASOutreach$graphicsvg$GraphicSVG$grey;
+										case 'Finished':
+											return (_Utils_cmp(model.showTime, 2 * $author$project$Passcode$blinkTime) < 0) ? $MacCASOutreach$graphicsvg$GraphicSVG$lightBlue : $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey;
+										default:
+											return $MacCASOutreach$graphicsvg$GraphicSVG$red;
+									}
+								}(),
+								$MacCASOutreach$graphicsvg$GraphicSVG$square(10)))))
+				]));
+	});
+var $author$project$Passcode$myShapes = function (model) {
+	return _Utils_ap(
+		_List_fromArray(
+			[
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-20, 3),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 165, 165, 165),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 49, 53)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.5),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(31, 3),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 165, 165, 165),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 49, 53)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(2, 3),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(90),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-42, 3),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(270),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-20, -21),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(360),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-20, 27),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(180),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 204, 204, 204),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(53, 3),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(90),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(9, 3),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(270),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(31, -21),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(360),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 99, 101, 98),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								]))))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(31, 27),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+					$elm$core$Basics$degrees(180),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 204, 204, 204),
+						$MacCASOutreach$graphicsvg$GraphicSVG$polygon(
+							_List_fromArray(
+								[
+									_Utils_Tuple2(-20, 2),
+									_Utils_Tuple2(20, 2),
+									_Utils_Tuple2(24, -2),
+									_Utils_Tuple2(-24, -2)
+								])))))
+			]),
+		_Utils_ap(
+			A3(
+				$elm$core$List$map2,
+				F2(
+					function (x, y) {
+						return A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(31, 0),
+							A2(
+								$author$project$Passcode$button,
+								_Utils_Tuple2(x, y),
+								model));
+					}),
+				_List_fromArray(
+					[0, 0, 0, 1, 1, 1, 2, 2, 2]),
+				_List_fromArray(
+					[0, 1, 2, 0, 1, 2, 0, 1, 2])),
+			_Utils_ap(
+				A3(
+					$elm$core$List$map2,
+					F2(
+						function (x, y) {
+							return A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2((11 * (x - 1)) - 20, 11 * (y - 1)),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									(_Utils_eq(model.state, $author$project$Passcode$Showing) && (_Utils_eq(
+										$author$project$Passcode$sequence(model.passNum),
+										_Utils_Tuple2(x, y)) && (model.showTime < 15))) ? $MacCASOutreach$graphicsvg$GraphicSVG$lightBlue : $MacCASOutreach$graphicsvg$GraphicSVG$black,
+									$MacCASOutreach$graphicsvg$GraphicSVG$square(11)));
+						}),
+					_List_fromArray(
+						[0, 0, 0, 1, 1, 1, 2, 2, 2]),
+					_List_fromArray(
+						[0, 1, 2, 0, 1, 2, 0, 1, 2])),
+				_Utils_ap(
+					A2(
+						$elm$core$List$map,
+						function (x) {
+							return A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2((7 * (x - 3)) - 20, 20),
+								A3(
+									$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+									$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+									$MacCASOutreach$graphicsvg$GraphicSVG$black,
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+										(_Utils_cmp(x, model.repNum) < 1) ? A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 0, 190, 1) : $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey,
+										$MacCASOutreach$graphicsvg$GraphicSVG$circle(2))));
+						},
+						A2($elm$core$List$range, 1, 5)),
+					_Utils_ap(
+						A2(
+							$elm$core$List$map,
+							function (x) {
+								return A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2((7 * (x - 3)) + 31, 20),
+									A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+										$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											function () {
+												var _v0 = model.state;
+												switch (_v0.$) {
+													case 'Incorrect':
+														return $MacCASOutreach$graphicsvg$GraphicSVG$red;
+													case 'Waiting':
+														return (_Utils_cmp(x, model.passNum) < 1) ? A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 0, 190, 1) : $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey;
+													default:
+														return $MacCASOutreach$graphicsvg$GraphicSVG$darkGrey;
+												}
+											}(),
+											$MacCASOutreach$graphicsvg$GraphicSVG$circle(2))));
+							},
+							A2($elm$core$List$range, 1, 5)),
+						_List_fromArray(
+							[
+								_Utils_eq(model.state, $author$project$Passcode$Finished) ? (((model.time - model.endTime) > 1) ? A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+								$author$project$Consts$TogglePass(false),
+								$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+									$MacCASOutreach$graphicsvg$GraphicSVG$square(1000))) : A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(5, -40),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+									$MacCASOutreach$graphicsvg$GraphicSVG$black,
+									$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+										$MacCASOutreach$graphicsvg$GraphicSVG$text('Task completed!'))))) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
+							]))))));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Pull = F2(
+	function (a, b) {
+		return {$: 'Pull', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$BezierPath = F2(
+	function (a, b) {
+		return {$: 'BezierPath', a: a, b: b};
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper = function (_v0) {
+	var _v1 = _v0.a;
+	var a = _v1.a;
+	var b = _v1.b;
+	var _v2 = _v0.b;
+	var c = _v2.a;
+	var d = _v2.b;
+	return _Utils_Tuple2(
+		_Utils_Tuple2(a, b),
+		_Utils_Tuple2(c, d));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$curve = F2(
+	function (_v0, list) {
+		var a = _v0.a;
+		var b = _v0.b;
+		return A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$BezierPath,
+			_Utils_Tuple2(a, b),
+			A2($elm$core$List$map, $MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper, list));
+	});
+var $author$project$Swipe$arrow = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-69.52, 31.339),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-69.64, 23.894),
+			_Utils_Tuple2(-69.76, 16.450)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-68.48, 12.708),
+			_Utils_Tuple2(-66.16, 9.9662)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-63.71, 8.1253),
+			_Utils_Tuple2(-60.15, 7.0844)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-28.69, 7.2045),
+			_Utils_Tuple2(2.7617, 7.3245)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-8.045, 12.487),
+			_Utils_Tuple2(-18.85, 17.651)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-17.77, 14.889),
+			_Utils_Tuple2(-16.69, 12.127)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-37.10, 12.127),
+			_Utils_Tuple2(-57.51, 12.127)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-61.81, 13.669),
+			_Utils_Tuple2(-64.48, 17.891)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-64.60, 23.294),
+			_Utils_Tuple2(-64.72, 28.697)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-66.88, 31.699),
+			_Utils_Tuple2(-69.04, 34.701)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-69.28, 32.420),
+			_Utils_Tuple2(-69.52, 31.339))
+		]));
+var $MacCASOutreach$graphicsvg$GraphicSVG$Custom = function (a) {
+	return {$: 'Custom', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$customFont = F2(
+	function (fStr, stencil) {
+		if (stencil.$ === 'Text') {
+			var _v1 = stencil.a;
+			var si = _v1.a;
+			var bo = _v1.b;
+			var i = _v1.c;
+			var u = _v1.d;
+			var s = _v1.e;
+			var sel = _v1.f;
+			var f = _v1.g;
+			var c = _v1.h;
+			var str = stencil.b;
+			return A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$Text,
+				A8(
+					$MacCASOutreach$graphicsvg$GraphicSVG$Face,
+					si,
+					bo,
+					i,
+					u,
+					s,
+					sel,
+					$MacCASOutreach$graphicsvg$GraphicSVG$Custom(fStr),
+					c),
+				str);
+		} else {
+			var a = stencil;
+			return a;
+		}
+	});
+var $author$project$Imposter$frame1Imposter = $author$project$Imposter$frame2Img(1);
+var $MacCASOutreach$graphicsvg$GraphicSVG$mirrorX = function (shape) {
+	return A3($MacCASOutreach$graphicsvg$GraphicSVG$Scale, -1, 1, shape);
+};
+var $author$project$Swipe$card = $MacCASOutreach$graphicsvg$GraphicSVG$group(
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+			A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 221.5, 221.5, 221.5),
+			A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 50, 30, 3)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$move,
+			_Utils_Tuple2(-22, 10),
+			A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+				0.4,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 48, 48, 48),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$customFont,
+						'consolas',
+						$MacCASOutreach$graphicsvg$GraphicSVG$text('Boe Jiden'))))),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$move,
+			_Utils_Tuple2(-5, 5),
+			A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+				0.75,
+				$MacCASOutreach$graphicsvg$GraphicSVG$group(
+					A2(
+						$elm$core$List$indexedMap,
+						F2(
+							function (i, j) {
+								return A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(0, (-i) * 4),
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+										0.3,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 48, 48, 48),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$customFont,
+												'consolas',
+												$MacCASOutreach$graphicsvg$GraphicSVG$text(j)))));
+							}),
+						_List_fromArray(
+							['some words', 'more words', 'even more words', 'when does it stop', 'never']))))),
+			function () {
+			var s = A3($MacCASOutreach$graphicsvg$GraphicSVG$roundedRect, 15, 19, 1.5);
+			return A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-14, -2),
+				$MacCASOutreach$graphicsvg$GraphicSVG$group(
+					_List_fromArray(
+						[
+							A3(
+							$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+							$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+							$MacCASOutreach$graphicsvg$GraphicSVG$black,
+							s),
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 98.8, 98.8, 98.8),
+							s),
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$clip,
+							$MacCASOutreach$graphicsvg$GraphicSVG$ghost(s),
+							A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(1, -2),
+								$MacCASOutreach$graphicsvg$GraphicSVG$mirrorX(
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+										$elm$core$Basics$degrees(-2),
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$scale, 0.6, $author$project$Imposter$frame1Imposter)))))
+						])));
+		}()
+		]));
+var $author$project$Swipe$getText = F2(
+	function (state, tss) {
+		getText:
+		while (true) {
+			if (!tss.b) {
+				return 'ERR';
+			} else {
+				var _v1 = tss.a;
+				var s = _v1.a;
+				var t = _v1.b;
+				var ts = tss.b;
+				if (_Utils_eq(state, s)) {
+					return t;
+				} else {
+					var $temp$state = state,
+						$temp$tss = ts;
+					state = $temp$state;
+					tss = $temp$tss;
+					continue getText;
+				}
+			}
+		}
+	});
+var $author$project$Swipe$left = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-71.65, -6.818),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-66.39, -5.383),
+			_Utils_Tuple2(-61.12, -3.947)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-55.38, -2.751),
+			_Utils_Tuple2(-49.64, -1.555)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-44.50, -1.914),
+			_Utils_Tuple2(-39.35, -2.272)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-32.77, -3.708),
+			_Utils_Tuple2(-26.19, -5.143)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-21.05, -6.459),
+			_Utils_Tuple2(-15.91, -7.775)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-9.809, -10.16),
+			_Utils_Tuple2(-3.708, -12.56)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-2.631, -19.14),
+			_Utils_Tuple2(-1.555, -25.71)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-1.315, -32.77),
+			_Utils_Tuple2(-1.076, -39.83)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-33.49, -39.71),
+			_Utils_Tuple2(-65.91, -39.59)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-66.87, -33.25),
+			_Utils_Tuple2(-67.82, -26.91)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-69.02, -22.96),
+			_Utils_Tuple2(-70.22, -19.02)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-70.81, -12.91),
+			_Utils_Tuple2(-71.41, -6.818))
+		]));
+var $author$project$Swipe$left1 = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-66.15, -39.83),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-66.99, -36.84),
+			_Utils_Tuple2(-67.82, -33.85)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-67.94, -29.90),
+			_Utils_Tuple2(-68.06, -25.95)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-68.42, -23.32),
+			_Utils_Tuple2(-68.78, -20.69)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-70.10, -16.50),
+			_Utils_Tuple2(-71.41, -12.32)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-65.07, -11.36),
+			_Utils_Tuple2(-58.73, -10.40)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-51.91, -9.928),
+			_Utils_Tuple2(-45.09, -9.450)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-37.92, -10.40),
+			_Utils_Tuple2(-30.74, -11.36)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-25.36, -12.91),
+			_Utils_Tuple2(-19.97, -14.47)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-11.24, -17.46),
+			_Utils_Tuple2(-2.512, -20.45)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-2.631, -25.48),
+			_Utils_Tuple2(-2.751, -30.50)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-1.794, -35.28),
+			_Utils_Tuple2(-0.837, -40.07)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-33.37, -39.95),
+			_Utils_Tuple2(-66.15, -39.83))
+		]));
+var $author$project$Swipe$left2 = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-66.15, -39.59),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-67.22, -32.89),
+			_Utils_Tuple2(-68.30, -26.19)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-68.90, -23.32),
+			_Utils_Tuple2(-69.50, -20.45)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-64.35, -18.78),
+			_Utils_Tuple2(-59.21, -17.10)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-52.99, -16.74),
+			_Utils_Tuple2(-46.77, -16.38)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-39.71, -17.22),
+			_Utils_Tuple2(-32.65, -18.06)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-25.24, -19.73),
+			_Utils_Tuple2(-17.82, -21.41)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-9.928, -23.20),
+			_Utils_Tuple2(-2.033, -25.00)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-1.674, -32.29),
+			_Utils_Tuple2(-1.315, -39.59)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-33.61, -39.83),
+			_Utils_Tuple2(-66.15, -39.59))
+		]));
+var $author$project$Swipe$left3 = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-65.91, -39.59),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-66.99, -36.72),
+			_Utils_Tuple2(-68.06, -33.85)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-68.42, -29.94),
+			_Utils_Tuple2(-68.06, -27.39)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-65.19, -26.19),
+			_Utils_Tuple2(-62.32, -25.00)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-53.83, -24.62),
+			_Utils_Tuple2(-45.33, -25.71)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-36.72, -25.59),
+			_Utils_Tuple2(-28.11, -25.95)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-20.93, -26.91),
+			_Utils_Tuple2(-13.75, -27.87)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-7.297, -29.06),
+			_Utils_Tuple2(-0.837, -30.26)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-0.717, -35.05),
+			_Utils_Tuple2(-0.598, -39.83)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-33.25, -39.71),
+			_Utils_Tuple2(-65.91, -39.59))
+		]));
+var $author$project$Swipe$light = function (colour) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+		_List_fromArray(
+			[
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				$MacCASOutreach$graphicsvg$GraphicSVG$circle(3)),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				colour,
+				$MacCASOutreach$graphicsvg$GraphicSVG$circle(3))
+			]));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$lightGrey = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 238, 238, 236, 1);
+var $author$project$Swipe$make = function (shape) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+		_List_fromArray(
+			[
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				shape),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 136.7, 68.8, 53.4),
+				shape)
+			]));
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyLeaveAt = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$ExitAt, msg, shape);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUpAt = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt, msg, shape);
+	});
+var $author$project$Swipe$outer = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-66.87, -39.59),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-67.82, -32.77),
+			_Utils_Tuple2(-68.78, -25.95)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-70.69, -15.43),
+			_Utils_Tuple2(-72.61, -4.904)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-69.62, -3.828),
+			_Utils_Tuple2(-66.63, -2.751)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-62.56, -1.674),
+			_Utils_Tuple2(-58.49, -0.598)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-53.47, 0.5981),
+			_Utils_Tuple2(-48.44, 1.7943)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-42.22, 2.2728),
+			_Utils_Tuple2(-36.00, 2.7514)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-29.30, 2.9906),
+			_Utils_Tuple2(-22.60, 3.2299)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-14.47, 3.1102),
+			_Utils_Tuple2(-6.340, 2.9906)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(2.0336, 2.2728),
+			_Utils_Tuple2(10.407, 1.5551)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(15.431, 1.1962),
+			_Utils_Tuple2(20.456, 0.8373)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(27.155, 0.8373),
+			_Utils_Tuple2(33.854, 0.8373)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(38.639, 0.8373),
+			_Utils_Tuple2(43.424, 0.8373)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(48.807, 1.5551),
+			_Utils_Tuple2(54.190, 2.2728)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(57.540, 2.7514),
+			_Utils_Tuple2(60.889, 3.2299)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.530, 0.1196),
+			_Utils_Tuple2(60.171, -2.990)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.411, -6.938),
+			_Utils_Tuple2(60.650, -10.88)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.411, -14.95),
+			_Utils_Tuple2(60.171, -19.02)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.291, -23.32),
+			_Utils_Tuple2(60.411, -27.63)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.052, -32.05),
+			_Utils_Tuple2(59.693, -36.48)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(59.693, -37.92),
+			_Utils_Tuple2(59.693, -39.35)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(48.209, -39.59),
+			_Utils_Tuple2(-66.87, -39.59))
+		]));
+var $author$project$Swipe$picture = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(12.560, -39.59),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(12.321, -27.15),
+			_Utils_Tuple2(12.082, -14.71)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(30.134, -12.92),
+			_Utils_Tuple2(42.706, -7.775)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(48.686, -5.240),
+			_Utils_Tuple2(55.386, -4.426)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(53.409, -18.81),
+			_Utils_Tuple2(53.712, -40.07)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(33.136, -40.07),
+			_Utils_Tuple2(12.560, -39.59))
+		]));
+var $author$project$Swipe$right = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(-0.837, -40.07),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-0.957, -34.93),
+			_Utils_Tuple2(-1.076, -29.78)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(-2.033, -22.37),
+			_Utils_Tuple2(-2.990, -14.95)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(1.1962, -14.11),
+			_Utils_Tuple2(5.3831, -13.27)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(32.897, -7.895),
+			_Utils_Tuple2(60.411, -2.512)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.291, -21.05),
+			_Utils_Tuple2(60.171, -39.59)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(29.786, -39.83),
+			_Utils_Tuple2(-0.837, -40.07))
+		]));
+var $author$project$Swipe$right1 = A2(
+	$MacCASOutreach$graphicsvg$GraphicSVG$curve,
+	_Utils_Tuple2(5.1439, -40.07),
+	_List_fromArray(
+		[
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(4.9631, -30.50),
+			_Utils_Tuple2(5.6224, -20.93)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(5.7828, -15.91),
+			_Utils_Tuple2(5.3831, -10.88)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(21.970, -7.700),
+			_Utils_Tuple2(39.357, -1.555)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(49.602, 1.8966),
+			_Utils_Tuple2(61.128, 3.7084)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.228, -4.446),
+			_Utils_Tuple2(61.128, -12.32)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.409, -21.09),
+			_Utils_Tuple2(60.650, -29.78)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(60.171, -34.93),
+			_Utils_Tuple2(59.693, -40.07)),
+			A2(
+			$MacCASOutreach$graphicsvg$GraphicSVG$Pull,
+			_Utils_Tuple2(32.538, -39.95),
+			_Utils_Tuple2(5.1439, -40.07))
+		]));
+var $MacCASOutreach$graphicsvg$GraphicSVG$scaleX = F2(
+	function (s, shape) {
+		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Scale, s, 1, shape);
+	});
+var $author$project$Swipe$words = _List_fromArray(
+	[
+		_Utils_Tuple2($author$project$Swipe$Insert, 'PLEASE INSERT CARD'),
+		_Utils_Tuple2($author$project$Swipe$Swiping, 'PLEASE SWIPE CARD'),
+		_Utils_Tuple2($author$project$Swipe$Accepted, 'ACCEPTED. THANK YOU.'),
+		_Utils_Tuple2($author$project$Swipe$Bad, 'BAD READ. TRY AGAIN.'),
+		_Utils_Tuple2($author$project$Swipe$Fast, 'TOO FAST. TRY AGAIN.'),
+		_Utils_Tuple2($author$project$Swipe$Slow, 'TOO SLOW. TRY AGAIN.')
+	]);
+var $author$project$Swipe$draw = function (model) {
+	return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+		_List_fromArray(
+			[
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 65, 65, 65),
+				A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 95, 88)),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(0, 21),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 53, 53, 53),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 95, 45))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$subtract,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-50, 13),
+					$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+						$MacCASOutreach$graphicsvg$GraphicSVG$triangle(10))),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(0, 7),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 146, 146, 146),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 95, 10)))),
+				model.showBot ? $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil) : A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				model.pos,
+				A2($MacCASOutreach$graphicsvg$GraphicSVG$scale, 0.7, $author$project$Swipe$card)),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$subtract,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-50, 13),
+					$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+						$MacCASOutreach$graphicsvg$GraphicSVG$triangle(10))),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(0, 29),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 146, 146, 146),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 95, 30)))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(3, 11),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+					0.7,
+					$MacCASOutreach$graphicsvg$GraphicSVG$group(
+						_List_fromArray(
+							[
+								A3(
+								$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+								$MacCASOutreach$graphicsvg$GraphicSVG$solid(1.5),
+								$MacCASOutreach$graphicsvg$GraphicSVG$black,
+								$author$project$Swipe$arrow),
+								A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 40, 40, 40),
+								$author$project$Swipe$arrow)
+							])))),
+				function () {
+				var completed = _Utils_eq(model.state, $author$project$Swipe$Accepted);
+				return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+					_List_fromArray(
+						[
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(30, 20),
+							$author$project$Swipe$light(
+								completed ? A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 98.8, 0, 0) : A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 228.8, 0, 0))),
+							A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(40, 20),
+							$author$project$Swipe$light(
+								completed ? A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 0, 198.8, 170.8) : A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 0, 98.8, 70.8)))
+						]));
+			}(),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-5, 37),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+					A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 21, 73.8, 57.9),
+					A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 70, 7))),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(-38, 35.5),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+					0.4,
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						$MacCASOutreach$graphicsvg$GraphicSVG$white,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$customFont,
+							'consolas',
+							$MacCASOutreach$graphicsvg$GraphicSVG$text(
+								A2($author$project$Swipe$getText, model.state, $author$project$Swipe$words)))))),
+				model.showBot ? $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil) : $MacCASOutreach$graphicsvg$GraphicSVG$group(
+				_List_fromArray(
+					[
+						(model.mv ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseMoveAt($author$project$Consts$Move) : $elm$core$Basics$identity)(
+						(model.mv ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyLeaveAt(
+							$author$project$Consts$ToggleMove(false)) : $elm$core$Basics$identity)(
+							(model.mv ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUpAt(
+								$author$project$Consts$ToggleMove(false)) : $elm$core$Basics$identity)(
+								(model.mv ? $elm$core$Basics$identity : $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDownAt(
+									$author$project$Consts$ToggleMove(true)))(
+									A2(
+										$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+										0,
+										A2($MacCASOutreach$graphicsvg$GraphicSVG$move, model.pos, $author$project$Swipe$card)))))),
+						(model.mv ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter($author$project$Consts$Finish) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(50, 10),
+							$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+								A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 10, 40)))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, -5),
+						$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 200, 20))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(0, 25),
+						$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 200, 20))),
+						A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$move,
+						_Utils_Tuple2(-75, 0),
+						$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 20, 200)))
+					])),
+				A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$move,
+				_Utils_Tuple2(4, -15.7),
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+					0.70,
+					$MacCASOutreach$graphicsvg$GraphicSVG$group(
+						_List_fromArray(
+							[
+								A3(
+								$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+								$MacCASOutreach$graphicsvg$GraphicSVG$solid(1.5),
+								$MacCASOutreach$graphicsvg$GraphicSVG$black,
+								$author$project$Swipe$outer),
+								A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+								A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 93, 30, 17.5),
+								$author$project$Swipe$outer),
+								A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(-2, 0),
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$scaleX,
+									1.03,
+									$author$project$Swipe$make($author$project$Swipe$right))),
+								$author$project$Swipe$make($author$project$Swipe$right1),
+								function () {
+								var pic = A2($MacCASOutreach$graphicsvg$GraphicSVG$filled, $MacCASOutreach$graphicsvg$GraphicSVG$lightBlue, $author$project$Swipe$picture);
+								return $MacCASOutreach$graphicsvg$GraphicSVG$group(
+									_List_fromArray(
+										[
+											A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(1),
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											$author$project$Swipe$picture),
+											pic,
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$clip,
+											pic,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(32, -48),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													$MacCASOutreach$graphicsvg$GraphicSVG$white,
+													$MacCASOutreach$graphicsvg$GraphicSVG$circle(25)))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$clip,
+											pic,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(18, -35),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+													$elm$core$Basics$degrees(35),
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$scale, 0.9, $author$project$Imposter$frame1Imposter)))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$clip,
+											pic,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(45, -25),
+												$MacCASOutreach$graphicsvg$GraphicSVG$mirrorX(
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$scale,
+														0.9,
+														A2(
+															$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+															$elm$core$Basics$degrees(117),
+															$author$project$Imposter$frame1Imposter))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$clip,
+											pic,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(40, -40),
+												$MacCASOutreach$graphicsvg$GraphicSVG$mirrorX(
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$rotate,
+														$elm$core$Basics$degrees(187),
+														A2($MacCASOutreach$graphicsvg$GraphicSVG$scale, 0.6, $author$project$Imposter$frame1Imposter))))),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+											0.7,
+											A2($MacCASOutreach$graphicsvg$GraphicSVG$filled, $MacCASOutreach$graphicsvg$GraphicSVG$lightGrey, $author$project$Swipe$picture))
+										]));
+							}(),
+								A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(-1, 0),
+								$MacCASOutreach$graphicsvg$GraphicSVG$group(
+									_List_fromArray(
+										[
+											$author$project$Swipe$make($author$project$Swipe$left),
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$move,
+											_Utils_Tuple2(1, 0),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$scaleX,
+												1.02,
+												$author$project$Swipe$make($author$project$Swipe$left1)))
+										]))),
+								model.showBot ? A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$notifyTap,
+								$author$project$Consts$MoveTop,
+								A2(
+									$MacCASOutreach$graphicsvg$GraphicSVG$move,
+									_Utils_Tuple2(-37, -20),
+									$author$project$Swipe$card)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil),
+								A2(
+								$MacCASOutreach$graphicsvg$GraphicSVG$move,
+								_Utils_Tuple2(-1, 0),
+								$MacCASOutreach$graphicsvg$GraphicSVG$group(
+									_List_fromArray(
+										[
+											$author$project$Swipe$make($author$project$Swipe$left2),
+											$author$project$Swipe$make($author$project$Swipe$left3)
+										])))
+							])))),
+				_Utils_eq(model.state, $author$project$Swipe$Accepted) ? (((model.time - model.endTime) > 1) ? A2(
+				$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+				$author$project$Consts$ToggleSwipe(false),
+				$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+					$MacCASOutreach$graphicsvg$GraphicSVG$square(1000))) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
+			]));
+};
+var $author$project$Swipe$myShapes = function (model) {
+	return _List_fromArray(
+		[
+			$author$project$Swipe$draw(model)
+		]);
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$Path = function (a) {
+	return {$: 'Path', a: a};
+};
+var $MacCASOutreach$graphicsvg$GraphicSVG$line = F2(
+	function (p1, p2) {
+		return $MacCASOutreach$graphicsvg$GraphicSVG$Path(
+			_List_fromArray(
+				[p1, p2]));
+	});
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
+var $MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDown = F2(
+	function (msg, shape) {
+		return A2($MacCASOutreach$graphicsvg$GraphicSVG$MouseDown, msg, shape);
+	});
+var $author$project$Wires$scrambledColors = function (num) {
+	switch (num) {
+		case 0:
+			return 3;
+		case 1:
+			return 0;
+		case 2:
+			return 1;
+		case 3:
+			return 2;
+		default:
+			return -1;
+	}
+};
+var $author$project$Wires$myShapes = function (model) {
+	return _Utils_ap(
+		_List_fromArray(
+			[
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(0, 31.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 90, 10)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(0, -37.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 90, 10)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-40, 19),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 15)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-40, -3),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 30)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-40, -25),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 15)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(40, 19),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 15)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(40, -3),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 30)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(40, -25),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 191, 194, 199),
+						A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 10, 15)))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(0, -3),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 95, 99, 105),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 69.75, 59))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-8, 11.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 220, 38, 127),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 30))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-10, 10.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 255, 176, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 32))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-12, 9.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 143, 255),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 34))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-14, 8.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 254, 97, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 36))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(1, -4.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 220, 38, 127),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 20, 2))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-1, -6.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 255, 176, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 20, 2))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-3, -8.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 143, 255),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 20, 2))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(-5, -10.5),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 254, 97, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 20, 2))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(12, -18),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 220, 38, 127),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 29))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(10, -19),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 255, 176, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 27))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(8, -20),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 100, 143, 255),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 25))))),
+				A3(
+				$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+				$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+				$MacCASOutreach$graphicsvg$GraphicSVG$black,
+				A2(
+					$MacCASOutreach$graphicsvg$GraphicSVG$move,
+					_Utils_Tuple2(6, -21),
+					A2(
+						$MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent,
+						0.8,
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							A3($MacCASOutreach$graphicsvg$GraphicSVG$rgb, 254, 97, 0),
+							A2($MacCASOutreach$graphicsvg$GraphicSVG$rectangle, 2, 23)))))
+			]),
+		function () {
+			var _v0 = model.state;
+			switch (_v0.$) {
+				case 'Waiting':
+					return _Utils_ap(
+						A3(
+							$elm$core$List$map2,
+							F2(
+								function (y, col) {
+									return A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+										$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.25),
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDown,
+											A2($elm$core$List$member, col, model.finishedList) ? A2(
+												$author$project$Consts$ClickWire,
+												_Utils_Tuple2(-40, 6 * (y - 2)),
+												$MacCASOutreach$graphicsvg$GraphicSVG$black) : A2(
+												$author$project$Consts$ClickWire,
+												_Utils_Tuple2(-40, 6 * (y - 2)),
+												col),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(-40, 6 * (y - 2)),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													col,
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4)))));
+								}),
+							A2($elm$core$List$range, 0, 3),
+							_List_fromArray(
+								[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+						_Utils_ap(
+							A3(
+								$elm$core$List$map2,
+								F2(
+									function (y, col) {
+										return A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.25),
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(40, 6 * (y - 2)),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													col,
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4))));
+									}),
+								A2(
+									$elm$core$List$map,
+									$author$project$Wires$scrambledColors,
+									A2($elm$core$List$range, 0, 3)),
+								_List_fromArray(
+									[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+							_Utils_ap(
+								A3(
+									$elm$core$List$map2,
+									F2(
+										function (y, col) {
+											return A3(
+												$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+												$MacCASOutreach$graphicsvg$GraphicSVG$solid(2.5),
+												$MacCASOutreach$graphicsvg$GraphicSVG$black,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$line,
+													_Utils_Tuple2(-40, 6 * (y - 2)),
+													_Utils_Tuple2(
+														A2($elm$core$List$member, col, model.finishedList) ? 40 : (-40),
+														A2($elm$core$List$member, col, model.finishedList) ? (6 * ($author$project$Wires$scrambledColors(y) - 2)) : (6 * (y - 2)))));
+										}),
+									A2($elm$core$List$range, 0, 3),
+									_List_fromArray(
+										[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+								A3(
+									$elm$core$List$map2,
+									F2(
+										function (y, col) {
+											return A3(
+												$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+												$MacCASOutreach$graphicsvg$GraphicSVG$solid(2),
+												col,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$line,
+													_Utils_Tuple2(-40, 6 * (y - 2)),
+													_Utils_Tuple2(
+														A2($elm$core$List$member, col, model.finishedList) ? 40 : (-40),
+														A2($elm$core$List$member, col, model.finishedList) ? (6 * ($author$project$Wires$scrambledColors(y) - 2)) : (6 * (y - 2)))));
+										}),
+									A2($elm$core$List$range, 0, 3),
+									_List_fromArray(
+										[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])))));
+				case 'Grabbed':
+					var _v1 = _v0.a;
+					var mouseX = _v1.a;
+					var mouseY = _v1.b;
+					return _Utils_ap(
+						A3(
+							$elm$core$List$map2,
+							F2(
+								function (y, col) {
+									return A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+										$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.25),
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$move,
+											_Utils_Tuple2(-40, 6 * (y - 2)),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												col,
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4))));
+								}),
+							A2($elm$core$List$range, 0, 3),
+							_List_fromArray(
+								[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+						_Utils_ap(
+							A3(
+								$elm$core$List$map2,
+								F2(
+									function (y, col) {
+										return A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.25),
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(40, 6 * (y - 2)),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													col,
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4))));
+									}),
+								A2(
+									$elm$core$List$map,
+									$author$project$Wires$scrambledColors,
+									A2($elm$core$List$range, 0, 3)),
+								_List_fromArray(
+									[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+							_Utils_ap(
+								A3(
+									$elm$core$List$map2,
+									F2(
+										function (y, col) {
+											return A3(
+												$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+												$MacCASOutreach$graphicsvg$GraphicSVG$solid(2.5),
+												$MacCASOutreach$graphicsvg$GraphicSVG$black,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$line,
+													_Utils_Tuple2(-40, 6 * (y - 2)),
+													_Utils_Tuple2(
+														A2($elm$core$List$member, col, model.finishedList) ? 40 : (_Utils_eq(model.grabbed, col) ? mouseX : (-40)),
+														A2($elm$core$List$member, col, model.finishedList) ? (6 * ($author$project$Wires$scrambledColors(y) - 2)) : (_Utils_eq(model.grabbed, col) ? mouseY : (6 * (y - 2))))));
+										}),
+									A2($elm$core$List$range, 0, 3),
+									_List_fromArray(
+										[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+								_Utils_ap(
+									A3(
+										$elm$core$List$map2,
+										F2(
+											function (y, col) {
+												return A3(
+													$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+													$MacCASOutreach$graphicsvg$GraphicSVG$solid(2),
+													col,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$line,
+														_Utils_Tuple2(-40, 6 * (y - 2)),
+														_Utils_Tuple2(
+															A2($elm$core$List$member, col, model.finishedList) ? 40 : (_Utils_eq(model.grabbed, col) ? mouseX : (-40)),
+															A2($elm$core$List$member, col, model.finishedList) ? (6 * ($author$project$Wires$scrambledColors(y) - 2)) : (_Utils_eq(model.grabbed, col) ? mouseY : (6 * (y - 2))))));
+											}),
+										A2($elm$core$List$range, 0, 3),
+										_List_fromArray(
+											[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+									_List_fromArray(
+										[
+											A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseMoveAt,
+											$author$project$Consts$MouseMoveTo,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave,
+												$author$project$Consts$StopWire,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUpAt,
+													$author$project$Consts$ConnectWires,
+													$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+														A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 190, 126)))))
+										])))));
+				default:
+					return _Utils_ap(
+						A3(
+							$elm$core$List$map2,
+							F2(
+								function (y, col) {
+									return A3(
+										$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+										$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+										$MacCASOutreach$graphicsvg$GraphicSVG$black,
+										A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$move,
+											_Utils_Tuple2(-40, 6 * (y - 2)),
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+												col,
+												A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4))));
+								}),
+							A2($elm$core$List$range, 0, 3),
+							_List_fromArray(
+								[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+						_Utils_ap(
+							A3(
+								$elm$core$List$map2,
+								F2(
+									function (y, col) {
+										return A3(
+											$MacCASOutreach$graphicsvg$GraphicSVG$addOutline,
+											$MacCASOutreach$graphicsvg$GraphicSVG$solid(0.3),
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											A2(
+												$MacCASOutreach$graphicsvg$GraphicSVG$move,
+												_Utils_Tuple2(40, 6 * (y - 2)),
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+													col,
+													A2($MacCASOutreach$graphicsvg$GraphicSVG$rect, 4, 4))));
+									}),
+								A2(
+									$elm$core$List$map,
+									$author$project$Wires$scrambledColors,
+									A2($elm$core$List$range, 0, 3)),
+								_List_fromArray(
+									[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+							_Utils_ap(
+								A3(
+									$elm$core$List$map2,
+									F2(
+										function (y, col) {
+											return A3(
+												$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+												$MacCASOutreach$graphicsvg$GraphicSVG$solid(2.5),
+												$MacCASOutreach$graphicsvg$GraphicSVG$black,
+												A2(
+													$MacCASOutreach$graphicsvg$GraphicSVG$line,
+													_Utils_Tuple2(-40, 6 * (y - 2)),
+													_Utils_Tuple2(
+														40,
+														6 * ($author$project$Wires$scrambledColors(y) - 2))));
+										}),
+									A2($elm$core$List$range, 0, 3),
+									_List_fromArray(
+										[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+								_Utils_ap(
+									A3(
+										$elm$core$List$map2,
+										F2(
+											function (y, col) {
+												return A3(
+													$MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+													$MacCASOutreach$graphicsvg$GraphicSVG$solid(2),
+													col,
+													A2(
+														$MacCASOutreach$graphicsvg$GraphicSVG$line,
+														_Utils_Tuple2(-40, 6 * (y - 2)),
+														_Utils_Tuple2(
+															40,
+															6 * ($author$project$Wires$scrambledColors(y) - 2))));
+											}),
+										A2($elm$core$List$range, 0, 3),
+										_List_fromArray(
+											[$author$project$Wires$myPink, $author$project$Wires$myYellow, $author$project$Wires$myBlue, $author$project$Wires$myOrange])),
+									_List_fromArray(
+										[
+											((model.time - model.endTime) > 1) ? A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter,
+											$author$project$Consts$ToggleWire(false),
+											$MacCASOutreach$graphicsvg$GraphicSVG$ghost(
+												$MacCASOutreach$graphicsvg$GraphicSVG$square(1000))) : A2(
+											$MacCASOutreach$graphicsvg$GraphicSVG$filled,
+											$MacCASOutreach$graphicsvg$GraphicSVG$black,
+											$MacCASOutreach$graphicsvg$GraphicSVG$centered(
+												$MacCASOutreach$graphicsvg$GraphicSVG$text('Task completed!')))
+										])))));
+			}
+		}());
+};
 var $author$project$Reactor$floor_detail = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -14997,10 +18243,6 @@ var $author$project$Reactor$reactorRoom = _List_fromArray(
 		$author$project$Reactor$hall,
 		$author$project$Reactor$tasks
 	]);
-var $MacCASOutreach$graphicsvg$GraphicSVG$scaleX = F2(
-	function (s, shape) {
-		return A3($MacCASOutreach$graphicsvg$GraphicSVG$Scale, s, 1, shape);
-	});
 var $author$project$Security$bg = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -15783,7 +19025,6 @@ var $author$project$Storage$storage_interior = $MacCASOutreach$graphicsvg$Graphi
 			_Utils_Tuple2(6, 42),
 			$author$project$Storage$wire_box)
 		]));
-var $MacCASOutreach$graphicsvg$GraphicSVG$yellow = A4($MacCASOutreach$graphicsvg$GraphicSVG$rgba, 237, 212, 0, 1);
 var $author$project$Storage$storage_walls = $MacCASOutreach$graphicsvg$GraphicSVG$group(
 	_List_fromArray(
 		[
@@ -17241,7 +20482,23 @@ var $author$project$Main$myShapes = function (model) {
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
 							0.3,
-							$author$project$Imposter$imposter(model.impModel))))
+							$author$project$Imposter$imposter(model.impModel)))),
+					function () {
+					var y = model.impModel.pos.b;
+					var x = model.impModel.pos.a;
+					var showCond = A2(
+						$elm$core$Basics$pow,
+						A2($elm$core$Basics$pow, x - 37, 2) + A2($elm$core$Basics$pow, y - 40, 2),
+						0.5) < 30;
+					return (showCond ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap(
+						$author$project$Consts$TogglePass(true)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(37, 40),
+							$author$project$Main$buttonToMiniGame(showCond && (!model.leaf))));
+				}(),
+					model.pass ? $MacCASOutreach$graphicsvg$GraphicSVG$group(
+					$author$project$Passcode$myShapes(model.passModel)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
 				]);
 		case 'Reactor':
 			return _List_fromArray(
@@ -17256,7 +20513,23 @@ var $author$project$Main$myShapes = function (model) {
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
 							0.3,
-							$author$project$Imposter$imposter(model.impModel))))
+							$author$project$Imposter$imposter(model.impModel)))),
+					function () {
+					var y = model.impModel.pos.b;
+					var x = model.impModel.pos.a;
+					var showCond = A2(
+						$elm$core$Basics$pow,
+						A2($elm$core$Basics$pow, x + 50, 2) + A2($elm$core$Basics$pow, y + 20, 2),
+						0.5) < 30;
+					return (showCond ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap(
+						$author$project$Consts$ToggleLeaf(true)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-50, -20),
+							$author$project$Main$buttonToMiniGame(showCond && (!model.leaf))));
+				}(),
+					model.leaf ? $MacCASOutreach$graphicsvg$GraphicSVG$group(
+					$author$project$Leaf$myShapes(model.leafModel)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
 				]);
 		case 'LowerEng':
 			return _List_fromArray(
@@ -17286,7 +20559,23 @@ var $author$project$Main$myShapes = function (model) {
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
 							0.3,
-							$author$project$Imposter$imposter(model.impModel))))
+							$author$project$Imposter$imposter(model.impModel)))),
+					function () {
+					var y = model.impModel.pos.b;
+					var x = model.impModel.pos.a;
+					var showCond = A2(
+						$elm$core$Basics$pow,
+						A2($elm$core$Basics$pow, x + 38, 2) + A2($elm$core$Basics$pow, y - 54, 2),
+						0.5) < 30;
+					return (showCond ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap(
+						$author$project$Consts$ToggleWire(true)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(-38, 54),
+							$author$project$Main$buttonToMiniGame(showCond && (!model.leaf))));
+				}(),
+					model.wire ? $MacCASOutreach$graphicsvg$GraphicSVG$group(
+					$author$project$Wires$myShapes(model.wireModel)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
 				]);
 		case 'Storage':
 			return _List_fromArray(
@@ -17316,7 +20605,23 @@ var $author$project$Main$myShapes = function (model) {
 						A2(
 							$MacCASOutreach$graphicsvg$GraphicSVG$scale,
 							0.3,
-							$author$project$Imposter$imposter(model.impModel))))
+							$author$project$Imposter$imposter(model.impModel)))),
+					function () {
+					var y = model.impModel.pos.b;
+					var x = model.impModel.pos.a;
+					var showCond = A2(
+						$elm$core$Basics$pow,
+						A2($elm$core$Basics$pow, x - 50, 2) + A2($elm$core$Basics$pow, y + 5, 2),
+						0.5) < 30;
+					return (showCond ? $MacCASOutreach$graphicsvg$GraphicSVG$notifyTap(
+						$author$project$Consts$ToggleSwipe(true)) : $elm$core$Basics$identity)(
+						A2(
+							$MacCASOutreach$graphicsvg$GraphicSVG$move,
+							_Utils_Tuple2(50, -5),
+							$author$project$Main$buttonToMiniGame(showCond && (!model.leaf))));
+				}(),
+					model.swipe ? $MacCASOutreach$graphicsvg$GraphicSVG$group(
+					$author$project$Swipe$myShapes(model.swipeModel)) : $MacCASOutreach$graphicsvg$GraphicSVG$group(_List_Nil)
 				]);
 	}
 };
@@ -17329,7 +20634,7 @@ var $author$project$Main$view = function (model) {
 };
 var $author$project$Main$main = A2(
 	$MacCASOutreach$graphicsvg$GraphicSVG$App$gameApp,
-	$author$project$Main$Tick,
+	$author$project$Consts$Tick,
 	{model: $author$project$Main$init, title: 'Elmongus', update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
