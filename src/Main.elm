@@ -53,6 +53,7 @@ myShapes model =
         ]
       Security -> [
         security |> group
+        -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
@@ -72,6 +73,7 @@ myShapes model =
         ]
       Reactor -> [
         reactorRoom |> group
+        -- , Imposter.toLineOutliness model.impModel.preBorderLines |> group
         , imposter model.impModel
           |> scale 0.3
           |> scaleX direction
