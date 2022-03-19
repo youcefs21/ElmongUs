@@ -50,15 +50,15 @@ myShapes model = [rectangle 90 10
                   rectangle 2 23
                   |> filled (rgb 254 97 0) |> makeTransparent 0.8 |> move (6, -21) |> addOutline (solid 0.3) black] ++
     case model.state of
-        Waiting -> 
+        Waiting -> -- If nothing happening:
             -- Starting point for the wires
             List.map2 (\y col -> 
                 rect 4 4
                     |> filled col -- Col is passed by the map
                     |> move (-40, 6 * (toFloat y - 2)) -- y is like i in a for loop, so this just translates it to the right place
-                    |> notifyMouseDown (if List.member col model.finishedList -- If mouse pressed, tell app that mouse was pressed.
-                                    then (ClickWire (-40, 6 * (toFloat y - 2)) black)
-                                    else (ClickWire (-40, 6 * (toFloat y - 2)) col)) -- If this wire is already in place, tell the app that by sending it the color black
+                    |> notifyMouseDown (if List.member col model.finishedList -- If wire was already in place, 
+                                    then (ClickWire (-40, 6 * (toFloat y - 2)) black) -- tell the app that by sending it the color black
+                                    else (ClickWire (-40, 6 * (toFloat y - 2)) col)) -- otherwise send the app the colour of the wire
                     |> addOutline (solid 0.25) black
                 )
                 (List.range 0 3)
@@ -79,10 +79,10 @@ myShapes model = [rectangle 90 10
                 line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
                                     then 40 -- If connected, put on right side
                                     else -40 -- If not connected, put on left side
-                        , if List.member col model.finishedList  -- same idea for y-coordinates
+                        , if List.member col model.finishedList  -- same idea for y-coordinates, except run through scrambledColours to move it to the right wire end.
                                     then 6 * (toFloat (scrambledColors y) - 2)
                                     else 6 * (toFloat y - 2))
-                    |> outlined (solid 2.5) black
+                    |> outlined (solid 2.5) black -- This is the black outline of the wires themselves.
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
@@ -91,14 +91,14 @@ myShapes model = [rectangle 90 10
                 line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
                                     then 40 -- If connected, put on right side
                                     else -40 -- If not connected, put on left side
-                        , if List.member col model.finishedList  -- same idea for y-coordinates
+                        , if List.member col model.finishedList  -- same idea for y-coordinates, except run through scrambledColours to move it to the right wire end.
                                     then 6 * (toFloat (scrambledColors y) - 2)
                                     else 6 * (toFloat y - 2))
                     |> outlined (solid 2) col
                 )
                 (List.range 0 3)
                 [myPink, myYellow, myBlue, myOrange]
-        Grabbed (mouseX, mouseY) ->
+        Grabbed (mouseX, mouseY) -> -- If user is dragging a wire with the mouse
             -- Starting point for the wires
             List.map2 (\y col -> 
                 rect 4 4
@@ -121,9 +121,9 @@ myShapes model = [rectangle 90 10
             ++
             -- Wires
             List.map2 (\y col -> 
-                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList 
-                                    then 40 -- If connected, put on right side
-                                    else if (model.grabbed == col)
+                line (-40, 6 * (toFloat y - 2)) (if List.member col model.finishedList -- If already connected,
+                                    then 40 --  put on right side
+                                    else if (model.grabbed == col) -- If the colour the model has stored for the user to be grabbing is the same as the colour of this wire, then move the wire with the mouse.
                                         then mouseX -- If this is the one you're holding, move to mouse position
                                         else -40 -- If not already connected and not holding, keep at start
                         , if List.member col model.finishedList -- Same idea for the y-coordinate
@@ -154,7 +154,7 @@ myShapes model = [rectangle 90 10
             ++
             -- Tracks mouse movement and checks for mouse up
             [
-                rect 190 126 |> ghost -- You can't see it, it's just there to track moues
+                rect 190 126 |> ghost -- You can't see it, it's just there to track mouse
                     |> notifyMouseUpAt ConnectWires
                     |> notifyLeave StopWire
                     |> notifyMouseMoveAt MouseMoveTo
@@ -211,7 +211,7 @@ myBlue = (rgb 100 143 255)
 myOrange : Color
 myOrange = (rgb 254 97 0)
 
--- Takes the order of the end point and returns a new scrambled number.
+-- Takes the number of the starting point and returns the number of its associated endpoint
 scrambledColors num = case num of
     0 -> 3
     1 -> 0
@@ -219,6 +219,7 @@ scrambledColors num = case num of
     3 -> 2
     _ -> -1
 
+-- Takes the number of an endpoint and returns the number of its associated starting point
 unscrambledColors num = case num of
     3 -> 0
     0 -> 1
@@ -235,41 +236,51 @@ intToCol num = case num of
     3 -> myOrange
     _ -> black
 
+-- Simple helper function for distance
 distance (x1, y1) (x2, y2) = 
     sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
-snap : (Float, Float) -> Color
+snap : (Float, Float) -> Color -- Check each wire number, and see if the distance from the endpoint associated with it to the mouse's coordinates is small enough, and if so returns the colour of the wire.
 snap (x, y) = if (distance (x, y) (40, 6 * (0 - 2)) < 3) then intToCol (unscrambledColors 0)
                 else if (distance (x, y) (40, 6 * (1 - 2)) < 3) then intToCol (unscrambledColors 1)
                     else if (distance (x, y) (40, 6 * (2 - 2)) < 3) then intToCol (unscrambledColors 2)
                         else if (distance (x, y) (40, 6 * (3 - 2)) < 3) then intToCol (unscrambledColors 3)
-                            else black
+                            else black -- If none of the endpoints were close enough to the mouse when it was released, return black as the null colour.
 
 type State = Waiting | Grabbed (Float, Float) | Finished
 type alias Model = {time : Float, state : State, grabbed : Color, finishedList : (List Color), endTime : Float}
 
 update : Consts.Msg -> Model -> Model
 update msg model = case msg of 
+                    -- Literally nothing happens in the Tick event.
                     Tick t _ -> {model | time = t, state = model.state, grabbed = model.grabbed, finishedList = model.finishedList}
                     ClickWire (x, y) col -> { model |
-                            time = model.time,
-                            state = if col == black then model.state else Grabbed (x, y),
-                            grabbed = col,
-                            finishedList = model.finishedList
+                            state = if col == black -- If colour is the null colour, false alarm
+                                then model.state 
+                                else Grabbed (x, y), -- Else change the state to grabbed and move that wire.
+                            grabbed = col -- Set grabbed to whatever colour was clicked on
                         }
                     StopWire -> case model.state of
-                                Grabbed _ -> {model | time = model.time, state = Waiting, grabbed = black, finishedList = model.finishedList}
+                                -- Reset values, since this is only called if the mouse leaves the app
+                                Grabbed _ -> {model | state = Waiting, grabbed = black}
                                 _ -> model
                     MouseMoveTo coords -> case model.state of
-                                            Grabbed _ -> {model | state = Grabbed coords}
+                                            Grabbed _ -> {model | state = Grabbed coords} -- Update the mouse's coordinates for moving the wires.
                                             _ -> model
                     ConnectWires (x, y) -> { model | 
-                                            time = model.time,
-                                            finishedList = if (snap (x, y) == model.grabbed) then (snap (x, y)) :: model.finishedList else model.finishedList,--if model.grabbed == col then col :: model.finishedList else model.finishedList,
-                                            grabbed = black,
-                                            state = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed)  then Finished else Waiting,
-                                            endTime = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed) then model.time else model.endTime
-                                        }
+                            finishedList = if (snap (x, y) == model.grabbed) -- If you released the wire on the right endpoint,
+                                                then (snap (x, y)) :: model.finishedList -- Add that wire's colour to the list of completed colours.
+                                                else model.finishedList, -- Else leave it the same.
+                            grabbed = black,
+                            state = (
+                                    if (List.length model.finishedList >= 3) && -- If there's just one wire left,
+                                    (snap (x, y) == model.grabbed)              -- And you just did that wire,
+                                        then Finished                           -- You're done!
+                                        else Waiting                            -- You're not done!
+                                ),
+                            endTime = if (List.length model.finishedList >= 3) && (snap (x, y) == model.grabbed) then model.time else model.endTime
+                            -- Use endTime to time the "Task Completed" text
+                        }
                     _ -> model
 
 init : Model --                              black will work as the null color
