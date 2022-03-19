@@ -34,45 +34,61 @@ myShapes model = [
         |> filled (rgb 204 204 204) |> rotate (degrees 180) |> move (31, 27)
     ]
     ++
+    
     -- This map2 function produces the buttons
     List.map2 (\x y ->
         button (x, y) model -- See function definition for a button below
             |> move (31, 0)
+            
         )
         [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
         [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
     ++
-    -- This map2 function produces the screen that shows the corrrect sequence of presses
+     -- This map2 function produces the screen that shows the corrrect sequence of presses
     List.map2 (\x y ->
-        square 11        -- ( If showing correct button sequence, this is the current correct button, and the timing is right )
-                |> filled (if ((model.state == Showing) && (sequence model.passNum == (x, y)) && (model.showTime < 15)) then lightBlue else black)
-                |> move (11 * (toFloat x - 1) - 20, 11 * (toFloat y - 1))
-    )
-    [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
-    [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
+        square 11
+            |> filled (if 
+                    ((model.state == Showing) &&          -- If the model is showing what the correct button sequence is,
+                    (sequence model.passNum == (x, y)) && -- the button currently being drawn is the one the model wants to light up,
+                    (model.showTime < 15))                -- and The model is not in the space in-between lighting up buttons where all buttons are black,
+                        then lightBlue -- Then light up this button to show it's the next correct one in the sequence;
+                        else black     -- Else leave it off.
+                )
+            |> move (11 * (toFloat x - 1) - 20, 11 * (toFloat y - 1))
+        )
+        [0, 0, 0, 1, 1, 1, 2, 2, 2] -- x-coordinates
+        [0, 1, 2, 0, 1, 2, 0, 1, 2] -- y-coordinates
     ++
     -- This map function produces the circles above the screen on the left
     List.map (\x -> 
                 circle 2 -- Turn the first few green based on how far the user is, make the rest green
-                    |> filled (if x <= model.repNum then (rgb 0 190 1) else darkGrey)
+                    |> filled (
+                        if x <= model.repNum   -- If the number of the circle being drawn is lower or equal to the number of circles that need to be lit up,
+                            then (rgb 0 190 1) -- then light it up
+                            else darkGrey
+                        )
                     |> addOutline (solid 0.3) black
                     |> move (7 * (toFloat x - 3) - 20, 20)
         )
-        (List.range 1 5)
+        (List.range 1 5) -- x-coordinates
     ++
     -- This map function produces the circles above the buttons on the right
     List.map (\x -> 
                 circle 2
-                    -- Turn red if incorrect, turn some green if entering right ones, else turn darkGrey
                     |> filled (
                         case model.state of
-                            Incorrect -> red 
-                            Waiting -> if x <= model.passNum then (rgb 0 190 1) else darkGrey
+                            Incorrect -> red -- Turn red if incorrect
+                            Waiting -> ( -- If user is inputting presses, light up the number of correct guesses they have inputted
+                                    if x <= model.passNum 
+                                        then (rgb 0 190 1) 
+                                        else darkGrey
+                                )
                             _ -> darkGrey
                         )
                     |> addOutline (solid 0.3) black
                     |> move (7 * (toFloat x - 3) + 31, 20)
-        ) (List.range 1 5)
+        )
+        (List.range 1 5) -- x-coordinates
     ++
     [
         if model.state == Finished then 
@@ -80,35 +96,49 @@ myShapes model = [
             else (text "Task completed!" |> centered |> filled black) |> move (5, -40)) 
         else group []
     ]
-    
+
+-- Function to create a button
 button (x, y) model = group [
         square 10
         -- Change colour based on model.state and some other factors
         |> filled (case model.state of
-                Showing -> darkGrey
+                Showing -> darkGrey -- darkGrey instead of grey to show that the user can't press the button right now
                 Waiting -> grey
-                Finished -> if model.showTime < 2 * blinkTime then lightBlue else darkGrey
-                Incorrect -> red
+                Finished -> (
+                        if model.showTime < 2 * blinkTime -- For first blinkTime number of frames, 
+                            then lightBlue                -- light up all buttons to show that you're done
+                             else darkGrey                -- Then turn off again.
+                    )
+                Incorrect -> red -- Light up all the buttons if you press an incorrect one.
             )
         |> addOutline (solid 0.3) black
-        -- 11 is the distance from the center of each button
+        -- 11 is the distance from the center of each button to the next
         |> move (11 * (toFloat x - 1), 11 * (toFloat y - 1))
-        |> notifyTap (ClickButton (x, y))
+        |> notifyTap (ClickButton (x, y)) -- If clicked, send the (x, y) coordinates that act like an id for this button
     ]
 
 -- Sequence of correct presses.  Works like indexing a list.
 sequence i = case i of 
-            0 -> (0, 0)
+            0 -> (0, 0) -- Returns tuples that work both as the (x, y) coordinates of a button and as the id of a button
             1 -> (1, 1)
             2 -> (2, 1)
             3 -> (0, 2)
             4 -> (2, 0)
             _ -> (-1, -1)
 
-blinkTime = 20
+blinkTime = 20 -- Time a button should light up before turning off again.
 
 type State = Waiting | Showing | Incorrect | Finished
-type alias Model = {time : Float, passNum : Int, repNum : Int, showTime : Int, state : State, endTime : Float }
+
+type alias Model = {
+        time     : Float, -- Normal time
+        passNum  : Int,   -- When model.state == Waiting, this counts the number of buttons you've pressed.  
+                          -- When model.state == Showing, it records which button is currently being shown.
+        repNum   : Int,   -- Number of correct cycles the user has done so far
+        showTime : Int,   -- A frame counter that the model uses to time lighting up buttons
+        state    : State, -- State
+        endTime  : Float  -- Records the time finished, to time the "Task Completed" text that shows up
+    }
 
 update : Consts.Msg -> Model -> Model
 update msg model = case msg of 
@@ -117,61 +147,50 @@ update msg model = case msg of
                             Showing -> { model |
                                         time = t,
                                         state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
-                                                    then Waiting
-                                                    else model.state,
-                                        repNum = model.repNum, -- repNum is only increased after getting the entire sequence up to repNum right
-                                        passNum = if (model.showTime <= 0)
+                                                    then Waiting -- If time is up and it's shown the last button of the current sequence, wait for input
+                                                    else Showing,
+                                        passNum = if (model.showTime <= 0)          -- If done showing the current button
                                                     then (if model.passNum >= model.repNum - 1 
-                                                            then 0 
-                                                            else model.passNum + 1)
+                                                            then 0                  -- If done showing the sequence, set to 0 to prepare for input
+                                                            else model.passNum + 1) -- Otherwise, show next button.
                                                     else model.passNum, 
-                                        showTime = if model.showTime <= 0 
+                                        showTime = if model.showTime <= 0 -- Count down to 0
                                                     then blinkTime
                                                     else model.showTime - 1
                                     }
-                            Waiting -> { model | 
-                                    time = t,
-                                    state = model.state, -- When waiting, state changes are handled by ClickButton event
-                                    repNum = model.repNum, -- repNum is not affected in tick method
-                                    passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
-                                    showTime = blinkTime -- showTime is only for showing player the answer
-                                }
-                            Finished -> { model |
-                                    time = t,
-                                    state = model.state, -- When waiting, state changes are handled by ClickButton event
-                                    repNum = model.repNum, -- repNum is not affected in tick method
-                                    passNum = model.passNum, -- When waiting, passNum is affected by only by ClickButton event
-                                    showTime = model.showTime + 1 -- showTime is only for showing player the answer
-                                }
+                            Waiting -> {model | time = t, showTime = blinkTime} -- Not much changes during a frame when the model is waiting for input
+                            Finished -> {model | time = t, showTime = model.showTime + 1} -- Not much changes when finished,
+                                            -- Except showTime, which counts up so that the buttons will only flash blue for the first blinkTime number of frames                                }
                             Incorrect -> { model |
                                         time = t,
-                                        state = if (model.showTime <= 0 && model.passNum >= model.repNum - 1)
-                                                    then Showing
-                                                    else model.state,
-                                        repNum = model.repNum, -- repNum is only increased after getting the entire sequence up to repNum right
-                                        passNum = 0, 
-                                        showTime = if model.showTime <= 0 
+                                        state = if model.showTime <= 0 -- If time is up
+                                                    then Showing       -- Go back to showing
+                                                    else Incorrect,    -- Else keep flashing red
+                                        repNum = model.repNum,
+                                        passNum = 0, -- If user inputted an incorrect sequence, the number of correct sequences they've entered resets.
+                                        showTime = if model.showTime <= 0 -- Count down showtime to 0.
                                                     then blinkTime
                                                     else model.showTime - 1
                                     }
-                    ClickButton num -> if model.state /= Waiting then model else {
+                    ClickButton num -> if model.state /= Waiting then model else {model | -- If user clicked button at wrong time, do nothing
                             time = model.time, 
-                            state = if (num == (sequence model.passNum)) -- If a correct guess
-                                        then if (model.passNum >= model.repNum - 1) -- If last correct guess in the sequence
-                                                then if (model.repNum >= 5) -- If last correct guess
+                            state = if (num == (sequence model.passNum)) -- If a correct button press
+                                        then if (model.passNum >= model.repNum - 1) -- If last correct guess in the current sequence
+                                                then if (model.repNum >= 5) -- If last correct sequence, then user is done, else it shows the next part of the sequence
                                                         then Finished
                                                         else Showing
                                                 else Waiting
                                         else Incorrect,
-                            repNum = if (num == sequence model.passNum)
-                                        then (if (model.passNum >= model.repNum - 1)
-                                                then model.repNum + 1 
+                            repNum = if (num == sequence model.passNum) -- If a correct guess
+                                        then (if (model.passNum >= model.repNum - 1) -- If last correct guess of the current sequence, increase the number of correct sequences
+                                                then model.repNum + 1 -- increase the number of correct sequences
                                                 else model.repNum)
-                                        else 1,
-                            passNum = if (num == (sequence model.passNum) && model.passNum < model.repNum - 1)
-                                        then model.passNum + 1 
-                                        else 0, 
-                            showTime = if model.state == Finished then 0 else model.showTime,
+                                        else 1, -- If an incorrect guess, reset
+                            
+                            passNum = if (num == (sequence model.passNum) && -- If a correct guess
+                                         model.passNum < model.repNum - 1) -- and this isn't the last correct guess of the sequence,
+                                            then model.passNum + 1 -- Increase the number of correct guesses of this sequence
+                                            else 0, -- Either because the user inputted an incorrect guess, or because passnum will be used differently when model.state == Showing
                             endTime = if (num == (sequence model.passNum) && model.passNum >= model.repNum - 1 && model.repNum >= 5) then model.time else model.endTime
                         }
                     _ -> model
