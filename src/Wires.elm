@@ -2,12 +2,7 @@ module Wires exposing (..)
 
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
-import String
-import Element.Font exposing (monospace)
-import Set exposing (Set)
-import String exposing (fromFloat)
 import Consts exposing (..)
-import Element.Font exposing (color)
 
 myShapes : Model -> (List (Shape Consts.Msg))
 myShapes model = [rectangle 90 10
@@ -186,7 +181,7 @@ myShapes model = [rectangle 90 10
                 [myPink, myYellow, myBlue, myOrange]
             ++
             -- Wires
-            List.map2 (\y col -> 
+            List.map2 (\y _ -> 
                 line (-40, 6 * (toFloat y - 2)) (40, 6 * (toFloat (scrambledColors y) - 2))
                     |> outlined (solid 2.5) black
                 )
