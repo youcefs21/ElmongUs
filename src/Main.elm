@@ -1,5 +1,33 @@
 module Main exposing (..)
 
+{-
+ - Elmong Us
+ -  by Lab 3 Group 2
+ - 
+ - Brandon:
+ -   - passcode
+ -   - wires 
+ -   - collision for medbay, upper engine, security, lower engine, and electrical
+ - Geon:
+ -   - swipe
+ -   - added minigames to Main.elm
+ - Giovanna:
+ -   - leaf
+ -   - remaining half of the map backgrounds (reactor, electrical, security, lower & upper engine)
+ -   - character animations
+ -   - collision for reactor
+ - Vinoth:
+ -   - backgrounds for half of the map
+ -   - design for wires
+ -   - design for passcode
+ -   - design for leaf
+ -   - collision for caf, admin, and storage
+ - Youcef: 
+ -   - character movement
+ -   - state diagram
+-}
+
+
 import GraphicSVG exposing (..)
 import GraphicSVG.App exposing (..)
 import Cafeteria exposing (cafeteria)
@@ -59,6 +87,9 @@ myShapes model =
           |> scaleX direction
           |> move model.impModel.pos,
         let
+            -- Appears for all states with mini games, so it will only be explained
+            -- here once; user can only interact with the mini game if they are within
+            -- the "clickable" radius of the mini game
             x = first model.impModel.pos
             y = second model.impModel.pos
             showCond = ((x - 37)^2 + (y - 40)^2)^(0.5) < 30
@@ -191,6 +222,8 @@ init = {
 update : Consts.Msg -> Model -> Model
 update msg model =
     case msg of
+        -- Since Elm doesn't allow us to call Msgs on their own,
+        -- we use the Tick Msg to handle what we would have done
         Tick t k ->
             let
               newModel = { model | time = t }
@@ -221,6 +254,7 @@ update msg model =
                   notifyStorageExit newModel newImpModel
                 Admin ->
                   notifyAdminExit newModel newImpModel newSwipeModel
+        -- Moving into the mini games
         ToggleLeaf b ->
             { model | leaf = b, leafModel = { time = model.time, points = pointsFromRandomDotOrg, state = Leaf.Waiting, delay = 0, startTime = model.time, endTime = model.time } }
         ToggleWire b ->
@@ -229,6 +263,7 @@ update msg model =
             { model | swipe = b, swipeModel = Swipe.init }
         TogglePass b ->
             { model | pass = b, passModel = Passcode.init }
+        -- Msgs from the mini games
         MouseDownAt a b ->
             { model | leafModel = Leaf.update (MouseDownAt a b) model.leafModel }
         MouseMoveTo a ->
@@ -252,6 +287,9 @@ update msg model =
             { model | swipeModel = Swipe.update (Finish) model.swipeModel }
         ClickButton a ->
             { model | passModel = Passcode.update (ClickButton a) model.passModel }
+
+
+--- Functions that "act" as messages to let user move to next states
 
 notifyCafExit : Model -> Imposter.Model -> Model
 notifyCafExit model newImpModel = 
